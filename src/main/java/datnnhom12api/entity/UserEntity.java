@@ -1,0 +1,46 @@
+package datnnhom12api.entity;
+
+import datnnhom12api.core.BaseEntity;
+import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "users")
+@EqualsAndHashCode(callSuper = true)
+public class UserEntity extends BaseEntity {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long id;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
+    private List<RoleEntity> roles = new ArrayList<>();
+
+    private String username;
+    private String password;
+    private String name;
+    private String phone;
+    private String email;
+    private Integer status;
+
+    public void setData(UserEntity request) {
+        this.roles = request.getRoles();
+        BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+        this.username = request.getUsername();
+        this.password = b.encode(request.getPassword());
+        this.name = request.getName();
+        this.phone = request.getPhone();
+        this.email = request.getEmail();
+        this.status = request.getStatus();
+    }
+}
