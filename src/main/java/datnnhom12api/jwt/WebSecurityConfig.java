@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity webSecurity) {
-        webSecurity.ignoring().antMatchers("/auth/**", "/v1/FileUpload/**", "/momo/**", "/checklogin");
+        webSecurity.ignoring().antMatchers("/auth/**", "/v1/FileUpload/**", "/momo/**", "/checklogin", "/api/**");
     }
 
     @Override

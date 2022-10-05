@@ -20,14 +20,15 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaginationRequest implements Serializable {
-
     @NotNull(message = "limit không được để trống")
+    @Digits(integer = 3, fraction = 0, message = "limit không hợp lệ")
     @Positive(message = "limit phải là số lớn hơn 0")
-    private Integer limit;
 
+    private BigDecimal limit;
     @NotNull(message = "page không được để trống")
+    @Digits(integer = 3, fraction = 0, message = "page không hợp lệ")
     @Positive(message = "page phải là số lớn hơn 0")
-    private Integer page;
+    private BigDecimal page;
     private String searchText;
     private String orderBy;
 
@@ -53,5 +54,13 @@ public class PaginationRequest implements Serializable {
 
     public List<Filter> getFilters() {
         return new ArrayList<>();
+    }
+
+    public Integer getLimit() {
+        return this.limit.intValue();
+    }
+
+    public Integer getPage() {
+        return this.page.intValue() - 1;
     }
 }
