@@ -52,10 +52,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity delete(Long id) {
+    public CategoryEntity delete(Long id) throws CustomException{
         Optional<CategoryEntity> cateEntityOptional = cateRepository.findById(id);
-        if (!cateEntityOptional.isPresent()) {
-            return null;
+        if (cateEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy đối tượng");
         }
         CategoryEntity categoryEntity = cateRepository.getById(id);
         cateRepository.delete(categoryEntity);
