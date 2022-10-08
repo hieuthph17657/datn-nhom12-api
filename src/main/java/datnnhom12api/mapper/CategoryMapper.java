@@ -1,7 +1,6 @@
 package datnnhom12api.mapper;
 
 import datnnhom12api.dto.CategoryDTO;
-import datnnhom12api.dto.UserDTO;
 import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.UserEntity;
 import org.modelmapper.ModelMapper;

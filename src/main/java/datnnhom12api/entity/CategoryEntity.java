@@ -1,12 +1,9 @@
 package datnnhom12api.entity;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.CategoryRequest;
-import datnnhom12api.request.UserRequest;
 import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
