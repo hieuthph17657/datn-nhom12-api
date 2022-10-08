@@ -15,8 +15,5 @@ import java.io.Serializable;
 public class UserDTO extends BaseDTO implements Serializable {
     private int id;
     private String username;
-    private String email;
-    private String name;
-    private String phone;
     private int status;
 }
