@@ -29,18 +29,12 @@ public class UserEntity extends BaseEntity {
 
     private String username;
     private String password;
-    private String name;
-    private String phone;
-    private String email;
     private Integer status;
 
     public void setData(UserRequest request) {
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         this.username = request.getUsername();
         this.password = b.encode(request.getPassword());
-        this.name = request.getName();
-        this.phone = request.getPhone();
-        this.email = request.getEmail();
         this.status = request.getStatus();
     }
 }

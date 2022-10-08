@@ -51,7 +51,6 @@ public class LoginController {
             String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
             AuthDTO authDTO = new AuthDTO();
             authDTO.setToken(jwt);
-            authDTO.setName(userEntity.getName());
             authDTO.setUsername(userEntity.getUsername());
             List<RoleDTO> list = new ArrayList<>();
             for (RoleEntity e : userEntity.getRoles()) {
