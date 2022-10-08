@@ -21,15 +21,14 @@ import javax.validation.Valid;
 public class UserController {
 
     @Autowired
-    UserService postService;
+    UserService userService;
 
     @GetMapping
     public UserResponse index(@Valid UserPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<UserEntity> page = postService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
-        System.out.println(page);
+        Page<UserEntity> page = userService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         return new UserResponse(UserMapper.toPageDTO(page));
     }
 
@@ -38,7 +37,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        UserEntity postEntity = postService.save(post);
+        UserEntity postEntity = userService.save(post);
         return new UserResponse(UserMapper.getInstance().toDTO(postEntity));
     }
 
@@ -47,13 +46,13 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        UserEntity postEntity = postService.edit(id, post);
+        UserEntity postEntity = userService.edit(id, post);
         return new UserResponse(UserMapper.getInstance().toDTO(postEntity));
     }
 
     @DeleteMapping("/{id}")
     public UserResponse delete(@PathVariable("id") Long id) throws CustomException {
-        postService.delete(id);
+        userService.delete(id);
         return new UserResponse();
     }
 }
