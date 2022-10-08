@@ -1,6 +1,7 @@
 package datnnhom12api.entity;
 
 import datnnhom12api.core.BaseEntity;
+import datnnhom12api.request.UserRequest;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -33,8 +34,7 @@ public class UserEntity extends BaseEntity {
     private String email;
     private Integer status;
 
-    public void setData(UserEntity request) {
-        this.roles = request.getRoles();
+    public void setData(UserRequest request) {
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         this.username = request.getUsername();
         this.password = b.encode(request.getPassword());
