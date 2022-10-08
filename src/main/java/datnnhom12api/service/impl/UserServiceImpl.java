@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Service("postService")
+@Service("userService")
 @Transactional(rollbackFor = Throwable.class)
 public class UserServiceImpl implements UserService {
 
@@ -52,10 +52,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity delete(Long id) {
+    public UserEntity delete(Long id) throws CustomException{
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        if (!userEntityOptional.isPresent()) {
-            return null;
+        if (userEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy người dùng");
         }
         UserEntity userEntity = userRepository.getById(id);
         userRepository.delete(userEntity);

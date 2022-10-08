@@ -28,7 +28,6 @@ public class CategoryController {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         Page<CategoryEntity> page = cateService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
-        System.out.println(page);
         return new CategoryResponse(CategoryMapper.toPageDTO(page));
     }
 
