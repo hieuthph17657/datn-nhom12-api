@@ -1,12 +1,12 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.entity.ProductEntity;
+import datnnhom12api.entity.products.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.ProductRepository;
-import datnnhom12api.request.ProductRequest;
-import datnnhom12api.service.ProductService;
-import datnnhom12api.specifications.ProductSpecifications;
+import datnnhom12api.request.products.ProductRequest;
+import datnnhom12api.service.products.ProductService;
+import datnnhom12api.specifications.products.ProductSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public ProductEntity save(ProductRequest productRequest) throws CustomException {
+    public ProductEntity insert(ProductRequest productRequest) throws CustomException {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
         productEntity = productRepository.save(productEntity);
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductEntity edit(Long id, ProductRequest productRequest) throws CustomException {
+    public ProductEntity update(Long id, ProductRequest productRequest) throws CustomException {
         Optional<ProductEntity> productEntityOptional = productRepository.findById(id);
         if (id <= 0) {
             throw new CustomException(403, "Mã sản phẩm phải lớn hơn 0");

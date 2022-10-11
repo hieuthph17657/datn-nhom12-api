@@ -1,18 +1,13 @@
 package datnnhom12api.controller.admin;
 
-import datnnhom12api.entity.OrderEntity;
-import datnnhom12api.entity.ProductEntity;
+import datnnhom12api.entity.products.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
-import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.mapper.ProductMapper;
-import datnnhom12api.paginationrequest.OrderPaginationRequest;
 import datnnhom12api.paginationrequest.ProductPaginationRequest;
-import datnnhom12api.request.OrderRequest;
-import datnnhom12api.request.ProductRequest;
-import datnnhom12api.response.OrderResponse;
+import datnnhom12api.request.products.ProductRequest;
 import datnnhom12api.response.ProductResponse;
-import datnnhom12api.service.ProductService;
+import datnnhom12api.service.products.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -41,7 +36,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        ProductEntity productEntity = productService.save(productRequest);
+        ProductEntity productEntity = productService.insert(productRequest);
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 
@@ -50,7 +45,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        ProductEntity productEntity = productService.edit(id, productRequest);
+        ProductEntity productEntity = productService.update(id, productRequest);
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 

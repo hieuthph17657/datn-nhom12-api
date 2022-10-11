@@ -1,7 +1,7 @@
-package datnnhom12api.specifications;
+package datnnhom12api.specifications.products;
 
 import datnnhom12api.core.BaseSpecifications;
-import datnnhom12api.entity.ProductEntity;
+import datnnhom12api.entity.products.ProductEntity;
 
 public class ProductSpecifications extends BaseSpecifications<ProductEntity> {
     private static ProductSpecifications INSTANCE;
@@ -10,7 +10,6 @@ public class ProductSpecifications extends BaseSpecifications<ProductEntity> {
         if (INSTANCE == null) {
             INSTANCE = new ProductSpecifications();
         }
-
         return INSTANCE;
     }
 }

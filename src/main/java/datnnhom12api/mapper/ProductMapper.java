@@ -1,7 +1,7 @@
 package datnnhom12api.mapper;
 
 import datnnhom12api.dto.ProductDTO;
-import datnnhom12api.entity.ProductEntity;
+import datnnhom12api.entity.products.ProductEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
