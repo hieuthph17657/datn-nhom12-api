@@ -28,6 +28,11 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
+    public List<ProductEntity> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
     public ProductEntity save(ProductRequest productRequest) throws CustomException {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
