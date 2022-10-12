@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -27,6 +28,10 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @GetMapping("/x")
+    public List<ProductEntity> getAll() {
+        return productService.findAll();
+    }
     @GetMapping
     public ProductResponse index(@Valid ProductPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {

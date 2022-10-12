@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
+
+    List<ProductEntity> findAll();
     ProductEntity save(ProductRequest post) throws CustomException;
 
     ProductEntity edit(Long id, ProductRequest post) throws CustomException;
