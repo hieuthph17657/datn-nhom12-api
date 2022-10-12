@@ -1,7 +1,9 @@
 package datnnhom12api.entity.products;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class ImagesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +21,12 @@ public class ImagesEntity {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "product_id")
-    private Long product_id;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
+
     @Column(name = "return_id")
     private Long return_id;
     @Column(name = "exchange_id")

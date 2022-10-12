@@ -1,5 +1,6 @@
 package datnnhom12api.entity.products;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,6 @@ public class DesignEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "product_id")
-//    @OneToOne(mappedBy = "design")
-    private Long product;
     @Column(name = "size")
     private String size;
     @Column(name = "meterial")
@@ -29,6 +26,11 @@ public class DesignEntity {
     private Integer weight;
     @Column(name = "color")
     private String color;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 
 
 

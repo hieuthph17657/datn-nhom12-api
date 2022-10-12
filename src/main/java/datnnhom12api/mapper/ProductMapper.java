@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class ProductMapper {
+public class  ProductMapper {
     private static ProductMapper INSTANCE;
 
     public static ProductMapper getInstance() {

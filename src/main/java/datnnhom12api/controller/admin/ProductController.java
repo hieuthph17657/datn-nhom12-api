@@ -5,6 +5,7 @@ import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.ProductMapper;
 import datnnhom12api.paginationrequest.ProductPaginationRequest;
+import datnnhom12api.repository.ProductRepository;
 import datnnhom12api.request.products.ProductRequest;
 import datnnhom12api.response.ProductResponse;
 import datnnhom12api.service.products.ProductService;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -22,6 +24,10 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+
+    @Autowired
+    ProductRepository productRepository;
+
     @GetMapping
     public ProductResponse index(@Valid ProductPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -29,6 +35,11 @@ public class ProductController {
         }
         Page<ProductEntity> page = productService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         return new ProductResponse(ProductMapper.toPageDTO(page));
+    }
+
+    @GetMapping("all")
+    public List<ProductEntity> getAll() {
+        return  productRepository.findAll();
     }
 
     @PostMapping()
