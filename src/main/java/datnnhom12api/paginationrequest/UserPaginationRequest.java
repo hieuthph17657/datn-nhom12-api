@@ -17,12 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 public class UserPaginationRequest extends PaginationRequest {
 
-    private String searchName;
+    private String searchUsername;
 
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
-        if (searchName != null && !searchName.isEmpty()) {
-            list.add(new Filter("name", QueryOperator.LIKE, searchName, null));
+        if (searchUsername != null && !searchUsername.isEmpty()) {
+            list.add(new Filter("username", QueryOperator.LIKE, searchUsername, null));
         }
         return list;
     }
