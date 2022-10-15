@@ -1,9 +1,8 @@
-package datnnhom12api.core;
+package datnnhom12api.dto.core;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 

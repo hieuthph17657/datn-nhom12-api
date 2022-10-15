@@ -1,4 +1,4 @@
-package datnnhom12api.core;
+package datnnhom12api.dto.core;
 
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.security.web.firewall.RequestRejectedHandler;

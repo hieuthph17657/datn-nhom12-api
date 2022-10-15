@@ -1,4 +1,4 @@
-package datnnhom12api.core;
+package datnnhom12api.dto.core;
 
 public enum QueryOperator {
     GREATER_THAN,

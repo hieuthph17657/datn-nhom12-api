@@ -1,6 +1,6 @@
 package datnnhom12api.service.products;
 
-import datnnhom12api.core.Filter;
+import datnnhom12api.dto.core.Filter;
 import datnnhom12api.entity.products.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.products.ProductRequest;

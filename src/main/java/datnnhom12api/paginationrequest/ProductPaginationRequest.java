@@ -1,8 +1,8 @@
 package datnnhom12api.paginationrequest;
 
-import datnnhom12api.core.Filter;
-import datnnhom12api.core.PaginationRequest;
-import datnnhom12api.core.QueryOperator;
+import datnnhom12api.dto.core.Filter;
+import datnnhom12api.dto.core.PaginationRequest;
+import datnnhom12api.dto.core.QueryOperator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

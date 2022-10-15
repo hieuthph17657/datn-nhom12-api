@@ -1,14 +1,11 @@
 package datnnhom12api.entity.products;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import datnnhom12api.core.BaseEntity;
+import datnnhom12api.dto.core.BaseEntity;
 import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.UserEntity;
-import datnnhom12api.request.products.ImagesRequest;
 import datnnhom12api.request.products.ProductRequest;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder

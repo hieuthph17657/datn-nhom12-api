@@ -1,4 +1,4 @@
-package datnnhom12api.core;
+package datnnhom12api.dto.core;
 
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;

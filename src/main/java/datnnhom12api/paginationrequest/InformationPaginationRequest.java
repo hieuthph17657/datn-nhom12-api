@@ -1,7 +1,7 @@
 package datnnhom12api.paginationrequest;
 
-import datnnhom12api.core.Filter;
-import datnnhom12api.core.QueryOperator;
+import datnnhom12api.dto.core.Filter;
+import datnnhom12api.dto.core.QueryOperator;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package datnnhom12api.core;
+package datnnhom12api.dto.core;
 
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;

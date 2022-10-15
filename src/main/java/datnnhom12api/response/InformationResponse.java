@@ -1,7 +1,6 @@
 package datnnhom12api.response;
 
-import datnnhom12api.core.BaseResponse;
-import datnnhom12api.dto.CategoryDTO;
+import datnnhom12api.dto.core.BaseResponse;
 import datnnhom12api.dto.InformationDTO;
 import org.springframework.data.domain.Page;
 

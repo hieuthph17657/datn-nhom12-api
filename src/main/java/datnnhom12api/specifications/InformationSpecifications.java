@@ -1,6 +1,6 @@
 package datnnhom12api.specifications;
 
-import datnnhom12api.core.BaseSpecifications;
+import datnnhom12api.dto.core.BaseSpecifications;
 import datnnhom12api.entity.InformationEntity;
 
 public class InformationSpecifications extends BaseSpecifications<InformationEntity> {

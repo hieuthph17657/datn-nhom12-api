@@ -1,6 +1,6 @@
-package datnnhom12api.request.products;
+package datnnhom12api.specifications;
 
-import datnnhom12api.core.BaseSpecifications;
+import datnnhom12api.dto.core.BaseSpecifications;
 import datnnhom12api.entity.products.ProductEntity;
 
 public class ProductSpecifications extends BaseSpecifications<ProductEntity> {

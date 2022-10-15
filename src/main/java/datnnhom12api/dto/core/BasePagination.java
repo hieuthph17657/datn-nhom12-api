@@ -1,4 +1,4 @@
-package datnnhom12api.core.pagination;
+package datnnhom12api.dto.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

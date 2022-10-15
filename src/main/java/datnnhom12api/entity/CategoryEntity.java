@@ -1,5 +1,5 @@
 package datnnhom12api.entity;
-import datnnhom12api.core.BaseEntity;
+import datnnhom12api.dto.core.BaseEntity;
 import datnnhom12api.request.CategoryRequest;
 import lombok.*;
 

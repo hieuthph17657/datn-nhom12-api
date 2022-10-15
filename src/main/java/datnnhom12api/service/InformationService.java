@@ -1,10 +1,8 @@
 package datnnhom12api.service;
 
-import datnnhom12api.core.Filter;
-import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.dto.core.Filter;
 import datnnhom12api.entity.InformationEntity;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.request.InformationRequest;
 import org.springframework.data.domain.Page;
 

@@ -1,6 +1,6 @@
 package datnnhom12api.dto;
 
-import datnnhom12api.core.BaseDTO;
+import datnnhom12api.dto.core.BaseDTO;
 import lombok.*;
 
 import java.io.Serializable;

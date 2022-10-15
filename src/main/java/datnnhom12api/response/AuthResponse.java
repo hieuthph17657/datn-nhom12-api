@@ -1,6 +1,6 @@
 package datnnhom12api.response;
 
-import datnnhom12api.core.BaseResponse;
+import datnnhom12api.dto.core.BaseResponse;
 import datnnhom12api.dto.AuthDTO;
 
 public class AuthResponse extends BaseResponse<AuthDTO> {
