@@ -5,7 +5,7 @@ import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.ProductMapper;
 import datnnhom12api.paginationrequest.ProductPaginationRequest;
-import datnnhom12api.repository.ProductRepository;
+import datnnhom12api.repository.products.ProductRepository;
 import datnnhom12api.request.products.ProductRequest;
 import datnnhom12api.response.ProductResponse;
 import datnnhom12api.service.products.ProductService;

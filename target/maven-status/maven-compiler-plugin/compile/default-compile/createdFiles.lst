@@ -1,7 +1,6 @@
 datnnhom12api\repository\InformationRepository.class
 datnnhom12api\mapper\ProductMapper.class
 datnnhom12api\core\BaseSpecifications$1.class
-datnnhom12api\entity\products\SpeicificationEntity.class
 datnnhom12api\core\BaseResponse.class
 datnnhom12api\controller\auth\LoginController.class
 datnnhom12api\specifications\InformationSpecifications.class
@@ -16,11 +15,8 @@ datnnhom12api\dto\ProductDTO$ProductDTOBuilder.class
 datnnhom12api\paginationrequest\InformationPaginationRequest.class
 datnnhom12api\repository\UserRepository.class
 datnnhom12api\specifications\CategorySpecifications.class
-datnnhom12api\specifications\products\ProductSpecifications.class
 datnnhom12api\entity\InformationEntity$InformationEntityBuilder.class
 datnnhom12api\entity\UserEntity.class
-datnnhom12api\service\products\DesignService.class
-datnnhom12api\repository\ProductRepository.class
 datnnhom12api\repository\RoleRepository.class
 datnnhom12api\request\CategoryRequest$CategoryRequestBuilder.class
 datnnhom12api\entity\RoleEntity.class
@@ -54,7 +50,6 @@ datnnhom12api\service\UserService.class
 datnnhom12api\dto\RoleDTO$RoleDTOBuilder.class
 datnnhom12api\entity\InformationEntity.class
 datnnhom12api\core\RequestRejectedExceptionHandler.class
-datnnhom12api\entity\products\DesignEntity.class
 datnnhom12api\response\OrderResponse.class
 datnnhom12api\controller\admin\CategoryController.class
 datnnhom12api\repository\CategoryRepository.class
@@ -76,7 +71,6 @@ datnnhom12api\dto\ProductDTO.class
 datnnhom12api\request\CategoryRequest.class
 datnnhom12api\controller\admin\ProductController.class
 datnnhom12api\dto\OrderDTO.class
-datnnhom12api\specifications\products\DesignSpeicification.class
 datnnhom12api\entity\CategoryEntity$CategoryEntityBuilder.class
 datnnhom12api\core\CustomErrorAttributes.class
 datnnhom12api\DatnNhom12ApiApplication.class
@@ -112,9 +106,10 @@ datnnhom12api\request\products\ImagesRequest.class
 datnnhom12api\entity\products\ConfigurationEntity.class
 datnnhom12api\request\InformationRequest$InformationRequestBuilder.class
 datnnhom12api\dto\AuthDTO$AuthDTOBuilder.class
-datnnhom12api\service\impl\ProductServiceImpl.class
 datnnhom12api\controller\admin\InformationController.class
+datnnhom12api\service\impl\products\ProductServiceImpl.class
 datnnhom12api\core\QueryOperator.class
+datnnhom12api\repository\products\ProductRepository.class
 datnnhom12api\response\InformationResponse.class
 datnnhom12api\jwt\CORSFilter.class
 datnnhom12api\service\products\ProductService.class
@@ -122,3 +117,4 @@ datnnhom12api\core\pagination\BasePagination.class
 datnnhom12api\paginationrequest\CategoryPaginationRequest.class
 datnnhom12api\request\products\DesignRequest.class
 datnnhom12api\paginationrequest\ProductPaginationRequest.class
+datnnhom12api\request\products\ProductSpecifications.class

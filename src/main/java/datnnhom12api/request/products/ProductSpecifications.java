@@ -1,4 +1,4 @@
-package datnnhom12api.specifications.products;
+package datnnhom12api.request.products;
 
 import datnnhom12api.core.BaseSpecifications;
 import datnnhom12api.entity.products.ProductEntity;

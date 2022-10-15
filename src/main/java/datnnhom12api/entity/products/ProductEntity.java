@@ -39,6 +39,21 @@ public class ProductEntity extends BaseEntity{
     @Column(name = "imei")
     private String imei;
 
+    @Column(name = "weight")
+    private Integer weight;
+
+    @Column(name = "size")
+    private String size;
+
+    @Column(name = "debut")
+    private String debut;
+
+    @Column(name = "p_n")
+    private String p_n;
+
+    @Column(name = "origin")
+    private String origin;
+
     @ManyToOne
     @JoinColumn(name = "created_by")
     private UserEntity createdBy;
@@ -53,13 +68,7 @@ public class ProductEntity extends BaseEntity{
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToOne
-    @JoinColumn(name = "design_id")
-    private DesignEntity design;
 
-    @OneToOne
-    @JoinColumn(name = "speicification_id")
-    private SpeicificationEntity speicification;
     @OneToOne
     @JoinColumn(name = "configuration")
     private ConfigurationEntity configuration;
@@ -71,9 +80,7 @@ public class ProductEntity extends BaseEntity{
         this.category = request.getCategory();
         this.images = request.getImages();
         this.status = request.getStatus();
-        this.design = request.getDesign();
         this.configuration = request.getConfiguration();
-        this.speicification = request.getSpeicification();
         this.imei = request.getImei();
         this.createdBy = request.getCreatedBy();
         this.updatedBy = request.getUpdatedBy();

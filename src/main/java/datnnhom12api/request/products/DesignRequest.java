@@ -1,5 +1,6 @@
 package datnnhom12api.request.products;
 
+import datnnhom12api.entity.products.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class DesignRequest {
     @NotNull(message = "Không để trống!")
-    private Long product_id;
+    private ProductEntity product_id;
     @NotBlank(message = "Không để trống!")
     private String size;
     @NotBlank(message = "Không để trống!")

@@ -1,12 +1,12 @@
-package datnnhom12api.service.impl;
+package datnnhom12api.service.impl.products;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.products.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.repository.ProductRepository;
+import datnnhom12api.repository.products.ProductRepository;
 import datnnhom12api.request.products.ProductRequest;
 import datnnhom12api.service.products.ProductService;
-import datnnhom12api.specifications.products.ProductSpecifications;
+import datnnhom12api.request.products.ProductSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

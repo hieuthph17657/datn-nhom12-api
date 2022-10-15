@@ -1,4 +1,4 @@
-package datnnhom12api.repository;
+package datnnhom12api.repository.products;
 
 import datnnhom12api.entity.products.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
