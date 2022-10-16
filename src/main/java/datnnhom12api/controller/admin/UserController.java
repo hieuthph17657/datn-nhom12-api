@@ -55,4 +55,22 @@ public class UserController {
         userService.delete(id);
         return new UserResponse();
     }
+
+    @PutMapping("/open/{id}")
+    public UserResponse open(@PathVariable("id") Long id) throws CustomException {
+        UserEntity postEntity = userService.open(id);
+        return new UserResponse(UserMapper.getInstance().toDTO(postEntity));
+    }
+
+    @PutMapping("/close/{id}")
+    public UserResponse close(@PathVariable("id") Long id) throws CustomException {
+        UserEntity postEntity = userService.close(id);
+        return new UserResponse(UserMapper.getInstance().toDTO(postEntity));
+    }
+
+    @GetMapping("find/{id}")
+    public UserResponse find(@PathVariable("id") Long id) throws CustomException {
+        UserEntity postEntity = userService.find(id);
+        return new UserResponse(UserMapper.getInstance().toDTO(postEntity));
+    }
 }

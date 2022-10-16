@@ -34,7 +34,7 @@ public class UserEntity extends BaseEntity {
     public void setData(UserRequest request) {
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         this.username = request.getUsername();
-        this.password = b.encode(request.getPassword());
+        this.password = b.encode(request.getNewPassword());
         this.status = request.getStatus();
     }
 }

@@ -18,4 +18,10 @@ public interface UserService {
     UserEntity delete(Long id) throws CustomException;
 
     Page<UserEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
+    UserEntity open(Long id) throws CustomException;
+
+    UserEntity close(Long id) throws CustomException;
+
+    UserEntity find(Long id) throws CustomException;
 }

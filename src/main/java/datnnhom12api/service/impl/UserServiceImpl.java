@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity save(UserRequest userRequest) throws CustomException {
+        List<UserEntity> userEntityList = userRepository.findAll();
+        for (UserEntity userEntity : userEntityList) {
+            if (userRequest.getUsername().equals(userEntity.getUsername())) {
+                throw new CustomException(403, "Tài khoản đã tồn tại!");
+            }
+        }
         UserEntity userEntity = new UserEntity();
         userEntity.setData(userRequest);
         userEntity = userRepository.save(userEntity);
@@ -46,13 +54,18 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
         }
         UserEntity userEntity = userEntityOptional.get();
-        userEntity.setData(userRequest);
-        userEntity = userRepository.save(userEntity);
-        return userEntity;
+        BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+        if (!b.matches(userRequest.getPassword(), userEntity.getPassword())) {
+            throw new CustomException(403, "Mật khẩu cũ không chính xác!");
+        } else {
+            userEntity.setData(userRequest);
+            userEntity = userRepository.save(userEntity);
+            return userEntity;
+        }
     }
 
     @Override
-    public UserEntity delete(Long id) throws CustomException{
+    public UserEntity delete(Long id) throws CustomException {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
         if (userEntityOptional.isEmpty()) {
             throw new CustomException(403, "không tìm thấy người dùng");
@@ -74,5 +87,48 @@ public class UserServiceImpl implements UserService {
         Specification<UserEntity> specifications = UserSpecifications.getInstance().getQueryResult(filters);
 
         return userRepository.findAll(specifications, pageable);
+    }
+
+    @Override
+    public UserEntity open(Long id) throws CustomException {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (userEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
+        }
+        UserEntity userEntity = userEntityOptional.get();
+        userEntity.setStatus(1);
+        userEntity = userRepository.save(userEntity);
+        return userEntity;
+    }
+
+    @Override
+    public UserEntity close(Long id) throws CustomException {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (userEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
+        }
+        UserEntity userEntity = userEntityOptional.get();
+        userEntity.setStatus(0);
+        userEntity = userRepository.save(userEntity);
+        return userEntity;
+    }
+
+    @Override
+    public UserEntity find(Long id) throws CustomException {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (userEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
+        }
+        UserEntity userEntity = userEntityOptional.get();
+        return userEntity;
     }
 }
