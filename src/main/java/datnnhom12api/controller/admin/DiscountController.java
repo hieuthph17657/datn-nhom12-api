@@ -29,7 +29,7 @@ public class DiscountController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<DiscountEntity> page = discountService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        Page<DiscountEntity> page = discountService.paginate(request.getSearchStartDate(),request.getSearchEndDate(), request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         System.out.println(page);
         return new DiscountResponse(DiscountMapper.toPageDTO(page));
     }
@@ -57,10 +57,26 @@ public class DiscountController {
         DiscountEntity postEntity = discountService.edit(id, post);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
+    @PutMapping("/active/{id}")
+    public DiscountResponse active(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
+        DiscountEntity postEntity = discountService.active(id);
+        return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
+    }
+    @PostMapping("/draft")
+    public DiscountResponse draft(@RequestBody DiscountRequest post) throws CustomValidationException, CustomException {
+        post.setActive(2);
+        DiscountEntity postEntity = discountService.save(post);
+        return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
+    }
 
     @DeleteMapping("/{id}")
     public DiscountResponse delete(@PathVariable("id") Long id) throws CustomException {
-        discountService.delete(id);
-        return new DiscountResponse();
+        DiscountEntity entity =discountService.getByIdDiscount(id);
+        if (entity.getActive()==2) {
+            discountService.delete(id);
+            return new DiscountResponse();
+        }else{
+            throw new CustomException();
+        }
     }
 }

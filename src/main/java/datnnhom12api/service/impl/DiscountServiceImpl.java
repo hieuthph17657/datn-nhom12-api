@@ -16,6 +16,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,20 @@ public class DiscountServiceImpl implements DiscountService {
         discountEntity = discountRepository.save(discountEntity);
         return discountEntity;
     }
+    @Override
+    public DiscountEntity active(Long id) throws CustomException {
+        Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (discountEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id người dùng muốn active");
+        }
+        DiscountEntity discountEntity = discountEntityOptional.get();
+        discountEntity.setActive(1);
+        discountEntity = discountRepository.save(discountEntity);
+        return discountEntity;
+    }
 
     @Override
     public DiscountEntity delete(Long id) throws CustomException{
@@ -72,7 +88,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public Page<DiscountEntity> paginate(int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+    public Page<DiscountEntity> paginate(String startDate, String endDate, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         for (String field : sortBy.keySet()) {
             orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
@@ -81,7 +97,12 @@ public class DiscountServiceImpl implements DiscountService {
         Pageable pageable = PageRequest.of(page, limit, sort);
 
         Specification<DiscountEntity> specifications = DiscountSpecifications.getInstance().getQueryResult(filters);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        if(startDate==null||endDate==null||startDate==""||endDate==""||startDate.isEmpty()||endDate.isEmpty()){
+            return discountRepository.findAll(pageable);
+        }else{
+            return discountRepository.betweenDate(LocalDateTime.parse(startDate,dateTimeFormatter),LocalDateTime.parse(endDate,dateTimeFormatter), pageable);
+        }
 
-        return discountRepository.findAll(specifications, pageable);
     }
 }

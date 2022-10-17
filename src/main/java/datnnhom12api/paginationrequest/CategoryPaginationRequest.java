@@ -20,9 +20,9 @@ public class CategoryPaginationRequest extends PaginationRequest {//extends - re
 
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
-        if (searchName != null && !searchName.isEmpty()) {
-            list.add(new Filter("name", QueryOperator.LIKE, searchName, null));
-        }
+//        if (searchName != null && !searchName.isEmpty()) {
+//            list.add(new Filter("name", QueryOperator.LIKE, searchName, null));
+//        }
         return list;
     }
 }
