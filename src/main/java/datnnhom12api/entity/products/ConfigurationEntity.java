@@ -20,24 +20,34 @@ public class ConfigurationEntity {
 
     @Column(name = "product_id")
     private Long product;
+
     @Column(name = "processor")
     private String processor;
+
     @Column(name = "ram")
     private String ram;
+
     @Column(name = "slot")
     private String slot;
+
     @Column(name = "battery")
     private String battery;
+
     @Column(name = "secutity")
     private String secutity;
+
     @Column(name = "screen")
     private String screen;
+
     @Column(name = "optical")
     private String optical;
+
     @Column(name = "hard_drive")
     private String hard_drive;
+
     @Column(name = "win")
     private String win;
+
     @Column(name = "capacity")
     private String capacity;
 

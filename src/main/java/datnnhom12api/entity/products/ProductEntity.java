@@ -1,37 +1,38 @@
 package datnnhom12api.entity.products;
+
 import datnnhom12api.dto.core.BaseEntity;
 import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.request.products.ProductRequest;
+import datnnhom12api.utils.support.ProductStatus;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "products")
-@EqualsAndHashCode(callSuper = true)
-public class ProductEntity extends BaseEntity{
-
-
+public class ProductEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
+
     @Column(name = "price")
     private Double price;
+
     @Column(name = "quantity")
     private Integer quantity;
-    @Column(name = "status")
-    private int status;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     @Column(name = "imei")
     private String imei;
@@ -54,17 +55,20 @@ public class ProductEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "created_by")
     private UserEntity createdBy;
+
     @ManyToOne
     @JoinColumn(name = "updated_by")
     private UserEntity updatedBy;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product")
     private List<ImagesEntity> images;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductPropertyEntity> productProperties;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
-
 
     @OneToOne
     @JoinColumn(name = "configuration")
@@ -74,14 +78,19 @@ public class ProductEntity extends BaseEntity{
         this.name = request.getName();
         this.price = request.getPrice();
         this.quantity = request.getQuantity();
-        this.category = request.getCategory();
+        this.weight = request.getWeight();
+        this.debut = request.getDebut();
+        this.size = request.getSize();
+        this.p_n = request.getP_n();
+        this.origin = request.getOrigin();
         this.images = request.getImages();
-        this.status = request.getStatus();
+        this.status = request.getStatus() == ProductStatus.DRAFT ? ProductStatus.DRAFT : ProductStatus.ACTIVE;
         this.configuration = request.getConfiguration();
         this.imei = request.getImei();
         this.createdBy = request.getCreatedBy();
         this.updatedBy = request.getUpdatedBy();
-
+        System.out.println("request: "+request.getProductProperties());
+        this.productProperties = request.getProductProperties();
     }
 }
 

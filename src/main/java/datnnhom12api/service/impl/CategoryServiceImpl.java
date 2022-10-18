@@ -70,9 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
-
         Specification<CategoryEntity> specifications = CategorySpecifications.getInstance().getQueryResult(filters);
-
         return cateRepository.findAll(specifications, pageable);
     }
 }

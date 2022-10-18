@@ -24,7 +24,6 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-
     @Autowired
     ProductRepository productRepository;
 
@@ -37,13 +36,13 @@ public class ProductController {
         return new ProductResponse(ProductMapper.toPageDTO(page));
     }
 
-    @GetMapping("all")
-    public List<ProductEntity> getAll() {
-        return  productRepository.findAll();
-    }
-
     @PostMapping()
-    public ProductResponse create(@Valid @RequestBody ProductRequest productRequest, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    public ProductResponse create(
+            @Valid @RequestBody ProductRequest productRequest,
+            BindingResult bindingResult)
+            throws CustomException,
+            CustomValidationException
+    {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -52,7 +51,11 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ProductResponse edit(@PathVariable("id") Long id, @Valid @RequestBody ProductRequest productRequest, BindingResult bindingResult) throws CustomValidationException, CustomException {
+    public ProductResponse edit(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody ProductRequest productRequest,
+            BindingResult bindingResult) throws CustomValidationException, CustomException
+    {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -60,9 +63,11 @@ public class ProductController {
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 
-    @DeleteMapping("/{id}")
-    public ProductResponse delete(@PathVariable("id") Long id) throws CustomException {
-        productService.delete(id);
-        return new ProductResponse();
-    }
+
+//
+//    @DeleteMapping("/{id}")
+//    public ProductResponse delete(@PathVariable("id") Long id) throws CustomException {
+//        productService.delete(id);
+//        return new ProductResponse();
+//    }
 }

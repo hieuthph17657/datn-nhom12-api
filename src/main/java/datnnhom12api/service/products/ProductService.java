@@ -17,4 +17,6 @@ public interface ProductService {
     ProductEntity delete(Long id) throws CustomException;
 
     Page<ProductEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
+    ProductEntity create(ProductEntity productEntity);
 }
