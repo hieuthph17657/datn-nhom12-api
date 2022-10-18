@@ -1,6 +1,7 @@
 package datnnhom12api.entity;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.CategoryRequest;
+import datnnhom12api.utils.support.CategoryStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,19 +12,23 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbl_category")
+@Table(name = "categories")
 @EqualsAndHashCode(callSuper = true)
 public class CategoryEntity extends BaseEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name="name")
     private String name;
-    @Column(name="active")
-    private int active;
+
+    @Enumerated(EnumType.STRING)
+    private CategoryStatus status;
+
     public void setData(CategoryRequest request) {
         this.name = request.getName();
-        this.active = request.getActive();
+        this.status = request.getStatus() == CategoryStatus.DRAFT ? CategoryStatus.DRAFT : CategoryStatus.ACTIVE;
     }
 }
 

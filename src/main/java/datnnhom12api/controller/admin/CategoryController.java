@@ -32,16 +32,6 @@ public class CategoryController {
         return new CategoryResponse(CategoryMapper.toPageDTO(page));
     }
 
-    @GetMapping("/{id}")
-    public CategoryEntity getOne(@PathVariable("id") Long id) {
-        return cateService.findById(id);
-    }
-
-    @GetMapping("/getall")
-    public List<CategoryEntity> GetAll(){
-        return cateService.findAll();
-    }
-
     @PostMapping()
     public CategoryResponse create(@Valid @RequestBody CategoryRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
