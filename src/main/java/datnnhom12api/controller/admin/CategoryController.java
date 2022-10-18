@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -29,6 +30,16 @@ public class CategoryController {
         }
         Page<CategoryEntity> page = cateService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         return new CategoryResponse(CategoryMapper.toPageDTO(page));
+    }
+
+    @GetMapping("/{id}")
+    public CategoryEntity getOne(@PathVariable("id") Long id) {
+        return cateService.findById(id);
+    }
+
+    @GetMapping("/getall")
+    public List<CategoryEntity> GetAll(){
+        return cateService.findAll();
     }
 
     @PostMapping()
