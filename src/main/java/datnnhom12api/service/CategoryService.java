@@ -18,4 +18,8 @@ public interface CategoryService {
     CategoryEntity delete(Long id) throws CustomException;
 
     Page<CategoryEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
+    List<CategoryEntity> findAll();
+
+    CategoryEntity findById(Long id);
 }

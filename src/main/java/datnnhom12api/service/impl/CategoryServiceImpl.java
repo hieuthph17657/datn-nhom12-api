@@ -75,4 +75,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         return cateRepository.findAll(specifications, pageable);
     }
+
+    @Override
+    public List<CategoryEntity> findAll() {
+        return cateRepository.findAll();
+    }
+
+    @Override
+    public CategoryEntity findById(Long id) {
+        return cateRepository.findById(id).get();
+    }
 }
