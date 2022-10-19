@@ -5,6 +5,7 @@ import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.paginationrequest.OrderPaginationRequest;
+import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.OrderRequest;
 import datnnhom12api.response.OrderResponse;
 import datnnhom12api.service.OrderService;
@@ -32,10 +33,11 @@ public class OrderController {
     }
 
     @PostMapping()
-    public OrderResponse create(@Valid @RequestBody OrderRequest orderRequest, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    public OrderResponse create(@Valid @RequestBody OrderRequest orderRequest, OrderDetailRequest orderDetailRequest, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
+        System.out.println("-------------- request:"+orderRequest);
         OrderEntity orderEntity = orderService.save(orderRequest);
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
