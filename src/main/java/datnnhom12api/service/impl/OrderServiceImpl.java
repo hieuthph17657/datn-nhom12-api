@@ -2,11 +2,14 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.CategoryRepository;
+import datnnhom12api.repository.OrderDetailRepository;
 import datnnhom12api.repository.OrderRepository;
 import datnnhom12api.request.CategoryRequest;
+import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.OrderRequest;
 import datnnhom12api.service.CategoryService;
 import datnnhom12api.service.OrderService;
@@ -33,11 +36,37 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    OrderDetailRepository orderDetailRepository;
+
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
+        System.out.println("orderRequest"+orderRequest.getOrderDetails());
+        orderRequest.getOrderDetails().forEach(a-> {
+            System.out.println(a.getQuantity());
+        });
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
+
         orderEntity = orderRepository.save(orderEntity);
+
+        List<OrderDetailEntity> list = orderRequest.getOrderDetails();
+        Long id = orderEntity.getId();
+        list.forEach(
+                list1 -> {
+            OrderEntity order = orderRepository.getById(id);
+                    list1.setOrder(order);
+        });
+
+        this.orderDetailRepository.saveAll(list);
+//        List<OrderDetailEntity> orderDetail;
+//        OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
+//        orderDetailEntity.setOrderId(orderEntity.getId());
+//        orderDetailEntity.setData(orderDetailRequest);
+//        orderDetailEntity = orderDetailRepository.save(orderDetailEntity);
+
+
+
         return orderEntity;
     }
 

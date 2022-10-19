@@ -1,10 +1,12 @@
 package datnnhom12api.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.request.OrderRequest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -23,6 +25,10 @@ public class OrderEntity extends BaseEntity {
     private String payment;
     private String address;
     private int status;
+
+//    @JsonIgnore
+    @OneToMany(mappedBy = "order")
+    List<OrderDetailEntity> orderDetails;
 
     public void setData(OrderRequest request) {
         this.userId = request.getUserId();
