@@ -1,11 +1,14 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.core.QueryOperator;
 import datnnhom12api.entity.RoleEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.repository.StaffRepository;
 import datnnhom12api.repository.UserRepository;
 import datnnhom12api.request.UserRequest;
+import datnnhom12api.service.StaffService;
 import datnnhom12api.service.UserService;
 import datnnhom12api.specifications.UserSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +26,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Service("userService")
+@Service("staffService")
 @Transactional(rollbackFor = Throwable.class)
-public class UserServiceImpl implements UserService {
+public class StaffServiceImpl implements StaffService {
 
     @Autowired
-    UserRepository userRepository;
+    StaffRepository staffRepository;
 
     @Override
     public UserEntity save(UserRequest userRequest) throws CustomException {
-        List<UserEntity> userEntityList = userRepository.findAll();
+        List<UserEntity> userEntityList = staffRepository.findAll();
         for (UserEntity userEntity : userEntityList) {
             if (userRequest.getUsername().equals(userEntity.getUsername())) {
                 throw new CustomException(403, "Tài khoản đã tồn tại!");
@@ -42,16 +44,16 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = new UserEntity();
         userEntity.setData(userRequest);
         List<RoleEntity> roleEntityList = new ArrayList<>();
-        RoleEntity roleEntity = userRepository.findRoleCustomer();
+        RoleEntity roleEntity = staffRepository.findRoleStaff();
         roleEntityList.add(roleEntity);
         userEntity.setRoles(roleEntityList);
-        userEntity = userRepository.save(userEntity);
+        userEntity = staffRepository.save(userEntity);
         return userEntity;
     }
 
     @Override
     public UserEntity edit(Long id, UserRequest userRequest) throws CustomException {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        Optional<UserEntity> userEntityOptional = staffRepository.findById(id);
         if (id <= 0) {
             throw new CustomException(403, "id người dùng phải lớn hơn 0");
         }
@@ -64,19 +66,19 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(403, "Mật khẩu cũ không chính xác!");
         } else {
             userEntity.setData(userRequest);
-            userEntity = userRepository.save(userEntity);
+            userEntity = staffRepository.save(userEntity);
             return userEntity;
         }
     }
 
     @Override
     public UserEntity delete(Long id) throws CustomException {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        Optional<UserEntity> userEntityOptional = staffRepository.findById(id);
         if (userEntityOptional.isEmpty()) {
             throw new CustomException(403, "không tìm thấy người dùng");
         }
-        UserEntity userEntity = userRepository.getById(id);
-        userRepository.delete(userEntity);
+        UserEntity userEntity = staffRepository.getById(id);
+        staffRepository.delete(userEntity);
         return userEntity;
     }
 
@@ -92,19 +94,19 @@ public class UserServiceImpl implements UserService {
         Specification<UserEntity> specifications = UserSpecifications.getInstance().getQueryResult(filters);
 
         if (searchUserName != null && searchStatus != null) {
-            return userRepository.findByUserNameStatus(searchUserName, searchStatus, pageable);
+            return staffRepository.findByUserNameStatus(searchUserName, searchStatus, pageable);
         } else if (searchUserName != null) {
-            return userRepository.findByUserName(searchUserName, pageable);
+            return staffRepository.findByUserName(searchUserName, pageable);
         } else if (searchStatus != null) {
-            return userRepository.findByStatus(searchStatus, pageable);
+            return staffRepository.findByStatus(searchStatus, pageable);
         } else {
-            return userRepository.findAllStaff(pageable);
+            return staffRepository.findAllStaff(pageable);
         }
     }
 
     @Override
     public UserEntity open(Long id) throws CustomException {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        Optional<UserEntity> userEntityOptional = staffRepository.findById(id);
         if (id <= 0) {
             throw new CustomException(403, "id người dùng phải lớn hơn 0");
         }
@@ -113,13 +115,13 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity userEntity = userEntityOptional.get();
         userEntity.setStatus(1);
-        userEntity = userRepository.save(userEntity);
+        userEntity = staffRepository.save(userEntity);
         return userEntity;
     }
 
     @Override
     public UserEntity close(Long id) throws CustomException {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        Optional<UserEntity> userEntityOptional = staffRepository.findById(id);
         if (id <= 0) {
             throw new CustomException(403, "id người dùng phải lớn hơn 0");
         }
@@ -128,13 +130,13 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity userEntity = userEntityOptional.get();
         userEntity.setStatus(0);
-        userEntity = userRepository.save(userEntity);
+        userEntity = staffRepository.save(userEntity);
         return userEntity;
     }
 
     @Override
     public UserEntity find(Long id) throws CustomException {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        Optional<UserEntity> userEntityOptional = staffRepository.findById(id);
         if (id <= 0) {
             throw new CustomException(403, "id người dùng phải lớn hơn 0");
         }
