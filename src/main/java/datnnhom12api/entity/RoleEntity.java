@@ -19,14 +19,12 @@ public class RoleEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private String name;
-    private String code;
+    private String role;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<UserEntity> users = new ArrayList<>();
 
     public void setData(RoleEntity request) {
-        this.name = request.getName();
-        this.code = request.getCode();
+        this.role = request.getRole();
     }
 }

@@ -54,7 +54,7 @@ public class LoginController {
             authDTO.setUsername(userEntity.getUsername());
             List<RoleDTO> list = new ArrayList<>();
             for (RoleEntity e : userEntity.getRoles()) {
-                list.add(new RoleDTO(e.getId(), e.getName(), e.getCode()));
+                list.add(new RoleDTO(e.getId(), e.getRole()));
             }
             authDTO.setRoles(list);
             return new AuthResponse(authDTO);

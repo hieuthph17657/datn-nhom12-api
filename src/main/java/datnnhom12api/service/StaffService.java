@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Map;
 
-public interface UserService {
+public interface StaffService {
 
     UserEntity save(UserRequest post) throws CustomException;
 

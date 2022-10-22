@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPaginationRequest extends PaginationRequest {
+public class StaffPaginationRequest extends PaginationRequest {
 
     private String searchUsername;
 
