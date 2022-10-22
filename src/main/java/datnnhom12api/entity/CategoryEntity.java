@@ -15,15 +15,15 @@ import javax.persistence.*;
 @Table(name = "categories")
 @EqualsAndHashCode(callSuper = true)
 public class CategoryEntity extends BaseEntity {
-
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @Column(name="name")
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="status")
     private CategoryStatus status;
 
     public void setData(CategoryRequest request) {

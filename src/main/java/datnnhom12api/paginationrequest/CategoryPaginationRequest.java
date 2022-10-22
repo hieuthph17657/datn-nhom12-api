@@ -26,7 +26,7 @@ public class CategoryPaginationRequest extends PaginationRequest {//extends - re
             list.add(new Filter("name", QueryOperator.LIKE, searchName, null));
         }
         if (searchStatus != null && !searchStatus.isEmpty()) {
-            list.add(new Filter("active", QueryOperator.EQUALS, searchStatus, null));
+            list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
         return list;
     }

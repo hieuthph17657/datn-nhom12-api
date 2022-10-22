@@ -1,5 +1,6 @@
 package datnnhom12api.dto;
 
+import datnnhom12api.core.BaseDTO;
 import datnnhom12api.utils.support.CategoryStatus;
 import lombok.*;
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CategoryDTO implements Serializable {
+public class CategoryDTO extends BaseDTO implements Serializable {
 
     private Long id;
 
