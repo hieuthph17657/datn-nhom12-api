@@ -48,7 +48,7 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private ConfigurationEntity configuration;
 
-    private List<ImagesEntity> images;
+//    private List<ImagesEntity> images;
 //
 //    private List<ProductPropertyEntity> productProperties;
 
