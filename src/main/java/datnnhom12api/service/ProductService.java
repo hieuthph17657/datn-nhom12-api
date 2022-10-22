@@ -11,12 +11,13 @@ import java.util.Map;
 
 public interface ProductService {
 
-    List<ProductEntity> findAll();
-    ProductEntity save(ProductRequest post) throws CustomException;
+    ProductEntity insert(ProductRequest post) throws CustomException;
 
-    ProductEntity edit(Long id, ProductRequest post) throws CustomException;
+    ProductEntity update(Long id, ProductRequest post) throws CustomException;
 
     ProductEntity delete(Long id) throws CustomException;
 
     Page<ProductEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
+    ProductEntity create(ProductEntity productEntity);
 }
