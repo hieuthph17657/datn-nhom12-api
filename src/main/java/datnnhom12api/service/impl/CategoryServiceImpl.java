@@ -2,11 +2,13 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.CategoryRepository;
 import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.service.CategoryService;
 import datnnhom12api.specifications.CategorySpecifications;
+import datnnhom12api.utils.support.CategoryStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,12 +79,32 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryEntity> findAll() {
-        return cateRepository.findAll();
+    public CategoryEntity open(Long id) throws CustomException {
+        Optional<CategoryEntity> categoryEntityOptional = cateRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id danh mục phải lớn hơn 0");
+        }
+        if (categoryEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id danh mục muốn sửa");
+        }
+        CategoryEntity categoryEntity = categoryEntityOptional.get();
+        categoryEntity.setStatus(CategoryStatus.ACTIVE);
+        categoryEntity = cateRepository.save(categoryEntity);
+        return categoryEntity;
     }
 
     @Override
-    public CategoryEntity findById(Long id) {
-        return cateRepository.findById(id).get();
+    public CategoryEntity close(Long id) throws CustomException {
+        Optional<CategoryEntity> categoryEntityOptional = cateRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id danh mục phải lớn hơn 0");
+        }
+        if (categoryEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id danh mục muốn sửa");
+        }
+        CategoryEntity categoryEntity = categoryEntityOptional.get();
+        categoryEntity.setStatus(CategoryStatus.INACTIVE);
+        categoryEntity = cateRepository.save(categoryEntity);
+        return categoryEntity;
     }
 }

@@ -1,12 +1,15 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.CategoryMapper;
+import datnnhom12api.mapper.UserMapper;
 import datnnhom12api.paginationrequest.CategoryPaginationRequest;
 import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.response.CategoryResponse;
+import datnnhom12api.response.UserResponse;
 import datnnhom12api.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,5 +57,16 @@ public class CategoryController {
     public CategoryResponse delete(@PathVariable("id") Long id) throws CustomException {
         cateService.delete(id);
         return new CategoryResponse();
+    }
+    @PutMapping("/close/{id}")
+    public CategoryResponse close(@PathVariable("id") Long id) throws CustomException {
+        CategoryEntity postEntity = cateService.close(id);
+        return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
+    }
+
+    @PutMapping("/open/{id}")
+    public CategoryResponse open(@PathVariable("id") Long id) throws CustomException {
+        CategoryEntity postEntity = cateService.open(id);
+        return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
     }
 }
