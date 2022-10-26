@@ -58,11 +58,11 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "updated_by")
     private UserEntity updatedBy;
 
-    @OneToMany(mappedBy = "product")
-    private List<ImagesEntity> images;
+//    @OneToMany(mappedBy = "product")
+//    private List<ImagesEntity> images;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductPropertyEntity> productProperties;
+//    @OneToMany(mappedBy = "product")
+//    private List<ProductPropertyEntity> productProperties;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -72,8 +72,8 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "manufacture_id")
     private ManufactureEntity manufacture;
 
-   @OneToOne(mappedBy = "product")
-   private ConfigurationEntity configuration;
+//   @OneToOne(mappedBy = "product")
+//   private ConfigurationEntity configuration;
 
     public void setData(ProductRequest request) {
         this.name = request.getName();

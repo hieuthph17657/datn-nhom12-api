@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
         CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
         productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
-        productEntity.setManufacture(manufacture);
+//        productEntity.setManufacture(manufacture);
         ConfigurationEntity configuration =new ConfigurationEntity();
         configuration.setCapacity(productRequest.getConfigurationEntity().getCapacity());
         configuration.setOptical(productRequest.getConfigurationEntity().getOptical());
