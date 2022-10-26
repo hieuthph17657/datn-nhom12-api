@@ -47,11 +47,11 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
 //        List<ProductPropertyEntity> productPropertyEntity = productRequest.getProductProperties();
-        List<ImagesEntity> listImage = productRequest.getImages();
+//        List<ImagesEntity> listImage = productRequest.getImages();
         CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
         productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
-        productEntity.setManufacture(manufacture);
+//        productEntity.setManufacture(manufacture);
         ConfigurationEntity configuration =new ConfigurationEntity();
         configuration.setCapacity(productRequest.getConfigurationEntity().getCapacity());
         configuration.setOptical(productRequest.getConfigurationEntity().getOptical());
@@ -70,15 +70,14 @@ public class ProductServiceImpl implements ProductService {
 //            ProductEntity product = productRepository.getById(id);
 //            productPropertyEntity1.setProduct(product);
 //        });
-        listImage.forEach(imagesEntity -> {
-            ProductEntity product = productRepository.getById(id);
-            imagesEntity.setProduct(product);
-        });
-        System.out.println(id);
+//        listImage.forEach(imagesEntity -> {
+//            ProductEntity product = productRepository.getById(id);
+//            imagesEntity.setProduct(product);
+//        });
 //        configuration.setProduct(id);
         this.configurationRepository.save(configuration);
 //        this.productPropertyRepository.saveAll(productPropertyEntity);
-        this.imageRepository.saveAll(listImage);
+//        this.imageRepository.saveAll(listImage);
         return productEntity;
     }
 

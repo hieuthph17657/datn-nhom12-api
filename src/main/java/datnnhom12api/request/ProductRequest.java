@@ -42,7 +42,7 @@ public class ProductRequest {
     @NotBlank(message = "Không được để trống")
     private String origin;
 
-    private List<ImagesEntity> images;
+//    private List<ImagesEntity> images;
 //    private List<String> images;
 
 //    private ConfigurationEntity configuration;
