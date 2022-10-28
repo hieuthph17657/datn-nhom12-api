@@ -28,7 +28,9 @@ public class CategoryEntity extends BaseEntity {
 
     public void setData(CategoryRequest request) {
         this.name = request.getName();
-        this.status = request.getStatus() == CategoryStatus.DRAFT ? CategoryStatus.DRAFT : CategoryStatus.ACTIVE;
+        this.status = request.getStatus()
+                == CategoryStatus.DRAFT ? CategoryStatus.DRAFT
+                : CategoryStatus.ACTIVE ;
     }
 }
 

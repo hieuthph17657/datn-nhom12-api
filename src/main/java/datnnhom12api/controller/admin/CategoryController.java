@@ -11,6 +11,7 @@ import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.response.CategoryResponse;
 import datnnhom12api.response.UserResponse;
 import datnnhom12api.service.CategoryService;
+import datnnhom12api.utils.support.CategoryStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -67,6 +68,16 @@ public class CategoryController {
     @PutMapping("/open/{id}")
     public CategoryResponse open(@PathVariable("id") Long id) throws CustomException {
         CategoryEntity postEntity = cateService.open(id);
+        return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
+    }
+
+    @PostMapping("/draft")
+    public CategoryResponse draft(@RequestBody CategoryRequest post, BindingResult bindingResult)throws CustomException, CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        post.setStatus(CategoryStatus.DRAFT);
+        CategoryEntity postEntity = cateService.save(post);
         return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
     }
 }

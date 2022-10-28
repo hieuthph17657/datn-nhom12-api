@@ -48,7 +48,8 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
         }
         CategoryEntity categoryEntity = cateEntityOptional.get();
-        categoryEntity.setData(categoryRequest);
+//        categoryEntity.setData(categoryRequest);
+        categoryEntity.setName(categoryRequest.getName());
         categoryEntity = cateRepository.save(categoryEntity);
         return categoryEntity;
     }
