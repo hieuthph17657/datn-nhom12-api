@@ -1,0 +1,65 @@
+package datnnhom12api.service.impl;
+
+import datnnhom12api.core.Filter;
+import datnnhom12api.entity.CartEntity;
+import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.repository.CartRepository;
+import datnnhom12api.request.CartRequest;
+import datnnhom12api.service.CartService;
+import datnnhom12api.specifications.CartSpecifications;
+import datnnhom12api.specifications.CategorySpecifications;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@Service("cartService")
+@Transactional(rollbackFor = Throwable.class)
+public class CartServiceImpl implements CartService {
+
+    @Autowired
+    CartRepository cartRepository;
+
+    @Override
+    public CartEntity create(CartRequest request) throws CustomException {
+        CartEntity cartEntity = new CartEntity();
+        cartEntity.setData(request);
+        cartEntity = cartRepository.save(cartEntity);
+        return cartEntity;
+    }
+
+    @Override
+    public Page<CartEntity> paginate(int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
+        for (String field : sortBy.keySet()) {
+            orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
+        }
+        Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(page, limit, sort);
+
+        Specification<CartEntity> specifications = CartSpecifications.getInstance().getQueryResult(filters);
+
+        return cartRepository.findAll(specifications, pageable);
+    }
+
+    @Override
+    public CartEntity delete(Long id) throws CustomException {
+        Optional<CartEntity> cartEntityOptional = cartRepository.findById(id);
+        if (cartEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy đối tượng");
+        }
+        CartEntity cartEntity = cartRepository.getById(id);
+        cartRepository.delete(cartEntity);
+        return cartEntity;
+    }
+}
