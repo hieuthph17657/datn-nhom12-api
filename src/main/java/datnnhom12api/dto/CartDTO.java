@@ -1,8 +1,11 @@
 package datnnhom12api.dto;
 
 import datnnhom12api.core.BaseDTO;
+import datnnhom12api.entity.ProductEntity;
 import lombok.*;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Data
@@ -16,7 +19,7 @@ public class CartDTO extends BaseDTO implements Serializable {
 
     private Long id;
 
-    private Long productId;
+    private ProductEntity productId;
 
     private Long userId;
 

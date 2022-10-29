@@ -21,8 +21,9 @@ public class CartEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "productId")
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    private ProductEntity productId;
 
     @Column(name = "userId")
     private Long userId;
@@ -34,7 +35,6 @@ public class CartEntity extends BaseEntity {
     private Double total;
 
     public void setData(CartRequest request) {
-        this.productId = request.getProductId();
         this.userId = request.getUserId();
         this.quantity = request.getQuantity();
         this.total = request.getTotal();
