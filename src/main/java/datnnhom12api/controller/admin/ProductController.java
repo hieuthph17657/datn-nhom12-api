@@ -43,6 +43,12 @@ public class ProductController {
         return product;
     }
 
+    @GetMapping("/{id}")
+    public ProductEntity  getById(@PathVariable String id) {
+        ProductEntity product = this.productRepository.getById(Long.valueOf(id));
+        return  product;
+    }
+
     @PostMapping()
     public ProductResponse create(
             @Valid @RequestBody ProductRequest productRequest,

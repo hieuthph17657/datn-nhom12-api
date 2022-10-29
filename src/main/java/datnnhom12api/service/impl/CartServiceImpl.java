@@ -3,8 +3,10 @@ package datnnhom12api.service.impl;
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.CartEntity;
 import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.CartRepository;
+import datnnhom12api.repository.ProductRepository;
 import datnnhom12api.request.CartRequest;
 import datnnhom12api.service.CartService;
 import datnnhom12api.specifications.CartSpecifications;
@@ -30,10 +32,15 @@ public class CartServiceImpl implements CartService {
     @Autowired
     CartRepository cartRepository;
 
+    @Autowired
+    ProductRepository productRepository;
+
     @Override
     public CartEntity create(CartRequest request) throws CustomException {
         CartEntity cartEntity = new CartEntity();
         cartEntity.setData(request);
+        ProductEntity product = this.productRepository.getById(request.getProductId());
+        cartEntity.setProductId(product);
         cartEntity = cartRepository.save(cartEntity);
         return cartEntity;
     }
