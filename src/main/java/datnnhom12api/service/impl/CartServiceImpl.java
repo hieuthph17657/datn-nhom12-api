@@ -60,6 +60,21 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public CartEntity update(Long id, CartRequest post) throws CustomException {
+        Optional<CartEntity> cartEntityOptional = cartRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (cartEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
+        }
+        CartEntity cartEntity = cartEntityOptional.get();
+        cartEntity.setData(post);
+        cartEntity = cartRepository.save(cartEntity);
+        return cartEntity;
+    }
+
+    @Override
     public CartEntity delete(Long id) throws CustomException {
         Optional<CartEntity> cartEntityOptional = cartRepository.findById(id);
         if (cartEntityOptional.isEmpty()) {

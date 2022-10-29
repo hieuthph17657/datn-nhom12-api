@@ -1,14 +1,18 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.entity.CartEntity;
+import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.CartMapper;
+import datnnhom12api.mapper.CategoryMapper;
 import datnnhom12api.paginationrequest.CartPaginationRequest;
 import datnnhom12api.repository.ProductRepository;
 import datnnhom12api.request.CartRequest;
+import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.response.CartResponse;
+import datnnhom12api.response.CategoryResponse;
 import datnnhom12api.service.CartService;
 import datnnhom12api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +45,15 @@ public class CartController {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         CartEntity postEntity = cartService.create(post);
+        return new CartResponse(CartMapper.getInstance().toDTO(postEntity));
+    }
+
+    @PutMapping("/{id}")
+    public CartResponse edit(@PathVariable("id") Long id, @Valid @RequestBody CartRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        CartEntity postEntity = cartService.update(id, post);
         return new CartResponse(CartMapper.getInstance().toDTO(postEntity));
     }
 
