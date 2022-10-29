@@ -3,8 +3,10 @@ package datnnhom12api.service;
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.OrderEntity;
+import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.CategoryRequest;
+import datnnhom12api.request.CreateUserOnOrderRequest;
 import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.OrderRequest;
 import org.springframework.data.domain.Page;
@@ -21,4 +23,6 @@ public interface OrderService {
     OrderEntity delete(Long id) throws CustomException;
 
     Page<OrderEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
+    UserEntity createUser(CreateUserOnOrderRequest createUserOnOrderRequest) throws CustomException;
 }
