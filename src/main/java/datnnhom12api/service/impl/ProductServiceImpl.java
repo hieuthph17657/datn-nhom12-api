@@ -133,4 +133,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductEntity create(ProductEntity productEntity) {
         return productRepository.save(productEntity);
     }
+
+    @Override
+    public ProductEntity findByProductID(Long id) {
+        return productRepository.findById(id).get();
+    }
 }

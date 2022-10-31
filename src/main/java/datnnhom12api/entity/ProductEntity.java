@@ -75,6 +75,9 @@ public class ProductEntity extends BaseEntity {
 //   @OneToOne(mappedBy = "product")
 //   private ConfigurationEntity configuration;
 
+//    @OneToMany(mappedBy = "product")
+//    List<OrderDetailEntity> orderDetails;
+
     public void setData(ProductRequest request) {
         this.name = request.getName();
         this.price = request.getPrice();

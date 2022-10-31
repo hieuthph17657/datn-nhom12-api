@@ -1,5 +1,6 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -67,5 +69,11 @@ public class OrderController {
         }
         UserEntity userEntity = orderService.createUser(createUserOnOrderRequest);
         return new UserResponse(UserMapper.getInstance().toDTO(userEntity));
+    }
+
+    @GetMapping("/{id}")
+    public List<OrderDetailEntity> getOrderDetail(@PathVariable("id") Long id) throws CustomException {
+        List<OrderDetailEntity> list = orderService.findByOrder(id);
+        return list;
     }
 }

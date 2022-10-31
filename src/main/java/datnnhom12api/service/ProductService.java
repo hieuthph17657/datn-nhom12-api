@@ -20,4 +20,6 @@ public interface ProductService {
     Page<ProductEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
 
     ProductEntity create(ProductEntity productEntity);
+
+    ProductEntity findByProductID(Long id);
 }

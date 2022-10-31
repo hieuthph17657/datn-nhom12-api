@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.request.OrderRequest;
+import datnnhom12api.utils.support.OrderStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +25,8 @@ public class OrderEntity extends BaseEntity {
     private int total;
     private String payment;
     private String address;
-    private int status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
 //    @JsonIgnore
     @OneToMany(mappedBy = "order")
@@ -35,7 +37,7 @@ public class OrderEntity extends BaseEntity {
         this.total = request.getTotal();
         this.payment = request.getPayment();
         this.address = request.getAddress();
-        this.status = request.getStatus();
+        this.status = request.getStatus() == OrderStatus.DRAFT ? OrderStatus.DRAFT: OrderStatus.ACTIVE;
     }
 }
 

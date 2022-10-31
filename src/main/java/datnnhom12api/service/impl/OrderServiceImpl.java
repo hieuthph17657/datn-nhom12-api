@@ -138,4 +138,9 @@ public class OrderServiceImpl implements OrderService {
         informationRepository.save(informationEntity);
         return userEntity;
     }
+
+    @Override
+    public List<OrderDetailEntity> findByOrder(Long id) {
+        return orderDetailRepository.findByOrder(id);
+    }
 }

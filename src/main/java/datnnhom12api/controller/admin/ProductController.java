@@ -43,11 +43,20 @@ public class ProductController {
         return product;
     }
 
+//    @GetMapping("/{id}")
+//    public ProductEntity  getById(@PathVariable String id) {
+//        ProductEntity product = this.productRepository.getById(Long.valueOf(id));
+//        return  product;
+//    }
     @GetMapping("/{id}")
-    public ProductEntity  getById(@PathVariable String id) {
-        ProductEntity product = this.productRepository.getById(Long.valueOf(id));
-        return  product;
+    public ProductResponse findByID(@PathVariable("id") Long id) {
+        ProductEntity product = productService.findByProductID(id);
+        return new ProductResponse (ProductMapper.toDTO(product));
     }
+//    public ProductResponse getById(@PathVariable("id") Long id) {
+//        ProductEntity product = productService.findByProductID(id);
+//        return new ProductResponse (ProductMapper.toDTO(product));
+//    }
 
     @PostMapping()
     public ProductResponse create(

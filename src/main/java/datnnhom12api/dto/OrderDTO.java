@@ -3,6 +3,7 @@ package datnnhom12api.dto;
 import datnnhom12api.core.BaseDTO;
 import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.OrderDetailEntity;
+import datnnhom12api.utils.support.OrderStatus;
 import lombok.*;
 
 import java.io.Serializable;
@@ -28,7 +29,7 @@ public class OrderDTO extends BaseDTO implements Serializable {
 
     private String address;
 
-    private int status;
+    private OrderStatus status;
 
     private List<OrderDetailEntity> orderDetails;
 }
