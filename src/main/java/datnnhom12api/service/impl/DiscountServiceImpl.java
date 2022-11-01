@@ -67,6 +67,21 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
+    public DiscountEntity inActive(Long id) throws CustomException {
+        Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (discountEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id người dùng muốn active");
+        }
+        DiscountEntity discountEntity = discountEntityOptional.get();
+        discountEntity.setActive(0);
+        discountEntity = discountRepository.save(discountEntity);
+        return discountEntity;
+    }
+
+    @Override
     public DiscountEntity delete(Long id) throws CustomException{
         Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
         if (discountEntityOptional.isEmpty()) {

@@ -62,6 +62,11 @@ public class DiscountController {
         DiscountEntity postEntity = discountService.active(id);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
+    @PutMapping("/inactive/{id}")
+    public DiscountResponse inActive(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
+        DiscountEntity postEntity = discountService.inActive(id);
+        return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
+    }
     @PostMapping("/draft")
     public DiscountResponse draft(@RequestBody DiscountRequest post) throws CustomValidationException, CustomException {
         post.setActive(2);
