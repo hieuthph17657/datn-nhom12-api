@@ -60,4 +60,3 @@ public class OrderEntity extends BaseEntity {
         }
     }
 }
-
