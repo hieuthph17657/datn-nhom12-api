@@ -2,6 +2,7 @@ package datnnhom12api.entity;
 
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.OrderRequest;
+import datnnhom12api.utils.support.OrderDetailStatus;
 import datnnhom12api.utils.support.OrderStatus;
 import lombok.*;
 
@@ -40,7 +41,17 @@ public class OrderEntity extends BaseEntity {
         this.payment = request.getPayment();
         this.address = request.getAddress();
         this.note = request.getNote();
-        this.status = request.getStatus() == OrderStatus.DA_DAT ? OrderStatus.DA_DAT : OrderStatus.DA_HUY;
+        if (request.getStatus().equals(" ")) {
+            this.status = OrderStatus.CHO_XAC_NHAN;
+        } else if (request.getStatus().equals("Chờ lấy hàng")) {
+            this.status = OrderStatus.CHO_LAY_HANG;
+        } else if (request.getStatus().equals("Đang giao")) {
+            this.status = OrderStatus.DANG_GIAO;
+        } else if (request.getStatus().equals("Đã nhận")) {
+            this.status = OrderStatus.DA_NHAN;
+        } else if (request.getStatus().equals("Đã huỷ")) {
+            this.status = OrderStatus.DA_HUY;
+        }
     }
 }
 
