@@ -47,15 +47,15 @@ public class OrderEntity extends BaseEntity {
         this.phone = request.getPhone().equals(" ") ? "" : request.getPhone();
         this.customerName = request.getCustomerName().equals(" ") ? " " : request.getCustomerName();
         this.note = request.getNote();
-        if (request.getStatus().equals(" ")) {
+        if (request.getStatus() == OrderStatus.CHO_XAC_NHAN){
             this.status = OrderStatus.CHO_XAC_NHAN;
-        } else if (request.getStatus().equals("Chờ lấy hàng")) {
+        } else if (request.getStatus() == OrderStatus.CHO_LAY_HANG) {
             this.status = OrderStatus.CHO_LAY_HANG;
-        } else if (request.getStatus().equals("Đang giao")) {
+        } else if (request.getStatus() == OrderStatus.DANG_GIAO) {
             this.status = OrderStatus.DANG_GIAO;
-        } else if (request.getStatus().equals("Đã nhận")) {
+        } else if (request.getStatus() == OrderStatus.DA_NHAN) {
             this.status = OrderStatus.DA_NHAN;
-        } else if (request.getStatus().equals("Đã huỷ")) {
+        } else if (request.getStatus() == OrderStatus.DA_HUY) {
             this.status = OrderStatus.DA_HUY;
         }
     }
