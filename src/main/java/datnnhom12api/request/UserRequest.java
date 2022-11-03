@@ -11,10 +11,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class UserRequest {
-    @NotBlank(message = "tài khoản không được để trống")
+
+    @NotBlank(message = "Tài khoản không được để trống")
     private String username;
+
     private String password;
+
     private String newPassword;
-    @NotNull(message = "trạng thái không được để trống")
+
+    @NotNull(message = "Trạng thái không được để trống")
     private int status;
 }

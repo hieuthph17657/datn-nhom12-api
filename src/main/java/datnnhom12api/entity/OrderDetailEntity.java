@@ -3,9 +3,11 @@ package datnnhom12api.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.OrderDetailRequest;
+import datnnhom12api.utils.support.OrderDetailStatus;
 import lombok.*;
 
 import javax.persistence.*;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,19 +21,33 @@ public class OrderDetailEntity extends BaseEntity {
     @Id
     private Long id;
     private Long productId;
-    private int money;
+
+    private double total;
     private int quantity;
-    private int status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private OrderDetailStatus status;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     OrderEntity order;
 
-    public void setData(OrderDetailRequest request){
+    public void setData(OrderDetailRequest request) {
         this.productId = request.getProductId();
-        this.money = request.getMoney();
         this.quantity = request.getQuantity();
-        this.status = request.getStatus();
+        if (request.getStatus().equals(" ")) {
+            this.status = OrderDetailStatus.CHO_XAC_NHAN;
+        } else if (request.getStatus().equals("Chờ lấy hàng")) {
+            this.status = OrderDetailStatus.CHO_LAY_HANG;
+        } else if (request.getStatus().equals("Đang giao")) {
+            this.status = OrderDetailStatus.DANG_GIAO;
+        } else if (request.getStatus().equals("Đã nhận")) {
+            this.status = OrderDetailStatus.DA_NHAN;
+        } else if (request.getStatus().equals("Đã huỷ")) {
+            this.status = OrderDetailStatus.DA_HUY;
+        }
+        this.total = request.getTotal();
     }
 }

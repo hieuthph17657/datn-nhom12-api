@@ -30,8 +30,14 @@ public class ProductRequest {
     @NotNull(message = "Không được để trống")
     private Float weight;
 
-    @NotBlank(message = "Không được để trống")
-    private String size;
+    @NotNull(message = "Không được để trống chiều dài")
+    private Float length;
+
+    @NotNull(message = "Không được để trống chiều rộng")
+    private Float width;
+
+    @NotNull(message = "Không được để trống chiều cao")
+    private Float height;
 
     @NotBlank(message = "Năm ra mắt Không được để trống")
     private String debut;
@@ -45,7 +51,7 @@ public class ProductRequest {
 //    private List<ImagesEntity> images;
 //    private List<String> images;
 
-//    private ConfigurationEntity configuration;
+    private ConfigurationEntity configuration;
 
     private UserEntity createdBy;
 

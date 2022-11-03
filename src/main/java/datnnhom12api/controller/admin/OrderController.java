@@ -40,7 +40,6 @@ public class OrderController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        System.out.println("-------------- request:" + orderRequest);
         OrderEntity orderEntity = orderService.save(orderRequest);
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }

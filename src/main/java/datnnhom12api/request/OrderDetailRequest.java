@@ -1,6 +1,9 @@
 package datnnhom12api.request;
+import datnnhom12api.utils.support.OrderDetailStatus;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -9,15 +12,16 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class OrderDetailRequest {
+
     @NotNull (message = "id sản phẩm không được để trống")
     private Long productId;
 
-    @NotNull (message = "id đơn hàng không được để trống")
-    private int money;
+    @NotNull(message = "total không được để trống")
+    private double total;
 
     @NotNull (message = "số lượng không được để trống")
     private int quantity;
 
-    @NotNull (message = "Status không được để trống")
-    private int status;
+    @Enumerated(EnumType.STRING)
+    private OrderDetailStatus status;
 }
