@@ -1,8 +1,8 @@
 package datnnhom12api.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import datnnhom12api.core.BaseEntity;
-import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.request.OrderRequest;
+import datnnhom12api.utils.support.OrderStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,16 +17,20 @@ import java.util.List;
 @Table(name = "orders")
 @EqualsAndHashCode(callSuper = true)
 public class OrderEntity extends BaseEntity {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private Long userId;
-    private int total;
+    private double total;
     private String payment;
     private String address;
-    private int status;
+    private String note;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private OrderStatus status;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     @OneToMany(mappedBy = "order")
     List<OrderDetailEntity> orderDetails;
 
@@ -35,7 +39,8 @@ public class OrderEntity extends BaseEntity {
         this.total = request.getTotal();
         this.payment = request.getPayment();
         this.address = request.getAddress();
-        this.status = request.getStatus();
+        this.note = request.getNote();
+        this.status = request.getStatus() == OrderStatus.DA_DAT ? OrderStatus.DA_DAT : OrderStatus.DA_HUY;
     }
 }
 

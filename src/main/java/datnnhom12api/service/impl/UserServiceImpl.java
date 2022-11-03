@@ -53,6 +53,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity createClient(UserRequest userRequest) throws CustomException {
+        List<UserEntity> userEntityList = userRepository.findAll();
+        for (UserEntity userEntity : userEntityList) {
+            if (userRequest.getUsername().equals(userEntity.getUsername())) {
+                throw new CustomException(403, "Tài khoản đã tồn tại!");
+            }
+        }
+//        UserEntity userEntity = new UserEntity();
+//        userEntity.setData(userRequest);
+//        userEntity.setRoles(roleEntityList);
+//        userEntity = userRepository.save(userEntity);
+//        return userEntity;
+        return null;
+    }
+
+    @Override
     public UserEntity edit(Long id, UserRequest userRequest) throws CustomException {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
         if (id <= 0) {

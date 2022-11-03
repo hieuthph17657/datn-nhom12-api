@@ -15,6 +15,8 @@ public interface UserService {
 
     UserEntity save(UserRequest user) throws CustomException;
 
+    UserEntity createClient(UserRequest userRequest) throws CustomException;
+
     UserEntity edit(Long id, UserRequest user) throws CustomException;
 
     UserEntity delete(Long id) throws CustomException;

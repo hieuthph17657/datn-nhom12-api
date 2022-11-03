@@ -28,9 +28,13 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private String imei;
 
-    private Integer weight;
+    private Float weight;
 
-    private String size;
+    private Float height ;
+
+    private Float width;
+
+    private Float length;
 
     private String debut;
 
@@ -46,7 +50,7 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private Long manufactureId;
 
-    private ConfigurationEntity configuration;
+//    private ConfigurationEntity configuration;
 
 //    private List<ImagesEntity> images;
 //

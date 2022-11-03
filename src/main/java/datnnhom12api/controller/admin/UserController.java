@@ -41,6 +41,16 @@ public class UserController {
         return new UserResponse(UserMapper.getInstance().toDTO(postEntity));
     }
 
+
+    @PostMapping("/clients")
+    public UserResponse createClient(@Valid @RequestBody UserRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        UserEntity postEntity = userService.save(post);
+        return new UserResponse(UserMapper.getInstance().toDTO(postEntity));
+    }
+
     @PutMapping("/{id}")
     public UserResponse edit(@PathVariable("id") Long id, @Valid @RequestBody UserRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {

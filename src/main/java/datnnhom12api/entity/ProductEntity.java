@@ -38,8 +38,14 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "weight")
     private Float weight;
 
-    @Column(name = "size")
-    private String size;
+    @Column(name = "length")
+    private Float length;
+
+    @Column(name = "width")
+    private Float width;
+
+    @Column(name = "height")
+    private Float height;
 
     @Column(name = "debut")
     private String debut;
@@ -81,7 +87,9 @@ public class ProductEntity extends BaseEntity {
         this.quantity = request.getQuantity();
         this.weight = request.getWeight();
         this.debut = request.getDebut();
-        this.size = request.getSize();
+        this.length = request.getLength();
+        this.weight = request.getWeight();
+        this.width = request.getWidth();
         this.p_n = request.getP_n();
         this.origin = request.getOrigin();
 //        this.images = request.getImages();
