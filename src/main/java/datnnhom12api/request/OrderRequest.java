@@ -33,9 +33,13 @@ public class OrderRequest {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    private String customerName;
+
+    private String phone;
+
     private String note;
 
-//    @NotEmpty(message = "ORDER_DETAIL_REQUIRED")
-//    @Size(min = 1, message = "ORDER_DETAIL_SIZE")
+    @NotEmpty(message = "ORDER_DETAIL_REQUIRED")
+    @Size(min = 1, message = "ORDER_DETAIL_SIZE")
     private List<OrderDetailEntity> orderDetails;
 }
