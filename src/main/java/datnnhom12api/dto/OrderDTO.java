@@ -33,6 +33,10 @@ public class OrderDTO extends BaseDTO implements Serializable {
 
     private String note;
 
+    private String customerName;
+
+    private String phone;
+
     private List<OrderDetailEntity> orderDetails;
 }
 

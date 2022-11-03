@@ -26,6 +26,10 @@ public class OrderEntity extends BaseEntity {
     private double total;
     private String payment;
     private String address;
+
+    private String phone;
+
+    private String customerName;
     private String note;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -40,6 +44,8 @@ public class OrderEntity extends BaseEntity {
         this.total = request.getTotal();
         this.payment = request.getPayment();
         this.address = request.getAddress();
+        this.phone = request.getPhone().equals(" ") ? "" : request.getPhone();
+        this.customerName = request.getCustomerName().equals(" ") ? " " : request.getCustomerName();
         this.note = request.getNote();
         if (request.getStatus().equals(" ")) {
             this.status = OrderStatus.CHO_XAC_NHAN;
