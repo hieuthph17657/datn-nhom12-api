@@ -39,7 +39,6 @@ public class OrderRequest {
 
     private String note;
 
-    @NotEmpty(message = "ORDER_DETAIL_REQUIRED")
-    @Size(min = 1, message = "ORDER_DETAIL_SIZE")
-    private List<OrderDetailEntity> orderDetails;
+    @NotNull(message = "danh sách hóa đơn chi tiết không được trống")
+    private List<OrderDetailRequest> orderDetails;
 }

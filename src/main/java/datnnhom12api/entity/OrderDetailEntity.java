@@ -20,7 +20,7 @@ public class OrderDetailEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private Long productId;
+//    private Long productId;
 
     private double total;
     private int quantity;
@@ -34,8 +34,12 @@ public class OrderDetailEntity extends BaseEntity {
     @JoinColumn(name = "order_id")
     OrderEntity order;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    ProductEntity product;
+
     public void setData(OrderDetailRequest request) {
-        this.productId = request.getProductId();
+//        this.productId = request.getProductId();
         this.quantity = request.getQuantity();
         if (request.getStatus().equals(" ")) {
             this.status = OrderDetailStatus.CHO_XAC_NHAN;
