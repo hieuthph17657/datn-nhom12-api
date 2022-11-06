@@ -27,16 +27,19 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping
-    public OrderResponse index(@Valid OrderPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
+    public OrderResponse index(@Valid OrderPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<OrderEntity> page = orderService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        Page<OrderEntity> page = orderService.paginate(request.getPage(), request.getLimit(),
+                request.getFilters(), request.getOrders());
         return new OrderResponse(OrderMapper.toPageDTO(page));
     }
 
     @PostMapping()
-    public OrderResponse create(@Valid @RequestBody OrderRequest orderRequest, OrderDetailRequest orderDetailRequest, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    public OrderResponse create(@Valid @RequestBody OrderRequest orderRequest, OrderDetailRequest orderDetailRequest,
+                                BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -45,7 +48,8 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public OrderResponse edit(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest, BindingResult bindingResult) throws CustomValidationException, CustomException {
+    public OrderResponse edit(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest,
+                              BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -60,7 +64,8 @@ public class OrderController {
     }
 
     @PostMapping("/createUser")
-    public UserResponse createUser(@Valid @RequestBody CreateUserOnOrderRequest createUserOnOrderRequest, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    public UserResponse createUser(@Valid @RequestBody CreateUserOnOrderRequest createUserOnOrderRequest,
+                                   BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
