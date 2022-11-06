@@ -18,7 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderRequest {
-    @NotNull(message = "id người dùng không được để trống")
     private Long userId;
 
     @NotNull(message = "tổng tiền không được để trống")
