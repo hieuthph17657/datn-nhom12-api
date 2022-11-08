@@ -1,5 +1,6 @@
 package datnnhom12api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.UserRequest;
 import lombok.*;
@@ -32,6 +33,10 @@ public class UserEntity extends BaseEntity {
     private String username;
     private String password;
     private Integer status;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    List<OrderEntity> order;
 
     public void setData(UserRequest request) {
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();

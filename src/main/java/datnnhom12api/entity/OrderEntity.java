@@ -1,5 +1,6 @@
 package datnnhom12api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.OrderRequest;
 import datnnhom12api.utils.support.OrderDetailStatus;
@@ -22,7 +23,7 @@ public class OrderEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private Long userId;
+//    private Long userId;
     private double total;
     private String payment;
     private String address;
@@ -39,8 +40,13 @@ public class OrderEntity extends BaseEntity {
     @OneToMany(mappedBy = "order")
     List<OrderDetailEntity> orderDetails;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    UserEntity user;
+
     public void setData(OrderRequest request) {
-        this.userId = request.getUserId();
+//        this.userId = request.getUserId();
         this.total = request.getTotal();
         this.payment = request.getPayment();
         this.address = request.getAddress();

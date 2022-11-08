@@ -8,9 +8,12 @@ import datnnhom12api.repository.OrderDetailRepository;
 import datnnhom12api.repository.OrderRepository;
 import datnnhom12api.repository.UserRepository;
 import datnnhom12api.request.CreateUserOnOrderRequest;
+import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.OrderRequest;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
+import datnnhom12api.utils.support.CategoryStatus;
+import datnnhom12api.utils.support.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,17 +47,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
+        System.out.println("orderRequest" + orderRequest.getOrderDetails());
+        orderRequest.getOrderDetails().forEach(a -> {
+            System.out.println(a.getQuantity());
+        });
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
+
         orderEntity = orderRepository.save(orderEntity);
-        List<OrderDetailEntity> list = orderRequest.getOrderDetails();
-        Long id = orderEntity.getId();
-        list.forEach(
-                list1 -> {
-                    OrderEntity order = orderRepository.getById(id);
-                    list1.setOrder(order);
-                });
-        this.orderDetailRepository.saveAll(list);
+
+        List<OrderDetailRequest> list = orderRequest.getOrderDetails();
+        for (OrderDetailRequest orderDetailRequest : list) {
+            OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
+            orderDetailEntity.setData(orderDetailRequest);
+            orderDetailEntity.setOrder(orderEntity);
+            orderDetailRepository.save(orderDetailEntity);
+        }
         return orderEntity;
     }
 
@@ -125,5 +133,25 @@ public class OrderServiceImpl implements OrderService {
         informationEntity.setActive(1);
         informationRepository.save(informationEntity);
         return userEntity;
+    }
+
+    @Override
+    public List<OrderDetailEntity> findByOrder(Long id) {
+        return orderDetailRepository.findByOrder(id);
+    }
+
+    @Override
+    public OrderEntity cancelled(Long id) throws CustomException {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "ID hóa đơn phải lớn hơn 0");
+        }
+        if (orderEntityOptional.isEmpty()) {
+            throw new CustomException(403, "Không tìm thấy id hóa đơn muốn hủy");
+        }
+        OrderEntity order = orderEntityOptional.get();
+        order.setStatus(OrderStatus.DA_HUY);
+        order = orderRepository.save(order);
+        return order;
     }
 }

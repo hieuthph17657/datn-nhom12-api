@@ -1,13 +1,17 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
+import datnnhom12api.mapper.CategoryMapper;
 import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.mapper.UserMapper;
 import datnnhom12api.paginationrequest.OrderPaginationRequest;
 import datnnhom12api.request.*;
+import datnnhom12api.response.CategoryResponse;
 import datnnhom12api.response.OrderResponse;
 import datnnhom12api.response.UserResponse;
 import datnnhom12api.service.OrderService;
@@ -18,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -71,5 +76,17 @@ public class OrderController {
         }
         UserEntity userEntity = orderService.createUser(createUserOnOrderRequest);
         return new UserResponse(UserMapper.getInstance().toDTO(userEntity));
+    }
+
+    @GetMapping("/{id}")
+    public List<OrderDetailEntity> getOrderDetail(@PathVariable("id") Long id) throws CustomException {
+        List<OrderDetailEntity> list = orderService.findByOrder(id);
+        return list;
+    }
+
+    @PutMapping("/cancelled/{id}")
+    public OrderResponse cancelled(@PathVariable("id") Long id) throws CustomException {
+        OrderEntity order = orderService.cancelled(id);
+        return new OrderResponse(OrderMapper.getInstance().toDTO(order));
     }
 }
