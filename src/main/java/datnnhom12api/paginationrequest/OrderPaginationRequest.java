@@ -18,10 +18,15 @@ import java.util.List;
 public class OrderPaginationRequest extends PaginationRequest {
     private String searchAddress;
 
+    private String searchStatus;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchAddress != null && !searchAddress.isEmpty()) {
             list.add(new Filter("address", QueryOperator.LIKE, searchAddress, null));
+        }
+        if (searchStatus != null && !searchStatus.isEmpty()) {
+            list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
         return list;
     }
