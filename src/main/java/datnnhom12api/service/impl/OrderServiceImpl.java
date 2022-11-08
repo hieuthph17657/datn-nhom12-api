@@ -13,6 +13,7 @@ import datnnhom12api.request.OrderRequest;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
 import datnnhom12api.utils.support.CategoryStatus;
+import datnnhom12api.utils.support.OrderDetailStatus;
 import datnnhom12api.utils.support.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -78,6 +79,20 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = orderEntityOptional.get();
         orderEntity.setData(orderRequest);
         orderEntity = orderRepository.save(orderEntity);
+        String status = String.valueOf(orderEntity.getStatus());
+        List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
+        Long orderId = orderEntity.getId();
+        list.forEach(
+                list1 -> {
+                    list1.setId(list1.getId());
+                    list1.setTotal(list1.getTotal());
+                    list1.setProduct(list1.getProduct());
+                    list1.setStatus(OrderDetailStatus.valueOf(status));
+                    list1.setQuantity(list1.getQuantity());
+                    OrderEntity order = orderRepository.getById(orderId);
+                    list1.setOrder(order);
+                });
+        this.orderDetailRepository.saveAll(list);
         return orderEntity;
     }
 
