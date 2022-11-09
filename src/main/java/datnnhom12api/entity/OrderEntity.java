@@ -25,13 +25,14 @@ public class OrderEntity extends BaseEntity {
     private Long id;
 //    private Long userId;
     private double total;
-    private String payment;
+    private int payment;
+    private int type;
     private String address;
 
     private String phone;
 
     private String customerName;
-    private String note;
+    private String email;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderStatus status;
@@ -49,11 +50,12 @@ public class OrderEntity extends BaseEntity {
 //        this.userId = request.getUserId();
         this.total = request.getTotal();
         this.payment = request.getPayment();
+        this.type = request.getType();
         this.address = request.getAddress();
         this.phone = request.getPhone().equals(" ") ? "" : request.getPhone();
         this.customerName = request.getCustomerName().equals(" ") ? " " : request.getCustomerName();
-        this.note = request.getNote();
-        if (request.getStatus() == OrderStatus.CHO_XAC_NHAN){
+        this.email = request.getEmail();
+            if (request.getStatus() == OrderStatus.CHO_XAC_NHAN){
             this.status = OrderStatus.CHO_XAC_NHAN;
         } else if (request.getStatus() == OrderStatus.CHO_LAY_HANG) {
             this.status = OrderStatus.CHO_LAY_HANG;

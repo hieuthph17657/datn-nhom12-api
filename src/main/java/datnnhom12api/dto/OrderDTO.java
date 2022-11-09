@@ -32,14 +32,12 @@ public class OrderDTO extends BaseDTO implements Serializable {
 
     private OrderStatus status;
 
-    private String note;
+    private String email;
 
     private String customerName;
 
     private String phone;
 
     private UserEntity user;
-
-    private List<OrderDetailEntity> orderDetails;
 }
 

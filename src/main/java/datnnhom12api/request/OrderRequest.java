@@ -23,8 +23,11 @@ public class OrderRequest {
     @NotNull(message = "tổng tiền không được để trống")
     private double total;
 
-    @NotBlank(message = "phương thức thanh toán không được để trống")
-    private String payment;
+    @NotNull(message = "phương thức thanh toán không được để trống")
+    private int payment;
+
+    @NotNull(message = "phương thức nhận hàng không được để trống")
+    private int type;
 
     @NotBlank(message = "địa chỉ không được để trống")
     private String address;
@@ -36,7 +39,7 @@ public class OrderRequest {
 
     private String phone;
 
-    private String note;
+    private String email;
 
     @NotNull(message = "danh sách hóa đơn chi tiết không được trống")
     private List<OrderDetailRequest> orderDetails;

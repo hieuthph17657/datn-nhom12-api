@@ -39,7 +39,7 @@ public class OrderController {
         }
         Page<OrderEntity> page = orderService.paginate(request.getPage(), request.getLimit(),
                 request.getFilters(), request.getOrders());
-        return new OrderResponse(OrderMapper.toPageDTO(page));
+        return new OrderResponse(OrderMapper.getInstance().toPageDTO(page));
     }
 
     @PostMapping()
