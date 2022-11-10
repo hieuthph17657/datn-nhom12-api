@@ -169,4 +169,19 @@ public class OrderServiceImpl implements OrderService {
         order = orderRepository.save(order);
         return order;
     }
+
+    @Override
+    public OrderEntity received(Long id) throws CustomException {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "ID hóa đơn phải lớn hơn 0");
+        }
+        if (orderEntityOptional.isEmpty()) {
+            throw new CustomException(403, "Không tìm thấy id hóa đơn muốn hủy");
+        }
+        OrderEntity order = orderEntityOptional.get();
+        order.setStatus(OrderStatus.DA_NHAN);
+        order = orderRepository.save(order);
+        return order;
+    }
 }

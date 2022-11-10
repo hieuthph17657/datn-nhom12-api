@@ -30,4 +30,5 @@ public interface OrderService {
     List<OrderDetailEntity> findByOrder(Long id);
 
     OrderEntity cancelled(Long id) throws CustomException;
+    OrderEntity received(Long id) throws CustomException;
 }
