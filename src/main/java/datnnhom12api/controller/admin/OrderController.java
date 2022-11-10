@@ -89,4 +89,9 @@ public class OrderController {
         OrderEntity order = orderService.cancelled(id);
         return new OrderResponse(OrderMapper.getInstance().toDTO(order));
     }
+    @PutMapping("/received/{id}")
+    public OrderResponse received(@PathVariable("id") Long id) throws CustomException {
+        OrderEntity order = orderService.received(id);
+        return new OrderResponse(OrderMapper.getInstance().toDTO(order));
+    }
 }
