@@ -3,10 +3,7 @@ package datnnhom12api.service.impl;
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.repository.InformationRepository;
-import datnnhom12api.repository.OrderDetailRepository;
-import datnnhom12api.repository.OrderRepository;
-import datnnhom12api.repository.UserRepository;
+import datnnhom12api.repository.*;
 import datnnhom12api.request.CreateUserOnOrderRequest;
 import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.OrderRequest;
@@ -46,6 +43,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     InformationRepository informationRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
         System.out.println("orderRequest" + orderRequest.getOrderDetails());
@@ -61,9 +64,12 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetailRequest orderDetailRequest : list) {
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
             orderDetailEntity.setData(orderDetailRequest);
+            orderDetailEntity.setProduct(this.productRepository.getById(orderDetailRequest.getProductId()));
             orderDetailEntity.setOrder(orderEntity);
             orderDetailRepository.save(orderDetailEntity);
         }
+        List<CartEntity>listCard = this.cartRepository.findAll();
+        this.cartRepository.deleteAll(listCard);
         return orderEntity;
     }
 
