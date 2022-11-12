@@ -1,143 +1,160 @@
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\StaffController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\ProductRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\OrderEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\ProductService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\CategoryPaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\ProductEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\UserResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\UserServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\ManufactureSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\ProductResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\CartServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\DiscountRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\CategoryRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\InformationPaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\ProductPaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\CartEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\CartController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\RequestRejectedExceptionHandler.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\OrderServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\CategoryResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\CategoryDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\ManufactureStatus.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\InformationService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\OrderDetailEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\ManufactureEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\DiscountResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\UserMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\jwt\user\UserService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\OrderService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\OrderPaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\InformationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\jwt\WebSecurityConfig.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\ProductServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\ConfigurationEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\CategoryStatus.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\UploadFileServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\InformationMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\ProductMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\DiscountController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\ManufactureRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\InformationSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\PaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\CustomErrorAttributes.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\ConfigurationRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\InformationDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\jwt\JwtTokenProvider.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\pagination\BasePagination.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\ManufactureImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\AuthResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\UserPaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\ManufactureDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\exceptions\CustomValidationException.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\StaffPaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\ManufactureRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\UserSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\DiscountPaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\UploadFileService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\CategoryController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\DatnNhom12ApiApplication.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\StaffServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\CartRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\AppConfiguration.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseErrorResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\UserService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\OrderResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\CartRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\RoleDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\utils\FileUtils.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\auth\LoginController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\InformationEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\OrderRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\CartResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\DiscountServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\UserEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\CategorySpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\ProductPropertyRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\CategoryMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\jwt\CORSFilter.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\ProductController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\CategoryEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\ProductDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\RestResponseEntityExceptionHandler.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\AuthDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\ProductPropertyEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\BasePagination.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\ManufactureController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\AuthRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\CreateUserOnOrderRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\CategoryServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\jwt\user\CustomUserDetails.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\OrderRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\CartMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\ManufactureMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\InformationServiceImpl.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\OrderDetailStatus.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\StaffService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\ProductStatus.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\DiscountMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\OrderSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\UserController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\ImageRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\CategoryService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\DiscountService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\DiscountEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\exceptions\CustomException.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\DiscountRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\DiscountDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\Filter.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\ProductSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\ImagesEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\UserDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\OrderController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\OrderDetailRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\RoleRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\QueryOperator.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\ServletInitializer.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\CartSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\InformationController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\mapper\OrderMapper.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\ManufactureResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\InformationRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\CartDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\ManufactureService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\ManufacturePaginationRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\dto\OrderDTO.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\ProductRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\CategoryRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\request\UserRequest.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\specifications\DiscountSpecifications.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\OrderStatus.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\StaffRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\response\InformationResponse.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\OrderDetailRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\repository\UserRepository.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\service\CartService.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\controller\auth\FileUploadController.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\entity\RoleEntity.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\jwt\JwtAuthenticationFilter.java
-G:\datn\back_end\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\CartPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\ReturnPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\DiscountService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\CategoryDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\UserController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\OrderDetailRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\OrderDetailEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\exceptions\CustomValidationException.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\jwt\JwtTokenProvider.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\ReturnDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\DiscountEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\ManufactureSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\OrderEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\DiscountMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\InformationServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\InformationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\ReturnRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\CategoryService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\ManufactureImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\ConfigurationEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\DiscountServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\ProductSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ProductPropertyRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\jwt\JwtAuthenticationFilter.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\StaffService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\AuthResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\ManufactureService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\ReturnStatus.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\auth\FileUploadController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\OrderMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\OrderSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\DiscountSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\InformationController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\ProductMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\RoleEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ProductRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\InformationService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\ManufactureController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\UserEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\InformationResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\ManufactureResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\Filter.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\ManufactureRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\ReturnService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ImageRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\ProductService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\CartMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\DiscountController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\ManufactureEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\CartSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\DiscountDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\ProductPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\CustomErrorAttributes.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\ManufactureMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\ProductServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\ProductStatus.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\OrderDetailStatus.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\UploadFileService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\CategoryServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\CategoryEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\RestResponseEntityExceptionHandler.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\ProductPropertyEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\AuthDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ManufactureRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\OrderServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\CategorySpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\CartRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\ProductEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\ReturnResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\CategoryResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\CartService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\CategoryController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\CartPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\ReturnDetailEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\jwt\CORSFilter.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\ProductResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\StaffServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\UserResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\RoleDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\ReturnServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\OrderRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\PaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\OrderDetailDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\OrderRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\jwt\WebSecurityConfig.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\CategoryRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\CartController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\jwt\user\UserService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\OrderService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\DiscountRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ReturnRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\UserRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\auth\LoginController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\OrderController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\ManufactureStatus.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\ImagesEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ConfigurationRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\ReturnSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\ReturnController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\DiscountPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\StaffController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\InformationDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ReturnDetailRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\BasePagination.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\QueryOperator.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\CartEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\CartServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\pagination\BasePagination.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\ReturnMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\OrderDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\jwt\user\CustomUserDetails.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\UploadFileServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\exceptions\CustomException.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\CategoryRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\UserMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\InformationRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\ProductDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\ProductRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\CreateUserOnOrderRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\ManufacturePaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\ReturnDetailRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\RequestRejectedExceptionHandler.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\DatnNhom12ApiApplication.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\CartResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\CategoryPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\CategoryMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\StaffRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\FileUtils.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\ManufactureDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\InformationPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\ServletInitializer.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\DiscountResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\DiscountRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\StaffPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\AuthRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\impl\UserServiceImpl.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\ProductController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\InformationSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\RoleRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\UserSpecifications.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\OrderStatus.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\InformationEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseErrorResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\ReturnEntity.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\ReturnDetailDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\UserPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\UserRepository.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\CartDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\CategoryStatus.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\UserService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\BaseResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\OrderPaginationRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\response\OrderResponse.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\OrderDetailRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\CartRequest.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\InformationMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\AppConfiguration.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\UserDTO.java

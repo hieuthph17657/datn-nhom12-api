@@ -27,9 +27,7 @@ public class OrderEntity extends BaseEntity {
     private double total;
     private String payment;
     private String address;
-
     private String phone;
-
     private String customerName;
     private String note;
     @Enumerated(EnumType.STRING)

@@ -1,5 +1,6 @@
 package datnnhom12api.paginationrequest;
 
+
 import datnnhom12api.core.Filter;
 import datnnhom12api.core.PaginationRequest;
 import datnnhom12api.core.QueryOperator;
@@ -15,23 +16,18 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderPaginationRequest extends PaginationRequest {
-    private String searchAddress;
-
+public class ReturnPaginationRequest extends PaginationRequest {
     private String searchStatus;
 
-    private String searchUserId;
+    private String check;
 
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
-        if (searchAddress != null && !searchAddress.isEmpty()) {
-            list.add(new Filter("address", QueryOperator.LIKE, searchAddress, null));
-        }
         if (searchStatus != null && !searchStatus.isEmpty()) {
             list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
-        if (searchUserId != null && !searchUserId.isEmpty()) {
-            list.add(new Filter("user.id", QueryOperator.LIKE, searchUserId, null));
+        if (check != null && !check.isEmpty()) {
+            list.add(new Filter("isCheck", QueryOperator.LIKE, check, null));
         }
         return list;
     }

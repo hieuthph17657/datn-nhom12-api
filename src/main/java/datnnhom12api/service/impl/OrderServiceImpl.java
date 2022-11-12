@@ -1,20 +1,20 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.OrderDetailDTO;
+import datnnhom12api.dto.UpdateOrderDetailDTO;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.repository.InformationRepository;
-import datnnhom12api.repository.OrderDetailRepository;
-import datnnhom12api.repository.OrderRepository;
-import datnnhom12api.repository.UserRepository;
+import datnnhom12api.repository.*;
 import datnnhom12api.request.CreateUserOnOrderRequest;
 import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.OrderRequest;
+import datnnhom12api.request.UpdateOrderDetailRequest;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
-import datnnhom12api.utils.support.CategoryStatus;
 import datnnhom12api.utils.support.OrderDetailStatus;
 import datnnhom12api.utils.support.OrderStatus;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,9 +46,14 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     InformationRepository informationRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
-        System.out.println("orderRequest" + orderRequest.getOrderDetails());
         orderRequest.getOrderDetails().forEach(a -> {
             System.out.println(a.getQuantity());
         });
@@ -61,9 +66,12 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetailRequest orderDetailRequest : list) {
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
             orderDetailEntity.setData(orderDetailRequest);
+            orderDetailEntity.setProduct(this.productRepository.getById(orderDetailRequest.getProductId()));
             orderDetailEntity.setOrder(orderEntity);
             orderDetailRepository.save(orderDetailEntity);
         }
+        List<CartEntity> listCard = this.cartRepository.findAll();
+        this.cartRepository.deleteAll(listCard);
         return orderEntity;
     }
 
@@ -84,6 +92,7 @@ public class OrderServiceImpl implements OrderService {
         Long orderId = orderEntity.getId();
         list.forEach(
                 list1 -> {
+                    list1.setIsCheck(list1.getIsCheck());
                     list1.setId(list1.getId());
                     list1.setTotal(list1.getTotal());
                     list1.setProduct(list1.getProduct());
@@ -156,6 +165,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderEntity findById(Long id) {
+        OrderEntity orderEntity = this.orderRepository.getById(id);
+        return orderEntity;
+    }
+
+    @Override
     public OrderEntity cancelled(Long id) throws CustomException {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
         if (id <= 0) {
@@ -184,4 +199,39 @@ public class OrderServiceImpl implements OrderService {
         order = orderRepository.save(order);
         return order;
     }
+
+    @Override
+    public OrderDetailDTO update(Long id, OrderDetailRequest orderDetailRequest) {
+        ModelMapper modelMapper = new ModelMapper();
+        OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(id);
+        orderDetailEntity.setProduct(orderDetailEntity.getProduct());
+        orderDetailEntity.setData(orderDetailRequest);
+        this.orderDetailRepository.save(orderDetailEntity);
+        OrderDetailDTO orderDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
+        return orderDTO;
+    }
+
+    @Override
+    public UpdateOrderDetailDTO findByOrderDetailDTO(Long id, UpdateOrderDetailRequest orderDetailRequest) {
+        ModelMapper modelMapper = new ModelMapper();
+        OrderDetailEntity orderDetailEntity = this.orderDetailRepository.
+                getOrderDetailEntityByOrderIsAndAndProduct(id, orderDetailRequest.getProductId());
+        if (orderDetailRequest.getQuantity() == orderDetailEntity.getQuantity()) {
+            orderDetailEntity.setTotal(0);
+        } else if (orderDetailRequest.getQuantity() < orderDetailEntity.getQuantity()) {
+            ProductEntity product = this.productRepository.getById(orderDetailRequest.getProductId());
+            Double price = product.getPrice();
+            int quantityRequest = orderDetailRequest.getQuantity();
+            int quantityOD = orderDetailEntity.getQuantity();
+            int quantity = quantityOD - quantityRequest;
+            Double total = price * quantity;
+            orderDetailEntity.setTotal(total);
+            orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetailRequest.getQuantity());
+        }
+        this.orderDetailRepository.save(orderDetailEntity);
+        UpdateOrderDetailDTO orderDTO = modelMapper.map(orderDetailEntity, UpdateOrderDetailDTO.class);
+        return orderDTO;
+    }
+
+
 }
