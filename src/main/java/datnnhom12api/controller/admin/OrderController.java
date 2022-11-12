@@ -1,21 +1,19 @@
 package datnnhom12api.controller.admin;
 
-import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.dto.OrderDetailDTO;
+import datnnhom12api.dto.UpdateOrderDetailDTO;
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
-import datnnhom12api.mapper.CategoryMapper;
 import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.mapper.UserMapper;
 import datnnhom12api.paginationrequest.OrderPaginationRequest;
 import datnnhom12api.request.*;
-import datnnhom12api.response.CategoryResponse;
 import datnnhom12api.response.OrderResponse;
 import datnnhom12api.response.UserResponse;
 import datnnhom12api.service.OrderService;
-import datnnhom12api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -62,6 +60,12 @@ public class OrderController {
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
 
+    @PutMapping("/{id}/orderDetails")
+    public OrderDetailDTO editOrderDetail(@PathVariable("id") Long id, @RequestBody OrderDetailRequest orderDetailRequest) {
+        OrderDetailDTO orderDetailDTO = orderService.update(id, orderDetailRequest);
+        return orderDetailDTO;
+    }
+
     @DeleteMapping("/{id}")
     public OrderResponse delete(@PathVariable("id") Long id) throws CustomException {
         orderService.delete(id);
@@ -94,4 +98,18 @@ public class OrderController {
         OrderEntity order = orderService.received(id);
         return new OrderResponse(OrderMapper.getInstance().toDTO(order));
     }
+
+    @GetMapping("/get/{id}")
+    public OrderResponse getOrder(@PathVariable("id") Long id)  throws CustomException {
+        OrderEntity order = orderService.findById(id);
+        return new OrderResponse(OrderMapper.getInstance().toDTO(order));
+    }
+
+    @PutMapping("/{id}/updateReturn")
+    public UpdateOrderDetailDTO updateOrderDetail(@PathVariable("id") Long id,
+                                                  @RequestBody UpdateOrderDetailRequest orderDetailRequest) {
+        UpdateOrderDetailDTO od = this.orderService.findByOrderDetailDTO(id, orderDetailRequest);
+        return od;
+    }
 }
+

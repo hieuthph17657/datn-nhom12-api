@@ -1,15 +1,14 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.OrderDetailDTO;
+import datnnhom12api.dto.UpdateOrderDetailDTO;
 import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.request.CategoryRequest;
-import datnnhom12api.request.CreateUserOnOrderRequest;
-import datnnhom12api.request.OrderDetailRequest;
-import datnnhom12api.request.OrderRequest;
+import datnnhom12api.request.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -29,6 +28,13 @@ public interface OrderService {
 
     List<OrderDetailEntity> findByOrder(Long id);
 
+    OrderEntity findById(Long id);
+
     OrderEntity cancelled(Long id) throws CustomException;
     OrderEntity received(Long id) throws CustomException;
+
+    OrderDetailDTO update(Long id, OrderDetailRequest orderDetailRequest);
+
+
+    UpdateOrderDetailDTO findByOrderDetailDTO(Long id, UpdateOrderDetailRequest orderDetailRequest);
 }

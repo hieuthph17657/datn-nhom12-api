@@ -17,17 +17,21 @@ import javax.persistence.*;
 @Table(name = "order_detail")
 @EqualsAndHashCode(callSuper = true)
 public class OrderDetailEntity extends BaseEntity {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-//    private Long productId;
 
     private double total;
+
     private int quantity;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderDetailStatus status;
+
+    @Column(name = "isCheck")
+    private Integer isCheck;
 
     @JsonIgnore
     @ManyToOne
@@ -39,8 +43,8 @@ public class OrderDetailEntity extends BaseEntity {
     ProductEntity product;
 
     public void setData(OrderDetailRequest request) {
-//        this.productId = request.getProductId();
         this.quantity = request.getQuantity();
+        this.isCheck = request.getIsCheck() == null ? null : request.getIsCheck();
         if (request.getStatus().equals(" ")) {
             this.status = OrderDetailStatus.CHO_XAC_NHAN;
         } else if (request.getStatus().equals("Chờ lấy hàng")) {
