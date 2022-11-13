@@ -88,20 +88,28 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.setData(orderRequest);
         orderEntity = orderRepository.save(orderEntity);
         String status = String.valueOf(orderEntity.getStatus());
-        List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
         Long orderId = orderEntity.getId();
-        list.forEach(
-                list1 -> {
-                    list1.setIsCheck(list1.getIsCheck());
-                    list1.setId(list1.getId());
-                    list1.setTotal(list1.getTotal());
-                    list1.setProduct(list1.getProduct());
-                    list1.setStatus(OrderDetailStatus.valueOf(status));
-                    list1.setQuantity(list1.getQuantity());
-                    OrderEntity order = orderRepository.getById(orderId);
-                    list1.setOrder(order);
-                });
-        this.orderDetailRepository.saveAll(list);
+        orderRequest.getOrderDetails().forEach(orderDetailRequest -> {
+            OrderDetailEntity orderDetailEntity  = new OrderDetailEntity();
+             orderDetailEntity = this.orderDetailRepository.
+                    getOrderDetailEntityByOrderIsAndAndProduct(orderId, orderDetailRequest.getProductId());
+            orderDetailEntity.setId(orderDetailEntity.getId());
+            orderDetailEntity.setStatus(OrderDetailStatus.valueOf(status));
+            orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice() * orderDetailRequest.getQuantity());
+            orderDetailEntity.setProduct(orderDetailEntity.getProduct());
+            orderDetailEntity.setIsCheck(orderDetailRequest.getIsCheck());
+            orderDetailEntity.setQuantity(orderDetailRequest.getQuantity());
+            orderDetailEntity.setOrder(orderDetailEntity.getOrder());
+            orderDetailEntity.setId(orderDetailEntity.getId());
+            this.orderDetailRepository.save(orderDetailEntity);
+        });
+        double count = 0;
+        List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderId);
+        for (OrderDetailEntity od: list) {
+            count += od.getTotal();
+        }
+        orderEntity.setTotal(count);
+        this.orderRepository.save(orderEntity);
         return orderEntity;
     }
 
