@@ -23,7 +23,6 @@ public class OrderEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-//    private Long userId;
     private double total;
     private String payment;
     private String address;
@@ -44,7 +43,6 @@ public class OrderEntity extends BaseEntity {
     UserEntity user;
 
     public void setData(OrderRequest request) {
-//        this.userId = request.getUserId();
         this.total = request.getTotal();
         this.payment = request.getPayment();
         this.address = request.getAddress();

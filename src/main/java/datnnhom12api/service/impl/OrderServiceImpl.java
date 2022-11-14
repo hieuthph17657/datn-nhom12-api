@@ -25,6 +25,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
         Long orderId = orderEntity.getId();
         orderRequest.getOrderDetails().forEach(orderDetailRequest -> {
             OrderDetailEntity orderDetailEntity  = new OrderDetailEntity();
-             orderDetailEntity = this.orderDetailRepository.
+            orderDetailEntity = this.orderDetailRepository.
                     getOrderDetailEntityByOrderIsAndAndProduct(orderId, orderDetailRequest.getProductId());
             orderDetailEntity.setId(orderDetailEntity.getId());
             orderDetailEntity.setStatus(OrderDetailStatus.valueOf(status));
@@ -241,5 +243,20 @@ public class OrderServiceImpl implements OrderService {
         return orderDTO;
     }
 
+    @Override
+    public List<OrderEntity> findUserName(String username) {
+        return orderRepository.findUserName(username);
+    }
 
+    public List<OrderEntity> findByDate(String createdAt) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        System.out.println("tét1");
+        if(createdAt==null||createdAt==""||createdAt.isEmpty()){
+            System.out.println("tét");
+            return orderRepository.findAll();
+        }else {
+            System.out.println("tét2");
+            return orderRepository.findByDate(LocalDateTime.parse(createdAt, dateTimeFormatter));
+        }
+    }
 }

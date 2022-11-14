@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -110,6 +112,18 @@ public class OrderController {
                                                   @RequestBody UpdateOrderDetailRequest orderDetailRequest) {
         UpdateOrderDetailDTO od = this.orderService.findByOrderDetailDTO(id, orderDetailRequest);
         return od;
+    }
+
+    @GetMapping("list/{username}")
+    public List<OrderEntity> getByName(@PathVariable("username") String username) throws CustomException {
+        List<OrderEntity> list = orderService.findUserName(username);
+        return list;
+    }
+
+    @GetMapping("list/date/{createdAt}")
+    public List<OrderEntity> findByDate(@PathVariable("createdAt") String createdAt) throws CustomException {
+        List<OrderEntity> list = orderService.findByDate(createdAt);
+        return list;
     }
 }
 

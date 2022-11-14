@@ -22,6 +22,8 @@ public class OrderPaginationRequest extends PaginationRequest {
 
     private String searchUserId;
 
+    private String searchName;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchAddress != null && !searchAddress.isEmpty()) {
@@ -32,6 +34,9 @@ public class OrderPaginationRequest extends PaginationRequest {
         }
         if (searchUserId != null && !searchUserId.isEmpty()) {
             list.add(new Filter("user.id", QueryOperator.LIKE, searchUserId, null));
+        }
+        if (searchName != null && !searchName.isEmpty()) {
+            list.add(new Filter("customerName", QueryOperator.LIKE, searchName, null));
         }
         return list;
     }
