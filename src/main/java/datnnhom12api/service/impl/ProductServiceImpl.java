@@ -5,6 +5,8 @@ import datnnhom12api.core.Filter;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.*;
+import datnnhom12api.request.ImageRequest;
+import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.ProductRequest;
 import datnnhom12api.service.ProductService;
 import datnnhom12api.specifications.ProductSpecifications;
@@ -47,11 +49,17 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
 //        List<ProductPropertyEntity> productPropertyEntity = productRequest.getProductProperties();
-//        List<ImagesEntity> listImage = productRequest.getImages();
+        List<ImageRequest> list = productRequest.getImages();
+        for (ImageRequest imageRequest:list){
+            ImagesEntity imagesEntity=new ImagesEntity();
+            imagesEntity.setData(imageRequest);
+            imagesEntity.setProduct(productEntity);
+            imageRepository.save(imagesEntity);
+        }
         CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
         productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
-//        productEntity.setManufacture(manufacture);
+        productEntity.setManufacture(manufacture);
         ConfigurationEntity configuration =new ConfigurationEntity();
         configuration.setCapacity(productRequest.getConfigurationEntity().getCapacity());
         configuration.setOptical(productRequest.getConfigurationEntity().getOptical());

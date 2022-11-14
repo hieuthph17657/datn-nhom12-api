@@ -48,10 +48,10 @@ public class ProductRequest {
     @NotBlank(message = "Không được để trống")
     private String origin;
 
-//    private List<ImagesEntity> images;
+    private List<ImageRequest> images;
 //    private List<String> images;
 
-    private ConfigurationEntity configuration;
+    //private ConfigurationEntity configuration;
 
     private UserEntity createdBy;
 

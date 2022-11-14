@@ -64,8 +64,8 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "updated_by")
     private UserEntity updatedBy;
 
-//    @OneToMany(mappedBy = "product")
-//    private List<ImagesEntity> images;
+    @OneToMany(mappedBy = "product")
+    private List<ImagesEntity> images;
 
 //    @OneToMany(mappedBy = "product")
 //    private List<ProductPropertyEntity> productProperties;
@@ -88,7 +88,7 @@ public class ProductEntity extends BaseEntity {
         this.weight = request.getWeight();
         this.debut = request.getDebut();
         this.length = request.getLength();
-        this.weight = request.getWeight();
+        this.height = request.getHeight();
         this.width = request.getWidth();
         this.p_n = request.getP_n();
         this.origin = request.getOrigin();
