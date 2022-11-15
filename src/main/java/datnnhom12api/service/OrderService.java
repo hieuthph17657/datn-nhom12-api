@@ -37,4 +37,8 @@ public interface OrderService {
 
 
     UpdateOrderDetailDTO findByOrderDetailDTO(Long id, UpdateOrderDetailRequest orderDetailRequest);
+
+    List<OrderEntity> findUserName(String username);
+
+    List<OrderEntity> findByDate(String createdAt);
 }
