@@ -19,6 +19,8 @@ public interface DiscountService {
 
     DiscountEntity active(Long id) throws CustomException;
 
+    DiscountEntity inActive(Long id) throws CustomException;
+
     DiscountEntity delete(Long id) throws CustomException;
 
     DiscountEntity getByIdDiscount(Long id) throws CustomException;
