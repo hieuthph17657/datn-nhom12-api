@@ -17,6 +17,8 @@ public class ReturnDetailDTO extends BaseDTO implements Serializable {
 
     private Long productId;
 
+    private Long orderDetailId;
+
     private Long returnId;
 
     private int quantity;

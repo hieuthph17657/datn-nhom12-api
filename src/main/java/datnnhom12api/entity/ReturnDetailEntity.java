@@ -22,7 +22,12 @@ public class ReturnDetailEntity extends BaseEntity {
 
     private Long productId;
 
-//    private Long returnId;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "order_detail_id")
+    private OrderDetailEntity orderDetail;
+
+//    private Long orderDetailId;
 
     private int quantity;
 

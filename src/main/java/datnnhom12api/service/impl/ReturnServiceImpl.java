@@ -4,12 +4,14 @@ import datnnhom12api.core.Filter;
 import datnnhom12api.entity.ReturnDetailEntity;
 import datnnhom12api.entity.ReturnEntity;
 import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.repository.OrderDetailRepository;
 import datnnhom12api.repository.ReturnDetailRepository;
 import datnnhom12api.repository.ReturnRepository;
 import datnnhom12api.request.ReturnDetailRequest;
 import datnnhom12api.request.ReturnRequest;
 import datnnhom12api.service.ReturnService;
 import datnnhom12api.specifications.ReturnSpecifications;
+import datnnhom12api.utils.support.OrderDetailStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +36,9 @@ public class ReturnServiceImpl implements ReturnService {
     @Autowired
     private ReturnDetailRepository returnDetailRepository;
 
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
     @Override
     public ReturnEntity insert(ReturnRequest request) throws CustomException {
         ReturnEntity returnEntity = new ReturnEntity();
@@ -45,6 +50,7 @@ public class ReturnServiceImpl implements ReturnService {
             ReturnDetailEntity returnDetailEntity = new ReturnDetailEntity();
             returnDetailEntity.setReturn(this.returnRepository.getById(id));
             returnDetailEntity.setQuantity(item.getQuantity());
+            returnDetailEntity.setOrderDetail(this.orderDetailRepository.getById(item.getOrderDetailId()));
             returnDetailEntity.setProductId(item.getProductId());
             this.returnDetailRepository.save(returnDetailEntity);
         });
