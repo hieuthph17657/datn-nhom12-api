@@ -1,6 +1,9 @@
 package datnnhom12api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import datnnhom12api.request.ImageRequest;
+import datnnhom12api.request.OrderDetailRequest;
+import datnnhom12api.utils.support.OrderDetailStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,4 +36,12 @@ public class ImagesEntity {
 
     @Column(name = "exchange_id")
     private Long exchange_id;
+
+    public void setData(ImageRequest request) {
+//        this.productId = request.getProductId();
+        this.name = request.getName();
+        this.product = request.getProduct();
+        this.return_id = request.getReturn_id();
+        this.exchange_id = request.getExchange_id();
+    }
 }
