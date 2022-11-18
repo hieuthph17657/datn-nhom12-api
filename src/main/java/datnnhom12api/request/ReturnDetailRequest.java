@@ -17,6 +17,8 @@ public class ReturnDetailRequest {
     @NotNull(message = "Mã sản phầm không được trống")
     private Long productId;
 
+    private Long orderDetailId;
+
     private int quantity;
 
 }

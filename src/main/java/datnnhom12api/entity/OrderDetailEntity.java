@@ -7,6 +7,7 @@ import datnnhom12api.utils.support.OrderDetailStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor

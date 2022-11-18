@@ -13,16 +13,22 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class CreateUserOnOrderRequest {
+
     @NotBlank(message = "tài khoản không được để trống")
     private String username;
+
     private String newPassword;
+
     @NotBlank(message = "tên không được để trống")
     private String fullName;
+
     @NotBlank(message = "email không được để trống")
     @Email
     private String email;
+
     @NotBlank(message = "số điện thoại không được để trống")
     private String phoneNumber;
+
     @NotBlank(message = "địa chỉ không được để trống")
     private String address;
 }

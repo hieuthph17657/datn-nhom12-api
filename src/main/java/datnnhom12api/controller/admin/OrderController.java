@@ -7,10 +7,12 @@ import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
+import datnnhom12api.mapper.ExchangeMapper;
 import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.mapper.UserMapper;
 import datnnhom12api.paginationrequest.OrderPaginationRequest;
 import datnnhom12api.request.*;
+import datnnhom12api.response.ExchangeResponse;
 import datnnhom12api.response.OrderResponse;
 import datnnhom12api.response.UserResponse;
 import datnnhom12api.service.OrderService;
@@ -18,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -50,6 +50,16 @@ public class OrderController {
         }
         OrderEntity orderEntity = orderService.save(orderRequest);
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
+    }
+
+    @PostMapping("exchanges")
+    public ExchangeResponse createOrderDetail(@Valid @RequestBody List<ExchangeRequest> exchangeRequest,
+                                              BindingResult bindingResult) throws CustomException, CustomValidationException {
+        if(bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        List<OrderDetailEntity> orderDetailEntities = orderService.createOrderDetail(exchangeRequest);
+        return new ExchangeResponse(ExchangeMapper.toListDTO(orderDetailEntities));
     }
 
     @PutMapping("/{id}")
@@ -95,6 +105,7 @@ public class OrderController {
         OrderEntity order = orderService.cancelled(id);
         return new OrderResponse(OrderMapper.getInstance().toDTO(order));
     }
+
     @PutMapping("/received/{id}")
     public OrderResponse received(@PathVariable("id") Long id) throws CustomException {
         OrderEntity order = orderService.received(id);
@@ -102,7 +113,7 @@ public class OrderController {
     }
 
     @GetMapping("/get/{id}")
-    public OrderResponse getOrder(@PathVariable("id") Long id)  throws CustomException {
+    public OrderResponse getOrder(@PathVariable("id") Long id) throws CustomException {
         OrderEntity order = orderService.findById(id);
         return new OrderResponse(OrderMapper.getInstance().toDTO(order));
     }

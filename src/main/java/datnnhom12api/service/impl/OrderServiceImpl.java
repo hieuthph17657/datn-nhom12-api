@@ -6,10 +6,7 @@ import datnnhom12api.dto.UpdateOrderDetailDTO;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.*;
-import datnnhom12api.request.CreateUserOnOrderRequest;
-import datnnhom12api.request.OrderDetailRequest;
-import datnnhom12api.request.OrderRequest;
-import datnnhom12api.request.UpdateOrderDetailRequest;
+import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
 import datnnhom12api.utils.support.OrderDetailStatus;
@@ -91,27 +88,44 @@ public class OrderServiceImpl implements OrderService {
         orderEntity = orderRepository.save(orderEntity);
         String status = String.valueOf(orderEntity.getStatus());
         Long orderId = orderEntity.getId();
-        orderRequest.getOrderDetails().forEach(orderDetailRequest -> {
-            OrderDetailEntity orderDetailEntity  = new OrderDetailEntity();
-            orderDetailEntity = this.orderDetailRepository.
-                    getOrderDetailEntityByOrderIsAndAndProduct(orderId, orderDetailRequest.getProductId());
-            orderDetailEntity.setId(orderDetailEntity.getId());
-            orderDetailEntity.setStatus(OrderDetailStatus.valueOf(status));
-            orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice() * orderDetailRequest.getQuantity());
-            orderDetailEntity.setProduct(orderDetailEntity.getProduct());
-            orderDetailEntity.setIsCheck(orderDetailRequest.getIsCheck());
-            orderDetailEntity.setQuantity(orderDetailRequest.getQuantity());
-            orderDetailEntity.setOrder(orderDetailEntity.getOrder());
-            orderDetailEntity.setId(orderDetailEntity.getId());
-            this.orderDetailRepository.save(orderDetailEntity);
-        });
-        double count = 0;
-        List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderId);
-        for (OrderDetailEntity od: list) {
-            count += od.getTotal();
+        if(orderRequest.getOrderDetails().get(0).getProductId() != null){
+            orderRequest.getOrderDetails().forEach(orderDetailRequest -> {
+                OrderDetailEntity orderDetailEntity  = new OrderDetailEntity();
+                orderDetailEntity = this.orderDetailRepository.
+                        getOrderDetailEntityByOrderIsAndAndProduct(orderId, orderDetailRequest.getProductId());
+                System.out.println(orderDetailEntity.getProduct() + " " + orderDetailEntity.getQuantity() + orderDetailEntity.getTotal());
+                orderDetailEntity.setId(orderDetailEntity.getId());
+                orderDetailEntity.setStatus(OrderDetailStatus.valueOf(status));
+                orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice() * orderDetailRequest.getQuantity());
+                orderDetailEntity.setProduct(orderDetailEntity.getProduct());
+                orderDetailEntity.setIsCheck(orderDetailRequest.getIsCheck());
+                orderDetailEntity.setQuantity(orderDetailRequest.getQuantity());
+                orderDetailEntity.setOrder(orderDetailEntity.getOrder());
+                this.orderDetailRepository.save(orderDetailEntity);
+            });
+            double count = 0;
+            List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderId);
+            for (OrderDetailEntity od: list) {
+                count += od.getTotal();
+            }
+            orderEntity.setTotal(count);
+            this.orderRepository.save(orderEntity);
+        }else {
+            System.out.println("vào else");
+            List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
+            list.forEach(
+                    list1 -> {
+                        list1.setId(list1.getId());
+                        list1.setTotal(list1.getTotal());
+                        list1.setProduct(list1.getProduct());
+                        list1.setStatus(OrderDetailStatus.valueOf(status));
+                        list1.setQuantity(list1.getQuantity());
+                        OrderEntity order = orderRepository.getById(orderId);
+                        list1.setOrder(order);
+                    });
+            this.orderDetailRepository.saveAll(list);
         }
-        orderEntity.setTotal(count);
-        this.orderRepository.save(orderEntity);
+
         return orderEntity;
     }
 
@@ -258,5 +272,22 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("tét2");
             return orderRepository.findByDate(LocalDateTime.parse(createdAt, dateTimeFormatter));
         }
+    }
+
+    @Override
+    public List<OrderDetailEntity> createOrderDetail(List<ExchangeRequest> exchangeRequest) {
+        OrderEntity orderEntity = this.orderRepository.getById( exchangeRequest.stream().findFirst().get().getOrderId());
+        List <OrderDetailEntity> list = new ArrayList<>();
+        exchangeRequest.forEach(exchangeEntity -> {
+            OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
+            orderDetailEntity.setOrder(orderEntity);
+            orderDetailEntity.setQuantity(exchangeEntity.getQuantity());
+            orderDetailEntity.setProduct(this.productRepository.getById(exchangeEntity.getProductId()));
+            orderDetailEntity.setTotal(orderDetailEntity.getTotal());
+            orderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
+            orderDetailEntity.setIsCheck(3);
+            this.orderDetailRepository.save(orderDetailEntity);
+        });
+        return list;
     }
 }
