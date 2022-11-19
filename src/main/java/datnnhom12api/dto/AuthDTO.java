@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class AuthDTO implements Serializable {
+    private Long id;
     private String token;
     private List<RoleDTO> roles;
     private String username;
