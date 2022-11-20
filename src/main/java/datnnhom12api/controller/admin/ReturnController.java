@@ -1,12 +1,14 @@
 package datnnhom12api.controller.admin;
 
 
+import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ReturnDetailEntity;
 import datnnhom12api.entity.ReturnEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.ReturnMapper;
 import datnnhom12api.paginationrequest.ReturnPaginationRequest;
+import datnnhom12api.request.ReturnDetailRequest;
 import datnnhom12api.request.ReturnRequest;
 import datnnhom12api.response.ReturnResponse;
 import datnnhom12api.service.ReturnService;
@@ -66,5 +68,11 @@ public class ReturnController {
     public List<ReturnDetailEntity> findReturnById (@PathVariable("id") Long id)  throws CustomException {
         List<ReturnDetailEntity>  returnDetailEntities = returnService.findById(id);
         return returnDetailEntities;
+    }
+
+    @PutMapping("/{id}/updateReturnDetails")
+    public UpdateReturnDetailDTO updateByReturnDetail(@PathVariable("id")Long id,@RequestBody  ReturnDetailRequest returnDetailRequest){
+        UpdateReturnDetailDTO returnDetailDTO = this.returnService.updateByReturnDetail(id,returnDetailRequest);
+        return  returnDetailDTO;
     }
 }

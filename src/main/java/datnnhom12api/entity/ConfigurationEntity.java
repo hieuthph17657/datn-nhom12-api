@@ -1,5 +1,6 @@
 package datnnhom12api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,8 @@ public class ConfigurationEntity {
     @Column(name = "capacity")
     private String capacity;
 
+
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;

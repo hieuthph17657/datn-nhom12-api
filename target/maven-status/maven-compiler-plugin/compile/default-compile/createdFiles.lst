@@ -1,5 +1,6 @@
 datnnhom12api\repository\InformationRepository.class
 datnnhom12api\dto\CartDTO$CartDTOBuilder.class
+datnnhom12api\dto\ImageDTO.class
 datnnhom12api\mapper\ProductMapper.class
 datnnhom12api\specifications\InformationSpecifications.class
 datnnhom12api\mapper\ReturnMapper$1.class
@@ -8,6 +9,7 @@ datnnhom12api\paginationrequest\CartPaginationRequest.class
 datnnhom12api\utils\support\ReturnStatus.class
 datnnhom12api\request\OrderRequest.class
 datnnhom12api\utils\support\CategoryStatus.class
+datnnhom12api\dto\UpdateReturnDetailDTO.class
 datnnhom12api\specifications\ManufactureSpecifications.class
 datnnhom12api\response\AuthResponse.class
 datnnhom12api\request\UpdateOrderDetailRequest$UpdateOrderDetailRequestBuilder.class
@@ -97,6 +99,7 @@ datnnhom12api\entity\CategoryEntity.class
 datnnhom12api\exceptions\CustomValidationException.class
 datnnhom12api\controller\auth\FileUploadController.class
 datnnhom12api\service\UploadFileService.class
+datnnhom12api\request\ImageRequest$ImageRequestBuilder.class
 datnnhom12api\request\OrderDetailRequest.class
 datnnhom12api\service\impl\ReturnServiceImpl.class
 datnnhom12api\dto\AuthDTO.class
@@ -105,6 +108,7 @@ datnnhom12api\request\ReturnRequest.class
 datnnhom12api\utils\support\ManufactureStatus.class
 datnnhom12api\entity\ImagesEntity$ImagesEntityBuilder.class
 datnnhom12api\repository\ReturnDetailRepository.class
+datnnhom12api\utils\support\ReturnDetailStatus.class
 datnnhom12api\dto\AuthDTO$AuthDTOBuilder.class
 datnnhom12api\service\impl\ProductServiceImpl.class
 datnnhom12api\core\QueryOperator.class
@@ -119,11 +123,13 @@ datnnhom12api\service\impl\ManufactureImpl.class
 datnnhom12api\request\ReturnDetailRequest.class
 datnnhom12api\paginationrequest\ProductPaginationRequest.class
 datnnhom12api\repository\CartRepository.class
+datnnhom12api\entity\ProductEntity$ProductEntityBuilder.class
 datnnhom12api\core\BaseSpecifications$1.class
 datnnhom12api\core\BaseResponse.class
 datnnhom12api\response\ExchangeResponse.class
 datnnhom12api\service\ProductService.class
 datnnhom12api\controller\auth\LoginController.class
+datnnhom12api\dto\ImageDTO$ImageDTOBuilder.class
 datnnhom12api\dto\CartDTO.class
 datnnhom12api\request\ProductRequest.class
 datnnhom12api\dto\ManufactureDTO.class
@@ -137,6 +143,7 @@ datnnhom12api\repository\UserRepository.class
 datnnhom12api\specifications\CategorySpecifications.class
 datnnhom12api\entity\InformationEntity$InformationEntityBuilder.class
 datnnhom12api\repository\ProductRepository.class
+datnnhom12api\request\ImageRequest.class
 datnnhom12api\entity\OrderEntity$OrderEntityBuilder.class
 datnnhom12api\mapper\OrderMapper$1.class
 datnnhom12api\request\DiscountRequest.class
@@ -215,6 +222,7 @@ datnnhom12api\service\CartService.class
 datnnhom12api\repository\ImageRepository.class
 datnnhom12api\repository\DiscountRepository.class
 datnnhom12api\utils\support\OrderDetailStatus.class
+datnnhom12api\dto\UpdateReturnDetailDTO$UpdateReturnDetailDTOBuilder.class
 datnnhom12api\request\CreateUserOnOrderRequest.class
 datnnhom12api\request\ReturnDetailRequest$ReturnDetailRequestBuilder.class
 datnnhom12api\service\impl\StaffServiceImpl.class

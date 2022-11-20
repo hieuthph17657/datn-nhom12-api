@@ -1,10 +1,13 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.ReturnDetailDTO;
+import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ReturnDetailEntity;
 import datnnhom12api.entity.ReturnEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.OrderDetailRepository;
+import datnnhom12api.repository.ProductRepository;
 import datnnhom12api.repository.ReturnDetailRepository;
 import datnnhom12api.repository.ReturnRepository;
 import datnnhom12api.request.ReturnDetailRequest;
@@ -12,6 +15,8 @@ import datnnhom12api.request.ReturnRequest;
 import datnnhom12api.service.ReturnService;
 import datnnhom12api.specifications.ReturnSpecifications;
 import datnnhom12api.utils.support.OrderDetailStatus;
+import datnnhom12api.utils.support.ReturnDetailStatus;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,6 +44,9 @@ public class ReturnServiceImpl implements ReturnService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     public ReturnEntity insert(ReturnRequest request) throws CustomException {
         ReturnEntity returnEntity = new ReturnEntity();
@@ -51,7 +59,8 @@ public class ReturnServiceImpl implements ReturnService {
             returnDetailEntity.setReturn(this.returnRepository.getById(id));
             returnDetailEntity.setQuantity(item.getQuantity());
             returnDetailEntity.setOrderDetail(this.orderDetailRepository.getById(item.getOrderDetailId()));
-            returnDetailEntity.setProductId(item.getProductId());
+            returnDetailEntity.setProductId(this.productRepository.getById(item.getProductId()));
+            returnDetailEntity.setStatus(ReturnDetailStatus.YEU_CAU);
             this.returnDetailRepository.save(returnDetailEntity);
         });
         return returnEntity;
@@ -59,7 +68,6 @@ public class ReturnServiceImpl implements ReturnService {
 
     @Override
     public ReturnEntity update(Long id, ReturnRequest post) throws CustomException {
-        System.out.println("id return update: " + id);
         Optional<ReturnEntity> returnEntityOptional = this.returnRepository.findById(id);
         if (id <= 0) {
             throw new CustomException(403, "Mã phải lớn hơn 0");
@@ -68,10 +76,8 @@ public class ReturnServiceImpl implements ReturnService {
             throw new CustomException(403, "Không tìm thấy mã muốn sửa");
         }
         ReturnEntity returnEntity = returnEntityOptional.get();
-        System.out.println(returnEntity.getId() + ", " + returnEntity.getReason());
         returnEntity.setData(post);
         ReturnEntity returnEn = this.returnRepository.save(returnEntity);
-        System.out.println(returnEn.getId() + ", " + returnEn.getReason());
         return returnEn;
     }
 
@@ -97,5 +103,15 @@ public class ReturnServiceImpl implements ReturnService {
         System.out.println("id return: " + id);
 //        List<ReturnDetailEntity> list =
         return this.returnDetailRepository.findReturnByIds(id);
+    }
+
+    @Override
+    public UpdateReturnDetailDTO updateByReturnDetail(Long id, ReturnDetailRequest request) {
+        ModelMapper modelMapper = new ModelMapper();
+        ReturnDetailEntity returnDetailEntity = this.returnDetailRepository.getById(id);
+        returnDetailEntity.setStatus(request.getStatus());
+        this.returnDetailRepository.save(returnDetailEntity);
+        UpdateReturnDetailDTO returnDetailDTO = modelMapper.map(returnDetailEntity,UpdateReturnDetailDTO.class);
+        return returnDetailDTO;
     }
 }

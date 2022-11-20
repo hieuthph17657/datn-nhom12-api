@@ -3,6 +3,7 @@ package datnnhom12api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
+import datnnhom12api.utils.support.ReturnDetailStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,10 +21,11 @@ public class ReturnDetailEntity extends BaseEntity {
     @Id
     private Long id;
 
-    private Long productId;
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private ProductEntity productId;
 
-    @JsonIgnore
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "order_detail_id")
     private OrderDetailEntity orderDetail;
 
@@ -35,5 +37,8 @@ public class ReturnDetailEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "return_id")
     ReturnEntity Return;
+
+    @Enumerated(EnumType.STRING)
+    private ReturnDetailStatus status;
 
 }

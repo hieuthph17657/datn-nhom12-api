@@ -111,7 +111,6 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setTotal(count);
             this.orderRepository.save(orderEntity);
         }else {
-            System.out.println("vào else");
             List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
             list.forEach(
                     list1 -> {
@@ -148,9 +147,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
-
         Specification<OrderEntity> specifications = OrderSpecifications.getInstance().getQueryResult(filters);
-
         return orderRepository.findAll(specifications, pageable);
     }
 
@@ -264,12 +261,9 @@ public class OrderServiceImpl implements OrderService {
 
     public List<OrderEntity> findByDate(String createdAt) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        System.out.println("tét1");
         if(createdAt==null||createdAt==""||createdAt.isEmpty()){
-            System.out.println("tét");
             return orderRepository.findAll();
         }else {
-            System.out.println("tét2");
             return orderRepository.findByDate(LocalDateTime.parse(createdAt, dateTimeFormatter));
         }
     }

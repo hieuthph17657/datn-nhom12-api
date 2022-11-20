@@ -1,6 +1,7 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.ProductDTO;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.ProductRequest;
@@ -20,4 +21,6 @@ public interface ProductService {
     Page<ProductEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
 
     ProductEntity create(ProductEntity productEntity);
+
+    ProductDTO findById(Long id);
 }

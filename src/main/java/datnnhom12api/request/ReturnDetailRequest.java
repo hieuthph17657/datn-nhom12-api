@@ -2,6 +2,7 @@ package datnnhom12api.request;
 
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
+import datnnhom12api.utils.support.ReturnDetailStatus;
 import datnnhom12api.utils.support.ReturnStatus;
 import lombok.*;
 
@@ -20,5 +21,7 @@ public class ReturnDetailRequest {
     private Long orderDetailId;
 
     private int quantity;
+
+    private ReturnDetailStatus status;
 
 }

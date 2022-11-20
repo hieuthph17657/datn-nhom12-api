@@ -1,5 +1,6 @@
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\ReturnPaginationRequest.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\DiscountService.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\UpdateReturnDetailDTO.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\CategoryDTO.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\UserController.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\OrderDetailRepository.java
@@ -32,6 +33,7 @@ E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12ap
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\specifications\DiscountSpecifications.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\InformationController.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\ProductMapper.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\ImageRequest.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\entity\RoleEntity.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ProductRepository.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\service\InformationService.java
@@ -94,6 +96,7 @@ E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12ap
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ReturnRepository.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\request\UserRequest.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\auth\LoginController.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\support\ReturnDetailStatus.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\OrderController.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\mapper\ExchangeMapper.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\utils\VnpayConfig.java
@@ -107,6 +110,7 @@ E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12ap
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\paginationrequest\DiscountPaginationRequest.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\controller\admin\StaffController.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\InformationDTO.java
+E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\dto\ImageDTO.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\repository\ReturnDetailRepository.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\BasePagination.java
 E:\Tai_Lieu_DATN\checkCode\New folder\datn-nhom12-api\src\main\java\datnnhom12api\core\QueryOperator.java

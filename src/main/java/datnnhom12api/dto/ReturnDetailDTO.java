@@ -1,6 +1,8 @@
 package datnnhom12api.dto;
 
 import datnnhom12api.core.BaseDTO;
+import datnnhom12api.entity.OrderDetailEntity;
+import datnnhom12api.entity.ProductEntity;
 import lombok.*;
 
 import java.io.Serializable;
@@ -15,9 +17,9 @@ import java.io.Serializable;
 public class ReturnDetailDTO extends BaseDTO implements Serializable {
     private Long id;
 
-    private Long productId;
+    private ProductEntity productId;
 
-    private Long orderDetailId;
+    private OrderDetailEntity orderDetailId;
 
     private Long returnId;
 

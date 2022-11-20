@@ -1,5 +1,6 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.dto.ProductDTO;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
@@ -44,9 +45,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductEntity  getById(@PathVariable String id) {
-        ProductEntity product = this.productRepository.getById(Long.valueOf(id));
-        return  product;
+    public ProductDTO getById(@PathVariable Long id) {
+        ProductDTO product = this.productService.findById(id);
+        return product;
     }
 
     @PostMapping()
