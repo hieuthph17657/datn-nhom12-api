@@ -27,6 +27,7 @@ public class ExchangeRequest {
     @NotNull (message = "số lượng không được để trống")
     private int quantity;
 
+    private int isCheck;
 
 //    @Enumerated(EnumType.STRING)
 //    private OrderDetailStatus status;

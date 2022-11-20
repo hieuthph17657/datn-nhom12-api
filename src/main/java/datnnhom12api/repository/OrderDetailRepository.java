@@ -18,6 +18,9 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, 
     @Query("select o from OrderDetailEntity o where o.order.id = :Id")
     List<OrderDetailEntity> getOrderDetailEntityById(@Param("Id") Long id);
 
+    @Query("select o from OrderDetailEntity o where o.isCheck = :id and o.product.id = :productId")
+    OrderDetailEntity getOrderDetailByIsCheckAndProductId(@Param("id") Integer id,@Param("productId")Long productId);
+
     @Query("select o from OrderDetailEntity  o where  o.order.id = :orderId and o.product.id = :productId")
     OrderDetailEntity getOrderDetailEntityByOrderIsAndAndProduct(@Param("orderId")Long orderId,
                                                                  @Param("productId")Long productId);
