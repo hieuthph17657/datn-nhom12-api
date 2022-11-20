@@ -3,6 +3,7 @@ package datnnhom12api.jwt;
 import datnnhom12api.jwt.user.CustomUserDetails;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,20 +12,24 @@ import java.util.Date;
 @Slf4j
 public class JwtTokenProvider {
     // Đoạn JWT_SECRET này là bí mật, chỉ có phía server biết
-    private final String JWT_SECRET = "bang";
+    private final String JWT_SECRET = "nangdz";
 
     //Thời gian có hiệu lực của chuỗi jwt
-    private final long JWT_EXPIRATION = 604800000L;
+    private final int JWT_EXPIRATION = 86400;
 
-    // Tạo ra jwt từ thông tin user
-    public String generateToken(CustomUserDetails userDetails) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
-        // Tạo chuỗi json web token từ id của user.
+    public String createToken(Authentication authentication){
+        CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
+        return Jwts.builder().setSubject(userPrinciple.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime()+JWT_EXPIRATION*1000))
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .compact();
+    }
+    public String generateJwtToken(CustomUserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(Long.toString(userDetails.getUser().getId()))
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
+                .setSubject((userDetails.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime()+JWT_EXPIRATION*1000))
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
     }
@@ -53,5 +58,9 @@ public class JwtTokenProvider {
             log.error("Chuỗi yêu cầu JWT trống.");
         }
         return false;
+    }
+    public String getUerNameFromToken(String token){
+        String userName = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getSubject();
+        return userName;
     }
 }
