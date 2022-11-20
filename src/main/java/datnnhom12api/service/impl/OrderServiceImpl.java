@@ -88,9 +88,9 @@ public class OrderServiceImpl implements OrderService {
         orderEntity = orderRepository.save(orderEntity);
         String status = String.valueOf(orderEntity.getStatus());
         Long orderId = orderEntity.getId();
-        if(orderRequest.getOrderDetails().get(0).getProductId() != null){
+        if (orderRequest.getOrderDetails().get(0).getProductId() != null) {
             orderRequest.getOrderDetails().forEach(orderDetailRequest -> {
-                OrderDetailEntity orderDetailEntity  = new OrderDetailEntity();
+                OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
                 orderDetailEntity = this.orderDetailRepository.
                         getOrderDetailEntityByOrderIsAndAndProduct(orderId, orderDetailRequest.getProductId());
                 System.out.println(orderDetailEntity.getProduct() + " " + orderDetailEntity.getQuantity() + orderDetailEntity.getTotal());
@@ -105,13 +105,12 @@ public class OrderServiceImpl implements OrderService {
             });
             double count = 0;
             List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderId);
-            for (OrderDetailEntity od: list) {
+            for (OrderDetailEntity od : list) {
                 count += od.getTotal();
             }
             orderEntity.setTotal(count);
             this.orderRepository.save(orderEntity);
-        }else {
-            System.out.println("vào else");
+        } else {
             List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
             list.forEach(
                     list1 -> {
@@ -148,9 +147,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
-
         Specification<OrderEntity> specifications = OrderSpecifications.getInstance().getQueryResult(filters);
-
         return orderRepository.findAll(specifications, pageable);
     }
 
@@ -227,11 +224,29 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDetailDTO update(Long id, OrderDetailRequest orderDetailRequest) {
         ModelMapper modelMapper = new ModelMapper();
+        Integer idCheck = Math.toIntExact(id);
+        OrderDetailDTO orderDTO = new OrderDetailDTO();
         OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(id);
-        orderDetailEntity.setProduct(orderDetailEntity.getProduct());
-        orderDetailEntity.setData(orderDetailRequest);
-        this.orderDetailRepository.save(orderDetailEntity);
-        OrderDetailDTO orderDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
+        OrderDetailEntity list = this.orderDetailRepository.getOrderDetailByIsCheckAndProductId(idCheck, orderDetailRequest.getProductId());
+        if (orderDetailRequest.getIsUpdate() == null) {
+            OrderDetailEntity orderDetail = this.orderDetailRepository.getById(orderDetailEntity.getId());
+           list.setIsCheck(1);
+            this.orderDetailRepository.save(orderDetail);
+            orderDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
+            orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - 1);
+            if (orderDetailEntity.getQuantity() == 0) {
+                this.orderDetailRepository.delete(orderDetailEntity);
+            } else {
+                this.orderDetailRepository.save(orderDetailEntity);
+                orderDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
+            }
+        } else {
+            System.out.println("vào update is check");
+            orderDetailEntity.setProduct(orderDetailEntity.getProduct());
+            orderDetailEntity.setIsCheck(1);
+            this.orderDetailRepository.save(orderDetailEntity);
+            orderDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
+        }
         return orderDTO;
     }
 
@@ -264,20 +279,17 @@ public class OrderServiceImpl implements OrderService {
 
     public List<OrderEntity> findByDate(String createdAt) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        System.out.println("tét1");
-        if(createdAt==null||createdAt==""||createdAt.isEmpty()){
-            System.out.println("tét");
+        if (createdAt == null || createdAt == "" || createdAt.isEmpty()) {
             return orderRepository.findAll();
-        }else {
-            System.out.println("tét2");
+        } else {
             return orderRepository.findByDate(LocalDateTime.parse(createdAt, dateTimeFormatter));
         }
     }
 
     @Override
     public List<OrderDetailEntity> createOrderDetail(List<ExchangeRequest> exchangeRequest) {
-        OrderEntity orderEntity = this.orderRepository.getById( exchangeRequest.stream().findFirst().get().getOrderId());
-        List <OrderDetailEntity> list = new ArrayList<>();
+        OrderEntity orderEntity = this.orderRepository.getById(exchangeRequest.stream().findFirst().get().getOrderId());
+        List<OrderDetailEntity> list = new ArrayList<>();
         exchangeRequest.forEach(exchangeEntity -> {
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
             orderDetailEntity.setOrder(orderEntity);
@@ -285,7 +297,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetailEntity.setProduct(this.productRepository.getById(exchangeEntity.getProductId()));
             orderDetailEntity.setTotal(orderDetailEntity.getTotal());
             orderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
-            orderDetailEntity.setIsCheck(3);
+            orderDetailEntity.setIsCheck(exchangeEntity.getIsCheck());
             this.orderDetailRepository.save(orderDetailEntity);
         });
         return list;

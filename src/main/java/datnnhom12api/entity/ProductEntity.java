@@ -1,5 +1,6 @@
 package datnnhom12api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.ProductRequest;
 import datnnhom12api.utils.support.ProductStatus;
@@ -10,9 +11,11 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "products")
 public class ProductEntity extends BaseEntity {
     @Id
@@ -56,10 +59,13 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "origin")
     private String origin;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "created_by")
     private UserEntity createdBy;
 
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "updated_by")
     private UserEntity updatedBy;
@@ -70,13 +76,13 @@ public class ProductEntity extends BaseEntity {
 //    @OneToMany(mappedBy = "product")
 //    private List<ProductPropertyEntity> productProperties;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private CategoryEntity category;
+    private Long categoryId;
 
-    @ManyToOne
-    @JoinColumn(name = "manufacture_id")
-    private ManufactureEntity manufacture;
+    @OneToOne
+    private ConfigurationEntity configuration;
+
+
+    private Long manufactureId;
 
 //   @OneToOne(mappedBy = "product")
 //   private ConfigurationEntity configuration;
@@ -100,6 +106,14 @@ public class ProductEntity extends BaseEntity {
         this.updatedBy = request.getUpdatedBy();
 //        System.out.println("request: "+request.getProductProperties());
 //        this.productProperties = request.getProductProperties();
+    }
+
+    public void enrichListImage(List<ImagesEntity> imagesEntities) {
+        images = imagesEntities;
+    }
+
+    public void enrichConfiguration(ConfigurationEntity configuration) {
+        this.configuration = configuration;
     }
 }
 

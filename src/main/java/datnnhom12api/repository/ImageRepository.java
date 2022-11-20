@@ -11,5 +11,8 @@ import java.util.List;
 @Repository
 public interface ImageRepository extends JpaRepository<ImagesEntity, Long> {
     @Query("select c from ImagesEntity c where  c.id in :ids")
-    public List<ImagesEntity> findAllById(@Param("ids") List<String> ids);
+    List<ImagesEntity> findAllById(@Param("ids") List<String> ids);
+
+    @Query("select c from ImagesEntity c where  c.product.id = :ids")
+    List<ImagesEntity> findAllByProductId(@Param("ids") Long ids);
 }

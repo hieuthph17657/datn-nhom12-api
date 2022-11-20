@@ -26,4 +26,6 @@ public class OrderDetailRequest {
 
     @Enumerated(EnumType.STRING)
     private OrderDetailStatus status;
+
+    private Integer isUpdate;
 }

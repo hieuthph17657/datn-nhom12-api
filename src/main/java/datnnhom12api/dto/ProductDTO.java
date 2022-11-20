@@ -50,7 +50,7 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private Long manufactureId;
 
-//    private ConfigurationEntity configuration;
+    private ConfigurationEntity configuration;
 
     private List<ImagesEntity> images;
 //

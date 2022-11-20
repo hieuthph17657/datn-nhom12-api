@@ -1,11 +1,13 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.entity.ReturnDetailEntity;
 import datnnhom12api.entity.ReturnEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.ProductRequest;
+import datnnhom12api.request.ReturnDetailRequest;
 import datnnhom12api.request.ReturnRequest;
 import org.springframework.data.domain.Page;
 
@@ -23,4 +25,6 @@ public interface ReturnService {
     void delete(Long id);
 
     List<ReturnDetailEntity> findById(Long id);
+
+    UpdateReturnDetailDTO updateByReturnDetail(Long id, ReturnDetailRequest request);
 }

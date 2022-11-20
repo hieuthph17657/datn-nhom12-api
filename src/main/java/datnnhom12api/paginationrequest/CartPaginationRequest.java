@@ -18,7 +18,6 @@ import java.util.List;
 public class CartPaginationRequest extends PaginationRequest {
     private String searchName;
 
-
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchName != null && !searchName.isEmpty()) {

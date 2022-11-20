@@ -2,6 +2,8 @@ package datnnhom12api.service.impl;
 
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.ImageDTO;
+import datnnhom12api.dto.ProductDTO;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.*;
@@ -10,6 +12,7 @@ import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.ProductRequest;
 import datnnhom12api.service.ProductService;
 import datnnhom12api.specifications.ProductSpecifications;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +21,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 
 @Service("productService")
 @Transactional(rollbackFor = Throwable.class)
@@ -57,9 +58,9 @@ public class ProductServiceImpl implements ProductService {
             imageRepository.save(imagesEntity);
         }
         CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
-        productEntity.setCategory(category);
+        productEntity.setCategoryId(productRequest.getCategoryId());
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
-        productEntity.setManufacture(manufacture);
+        productEntity.setManufactureId(productRequest.getManufactureId());
         ConfigurationEntity configuration =new ConfigurationEntity();
         configuration.setCapacity(productRequest.getConfigurationEntity().getCapacity());
         configuration.setOptical(productRequest.getConfigurationEntity().getOptical());
@@ -140,5 +141,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductEntity create(ProductEntity productEntity) {
         return productRepository.save(productEntity);
+    }
+
+    @Override
+    public ProductDTO findById(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        ProductEntity productEntity = this.productRepository.getById(id);
+        this.enrichImage(productEntity);
+        ProductDTO productDTO = modelMapper.map(productEntity, ProductDTO.class);
+        return productDTO;
+    }
+
+    private void enrichImage(ProductEntity productEntity) {
+        List<ImagesEntity> imagesEntities = this.imageRepository.findAllByProductId(productEntity.getId());
+        ConfigurationEntity configuration = this.configurationRepository.findByProductId(productEntity.getId());
+        productEntity.enrichConfiguration(configuration);
+        productEntity.enrichListImage(imagesEntities);
     }
 }
