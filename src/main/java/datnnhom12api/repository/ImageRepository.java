@@ -15,4 +15,7 @@ public interface ImageRepository extends JpaRepository<ImagesEntity, Long> {
 
     @Query("select c from ImagesEntity c where  c.product.id = :ids")
     List<ImagesEntity> findAllByProductId(@Param("ids") Long ids);
+
+    @Query("DELETE from ImagesEntity c where  c.product.id = :ids")
+    List<ImagesEntity> deleteAllByProductId(@Param("ids") Long ids);
 }
