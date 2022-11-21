@@ -50,6 +50,9 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
 //        List<ProductPropertyEntity> productPropertyEntity = productRequest.getProductProperties();
+        if(productEntity.getId()!=null) {
+            imageRepository.deleteAllByProductId(productEntity.getId());
+        }
         List<ImageRequest> list = productRequest.getImages();
         for (ImageRequest imageRequest:list){
             ImagesEntity imagesEntity=new ImagesEntity();
@@ -62,16 +65,16 @@ public class ProductServiceImpl implements ProductService {
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufactureId(productRequest.getManufactureId());
         ConfigurationEntity configuration =new ConfigurationEntity();
-        configuration.setCapacity(productRequest.getConfigurationEntity().getCapacity());
-        configuration.setOptical(productRequest.getConfigurationEntity().getOptical());
-        configuration.setRam(productRequest.getConfigurationEntity().getRam());
-        configuration.setSlot(productRequest.getConfigurationEntity().getSlot());
-        configuration.setWin(productRequest.getConfigurationEntity().getWin());
-        configuration.setHard_drive(productRequest.getConfigurationEntity().getHard_drive());
-        configuration.setProcessor(productRequest.getConfigurationEntity().getProcessor());
-        configuration.setBattery(productRequest.getConfigurationEntity().getBattery());
-        configuration.setScreen(productRequest.getConfigurationEntity().getScreen());
-        configuration.setSecurity(productRequest.getConfigurationEntity().getSecurity());
+        configuration.setCapacity(productRequest.getConfiguration().getCapacity());
+        configuration.setOptical(productRequest.getConfiguration().getOptical());
+        configuration.setRam(productRequest.getConfiguration().getRam());
+        configuration.setSlot(productRequest.getConfiguration().getSlot());
+        configuration.setWin(productRequest.getConfiguration().getWin());
+        configuration.setHard_drive(productRequest.getConfiguration().getHard_drive());
+        configuration.setProcessor(productRequest.getConfiguration().getProcessor());
+        configuration.setBattery(productRequest.getConfiguration().getBattery());
+        configuration.setScreen(productRequest.getConfiguration().getScreen());
+        configuration.setSecurity(productRequest.getConfiguration().getSecurity());
         configuration.setProduct(productEntity);
         productEntity = productRepository.save(productEntity);
         Long id = productEntity.getId();
@@ -79,14 +82,9 @@ public class ProductServiceImpl implements ProductService {
 //            ProductEntity product = productRepository.getById(id);
 //            productPropertyEntity1.setProduct(product);
 //        });
-//        listImage.forEach(imagesEntity -> {
-//            ProductEntity product = productRepository.getById(id);
-//            imagesEntity.setProduct(product);
-//        });
 //        configuration.setProduct(id);
         this.configurationRepository.save(configuration);
 //        this.productPropertyRepository.saveAll(productPropertyEntity);
-//        this.imageRepository.saveAll(listImage);
         return productEntity;
     }
 
@@ -100,18 +98,36 @@ public class ProductServiceImpl implements ProductService {
             throw new CustomException(403, "Không tìm thấy mã sản phẩm muốn sửa");
         }
         ProductEntity productEntity = productEntityOptional.get();
-//        List<ProductPropertyEntity>productPropertyEntityList = productRequest.getProductProperties();
-//        productEntity.setData(productRequest);
-//        productEntity = productRepository.save(productEntity);
-//        Long productId = productEntity.getId();
-//        productPropertyEntityList.forEach(productPropertyEntity -> {
-//            System.out.println(productPropertyEntity.getPropertyName());
-//        });
-//        productPropertyEntityList.stream().forEach(productPropertyEntity1 -> {
-//            ProductEntity product = productRepository.getById(productId);
-//            productPropertyEntity1.setProduct(product);
-//        });
-//        this.productPropertyRepository.saveAll(productPropertyEntityList);
+        productEntity.setData(productRequest);
+//        if(productEntity.getId()!=null) {
+//            imageRepository.deleteAllByProductId(productEntity.getId());
+//        }
+        List<ImageRequest> list = productRequest.getImages();
+        for (ImageRequest imageRequest:list){
+            ImagesEntity imagesEntity=new ImagesEntity();
+            imagesEntity.setData(imageRequest);
+            imagesEntity.setProduct(productEntity);
+            imageRepository.save(imagesEntity);
+        }
+        CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
+        productEntity.setCategoryId(productRequest.getCategoryId());
+        ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
+        productEntity.setManufactureId(productRequest.getManufactureId());
+        ConfigurationEntity configuration =new ConfigurationEntity();
+        System.out.println(productRequest.toString());
+        configuration.setCapacity(productRequest.getConfiguration().getCapacity());
+        configuration.setOptical(productRequest.getConfiguration().getOptical());
+        configuration.setRam(productRequest.getConfiguration().getRam());
+        configuration.setSlot(productRequest.getConfiguration().getSlot());
+        configuration.setWin(productRequest.getConfiguration().getWin());
+        configuration.setHard_drive(productRequest.getConfiguration().getHard_drive());
+        configuration.setProcessor(productRequest.getConfiguration().getProcessor());
+        configuration.setBattery(productRequest.getConfiguration().getBattery());
+        configuration.setScreen(productRequest.getConfiguration().getScreen());
+        configuration.setSecurity(productRequest.getConfiguration().getSecurity());
+        configuration.setProduct(productEntity);
+        productEntity = productRepository.save(productEntity);
+        this.configurationRepository.save(configuration);
         return productEntity;
     }
 

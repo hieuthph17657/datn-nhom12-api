@@ -64,7 +64,7 @@ public class ProductRequest {
 
     private Long manufactureId;
 
-    private ConfigurationEntity configurationEntity;
+    private ConfigurationEntity configuration;
 
 //    @NotEmpty(message = "PRODUCT_PROPERTIES_REQUIRED")
 //    @Size(min = 1, message = "PRODUCT_PROPERTIES_SIZE")
