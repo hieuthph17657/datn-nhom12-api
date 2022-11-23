@@ -38,9 +38,9 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user")
     List<OrderEntity> order;
 
-    @OneToOne
-    @JoinColumn(name ="information_id")
-    private InformationEntity informationEntity;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    List<InformationEntity> information;
 
     public void setData(UserRequest request) {
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();

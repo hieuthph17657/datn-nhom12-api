@@ -1,6 +1,5 @@
 package datnnhom12api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.request.InformationRequest;
@@ -30,9 +29,7 @@ public class InformationEntity extends BaseEntity {
     private String address;
     @Column(name="active")
     private int active;
-
-    @JsonIgnore
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="id_user")
     private UserEntity user;
 
