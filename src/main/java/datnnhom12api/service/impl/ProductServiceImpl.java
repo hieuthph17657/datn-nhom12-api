@@ -50,9 +50,6 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
 //        List<ProductPropertyEntity> productPropertyEntity = productRequest.getProductProperties();
-        if(productEntity.getId()!=null) {
-            imageRepository.deleteAllByProductId(productEntity.getId());
-        }
         List<ImageRequest> list = productRequest.getImages();
         for (ImageRequest imageRequest:list){
             ImagesEntity imagesEntity=new ImagesEntity();
@@ -76,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
         configuration.setScreen(productRequest.getConfiguration().getScreen());
         configuration.setSecurity(productRequest.getConfiguration().getSecurity());
         configuration.setProduct(productEntity);
+        productEntity.setConfiguration(configuration);
         productEntity = productRepository.save(productEntity);
         Long id = productEntity.getId();
 //        productPropertyEntity.stream().forEach(productPropertyEntity1 -> {
@@ -99,9 +97,9 @@ public class ProductServiceImpl implements ProductService {
         }
         ProductEntity productEntity = productEntityOptional.get();
         productEntity.setData(productRequest);
-//        if(productEntity.getId()!=null) {
-//            imageRepository.deleteAllByProductId(productEntity.getId());
-//        }
+        if(productEntity.getId()!=null) {
+            imageRepository.deleteAllByProductId(productEntity.getId());
+        }
         List<ImageRequest> list = productRequest.getImages();
         for (ImageRequest imageRequest:list){
             ImagesEntity imagesEntity=new ImagesEntity();
@@ -126,6 +124,7 @@ public class ProductServiceImpl implements ProductService {
         configuration.setScreen(productRequest.getConfiguration().getScreen());
         configuration.setSecurity(productRequest.getConfiguration().getSecurity());
         configuration.setProduct(productEntity);
+        productEntity.setConfiguration(configuration);
         productEntity = productRepository.save(productEntity);
         this.configurationRepository.save(configuration);
         return productEntity;
