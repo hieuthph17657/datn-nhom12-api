@@ -81,6 +81,9 @@ public class ProductEntity extends BaseEntity {
     @OneToOne
     private ConfigurationEntity configuration;
 
+    @ManyToOne
+    @JoinColumn(name="id_discount")
+    private DiscountEntity discount;
 
     private Long manufactureId;
 

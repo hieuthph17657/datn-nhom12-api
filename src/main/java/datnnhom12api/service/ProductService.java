@@ -23,4 +23,6 @@ public interface ProductService {
     ProductEntity create(ProductEntity productEntity);
 
     ProductDTO findById(Long id);
+
+    List<ProductEntity> discount(Long id, List<Long> idProduct) throws CustomException;
 }

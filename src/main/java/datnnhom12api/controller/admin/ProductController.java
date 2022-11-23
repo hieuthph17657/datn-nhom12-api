@@ -64,6 +64,20 @@ public class ProductController {
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 
+    @PutMapping("/discountProduct/{id}")
+    public  ProductResponse discount(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody List<Long> idProduct,
+            BindingResult bindingResult
+    ) throws CustomValidationException, CustomException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        List<ProductEntity> productEntity = productService.discount(id,idProduct );
+        return new ProductResponse(ProductMapper.getInstance().toListDTO(productEntity));
+    }
+
+
     @PutMapping("/{id}")
     public ProductResponse edit(
             @PathVariable("id") Long id,
