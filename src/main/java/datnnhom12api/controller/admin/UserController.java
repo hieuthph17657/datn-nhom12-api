@@ -24,16 +24,19 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public UserResponse index(@Valid UserPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
+    public UserResponse index(@Valid UserPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<UserEntity> page = userService.paginate(request.getSearchUsername(), request.getSearchStatus(), request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        Page<UserEntity> page = userService.paginate(request.getSearchUsername(), request.getSearchStatus(),
+                request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         return new UserResponse(UserMapper.toPageDTO(page));
     }
 
     @PostMapping()
-    public UserResponse create(@Valid @RequestBody UserRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    public UserResponse create(@Valid @RequestBody UserRequest post, BindingResult bindingResult)
+            throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -43,7 +46,8 @@ public class UserController {
 
 
     @PostMapping("/clients")
-    public UserResponse createClient(@Valid @RequestBody UserRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    public UserResponse createClient(@Valid @RequestBody UserRequest post, BindingResult bindingResult)
+            throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -52,7 +56,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserResponse edit(@PathVariable("id") Long id, @Valid @RequestBody UserRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
+    public UserResponse edit(@PathVariable("id") Long id, @Valid @RequestBody UserRequest post, BindingResult bindingResult)
+            throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }

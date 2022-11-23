@@ -38,6 +38,10 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user")
     List<OrderEntity> order;
 
+    @OneToOne
+    @JoinColumn(name ="information_id")
+    private InformationEntity informationEntity;
+
     public void setData(UserRequest request) {
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         this.username = request.getUsername();
