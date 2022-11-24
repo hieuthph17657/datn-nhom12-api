@@ -2,16 +2,15 @@ package datnnhom12api.service.impl;
 
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.dto.ImageDTO;
 import datnnhom12api.dto.ProductDTO;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.*;
 import datnnhom12api.request.ImageRequest;
-import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.request.ProductRequest;
 import datnnhom12api.service.ProductService;
 import datnnhom12api.specifications.ProductSpecifications;
+import datnnhom12api.utils.support.ProductStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -204,5 +203,34 @@ public class ProductServiceImpl implements ProductService {
         ConfigurationEntity configuration = this.configurationRepository.findByProductId(productEntity.getId());
         productEntity.enrichConfiguration(configuration);
         productEntity.enrichListImage(imagesEntities);
+    }
+
+    @Override
+    public ProductEntity active(Long id) throws CustomException {
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id sản phẩm phải lớn hơn 0");
+        }
+        if (productEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id sản phẩm muốn active");
+        }
+        ProductEntity productEntity = productEntityOptional.get();
+        productEntity.setStatus(ProductStatus.ACTIVE);
+        productEntity = productRepository.save(productEntity);
+        return productEntity;
+    }
+    @Override
+    public ProductEntity inActive(Long id) throws CustomException {
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id sản phẩm phải lớn hơn 0");
+        }
+        if (productEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id sản phẩm muốn active");
+        }
+        ProductEntity productEntity = productEntityOptional.get();
+        productEntity.setStatus(ProductStatus.INACTIVE);
+        productEntity = productRepository.save(productEntity);
+        return productEntity;
     }
 }

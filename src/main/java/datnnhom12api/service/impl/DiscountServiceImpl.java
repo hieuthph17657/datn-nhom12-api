@@ -41,10 +41,10 @@ public class DiscountServiceImpl implements DiscountService {
     public DiscountEntity edit(Long id,  DiscountRequest discountRequest) throws CustomException {
         Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
         if (id <= 0) {
-            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+            throw new CustomException(403, "id giảm giá phải lớn hơn 0");
         }
         if (discountEntityOptional.isEmpty()) {
-            throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
+            throw new CustomException(403, "không tìm thấy id giảm giá muốn sửa");
         }
         DiscountEntity discountEntity = discountEntityOptional.get();
         discountEntity.setData(discountRequest);
@@ -55,10 +55,10 @@ public class DiscountServiceImpl implements DiscountService {
     public DiscountEntity active(Long id) throws CustomException {
         Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
         if (id <= 0) {
-            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+            throw new CustomException(403, "id giảm giá phải lớn hơn 0");
         }
         if (discountEntityOptional.isEmpty()) {
-            throw new CustomException(403, "không tìm thấy id người dùng muốn active");
+            throw new CustomException(403, "không tìm thấy id giảm giá muốn active");
         }
         DiscountEntity discountEntity = discountEntityOptional.get();
         discountEntity.setActive(1);
@@ -70,10 +70,10 @@ public class DiscountServiceImpl implements DiscountService {
     public DiscountEntity inActive(Long id) throws CustomException {
         Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
         if (id <= 0) {
-            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+            throw new CustomException(403, "id giảm giá phải lớn hơn 0");
         }
         if (discountEntityOptional.isEmpty()) {
-            throw new CustomException(403, "không tìm thấy id người dùng muốn active");
+            throw new CustomException(403, "không tìm thấy id giảm giá muốn active");
         }
         DiscountEntity discountEntity = discountEntityOptional.get();
         discountEntity.setActive(0);
