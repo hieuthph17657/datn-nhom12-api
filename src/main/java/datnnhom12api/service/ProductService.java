@@ -23,4 +23,8 @@ public interface ProductService {
     ProductEntity create(ProductEntity productEntity);
 
     ProductDTO findById(Long id);
+
+    ProductEntity active(Long id) throws CustomException;
+
+    ProductEntity inActive(Long id) throws CustomException;
 }

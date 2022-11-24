@@ -1,13 +1,17 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.entity.DiscountEntity;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
+import datnnhom12api.mapper.DiscountMapper;
 import datnnhom12api.mapper.ProductMapper;
 import datnnhom12api.paginationrequest.ProductPaginationRequest;
 import datnnhom12api.repository.ProductRepository;
+import datnnhom12api.request.DiscountRequest;
 import datnnhom12api.request.ProductRequest;
+import datnnhom12api.response.DiscountResponse;
 import datnnhom12api.response.ProductResponse;
 import datnnhom12api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +80,22 @@ public class ProductController {
         ProductEntity productEntity = productService.update(id, productRequest);
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
-
+    @PutMapping("/active/{id}")
+    public ProductResponse active(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
+        ProductEntity postEntity = productService.active(id);
+        return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
+    }
+    @PutMapping("/inactive/{id}")
+    public ProductResponse inActive(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
+        ProductEntity postEntity = productService.inActive(id);
+        return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
+    }
+//    @PostMapping("/draft")
+//    public ProductResponse draft(@RequestBody ProductRequest post) throws CustomValidationException, CustomException {
+//        post.setActive(2);
+//        ProductEntity postEntity = productService.save(post);
+//        return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
+//    }
 
 //
 //    @DeleteMapping("/{id}")
