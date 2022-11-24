@@ -30,6 +30,9 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Autowired
+    DiscountRepository discountRepository;
+
+    @Autowired
     CategoryRepository categoryRepository;
 
     @Autowired
@@ -49,9 +52,6 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
 //        List<ProductPropertyEntity> productPropertyEntity = productRequest.getProductProperties();
-        if(productEntity.getId()!=null) {
-            imageRepository.deleteAllByProductId(productEntity.getId());
-        }
         List<ImageRequest> list = productRequest.getImages();
         for (ImageRequest imageRequest:list){
             ImagesEntity imagesEntity=new ImagesEntity();
@@ -75,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
         configuration.setScreen(productRequest.getConfiguration().getScreen());
         configuration.setSecurity(productRequest.getConfiguration().getSecurity());
         configuration.setProduct(productEntity);
+        productEntity.setConfiguration(configuration);
         productEntity = productRepository.save(productEntity);
         Long id = productEntity.getId();
 //        productPropertyEntity.stream().forEach(productPropertyEntity1 -> {
@@ -98,9 +99,9 @@ public class ProductServiceImpl implements ProductService {
         }
         ProductEntity productEntity = productEntityOptional.get();
         productEntity.setData(productRequest);
-//        if(productEntity.getId()!=null) {
-//            imageRepository.deleteAllByProductId(productEntity.getId());
-//        }
+        if(productEntity.getId()!=null) {
+            imageRepository.deleteAllByProductId(productEntity.getId());
+        }
         List<ImageRequest> list = productRequest.getImages();
         for (ImageRequest imageRequest:list){
             ImagesEntity imagesEntity=new ImagesEntity();
@@ -125,6 +126,7 @@ public class ProductServiceImpl implements ProductService {
         configuration.setScreen(productRequest.getConfiguration().getScreen());
         configuration.setSecurity(productRequest.getConfiguration().getSecurity());
         configuration.setProduct(productEntity);
+        productEntity.setConfiguration(configuration);
         productEntity = productRepository.save(productEntity);
         this.configurationRepository.save(configuration);
         return productEntity;
@@ -165,6 +167,35 @@ public class ProductServiceImpl implements ProductService {
         this.enrichImage(productEntity);
         ProductDTO productDTO = modelMapper.map(productEntity, ProductDTO.class);
         return productDTO;
+    }
+
+    @Override
+    public List<ProductEntity> discount(Long id, List<Long> idProduct) throws CustomException {
+        Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
+        DiscountEntity discountEntity = discountEntityOptional.get();
+        List<ProductEntity> list = productRepository.findAll();
+        ProductEntity productEntity = null ;
+        List<ProductEntity> listdiscountProduct = new ArrayList<>();
+        for (ProductEntity product:list){
+            for (Long iP: idProduct){
+                if (product.getId() == iP){
+                    Optional<ProductEntity> productEntityOptional = productRepository.findById(iP);
+                    if (id <= 0) {
+                        throw new CustomException(403, "Mã sản phẩm phải lớn hơn 0");
+                    }
+                    if (productEntityOptional.isEmpty()) {
+                        throw new CustomException(403, "Không tìm thấy mã sản phẩm muốn sửa");
+                    }
+                    productEntity = productEntityOptional.get();
+                    productEntity.setDiscount(discountEntity);
+                    productEntity.setPrice(productEntity.getPrice() - (productEntity.getPrice() * discountEntity.getRatio() / 100));
+                    productEntity = productRepository.save(productEntity);
+                    listdiscountProduct.add(productEntity);
+                }
+            }
+
+        }
+        return listdiscountProduct;
     }
 
     private void enrichImage(ProductEntity productEntity) {

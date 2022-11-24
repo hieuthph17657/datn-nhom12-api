@@ -4,6 +4,7 @@ import datnnhom12api.core.BaseDTO;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -16,4 +17,6 @@ public class UserDTO extends BaseDTO implements Serializable {
     private int id;
     private String username;
     private int status;
+    List<RoleDTO> roles;
+    List<InformationDTO> information;
 }

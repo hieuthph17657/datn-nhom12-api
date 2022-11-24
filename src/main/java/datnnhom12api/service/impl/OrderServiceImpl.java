@@ -58,9 +58,7 @@ public class OrderServiceImpl implements OrderService {
         });
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
-
         orderEntity = orderRepository.save(orderEntity);
-
         List<OrderDetailRequest> list = orderRequest.getOrderDetails();
         for (OrderDetailRequest orderDetailRequest : list) {
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
@@ -70,6 +68,11 @@ public class OrderServiceImpl implements OrderService {
             orderDetailRepository.save(orderDetailEntity);
         }
         List<CartEntity> listCard = this.cartRepository.findAll();
+        orderRequest.getOrderDetails().forEach(a -> {
+            ProductEntity product = this.productRepository.getById(a.getProductId());
+            product.setQuantity(product.getQuantity()- a.getQuantity());
+            this.productRepository.save(product);
+        });
         this.cartRepository.deleteAll(listCard);
         return orderEntity;
     }
@@ -135,6 +138,11 @@ public class OrderServiceImpl implements OrderService {
             throw new CustomException(403, "không tìm thấy đơn hàng");
         }
         OrderEntity orderEntity = orderRepository.getById(id);
+        orderEntity.getOrderDetails().forEach(orderDetailEntity -> {
+            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProduct().getId());
+            product.setQuantity(product.getQuantity() + orderDetailEntity.getQuantity());
+            this.productRepository.save(product);
+        });
         orderRepository.delete(orderEntity);
         return orderEntity;
     }
@@ -230,7 +238,10 @@ public class OrderServiceImpl implements OrderService {
         OrderDetailEntity list = this.orderDetailRepository.getOrderDetailByIsCheckAndProductId(idCheck, orderDetailRequest.getProductId());
         if (orderDetailRequest.getIsUpdate() == null) {
             OrderDetailEntity orderDetail = this.orderDetailRepository.getById(orderDetailEntity.getId());
-           list.setIsCheck(1);
+           if(list !=null) {
+               list.setIsCheck(1);
+           }
+           orderDetailEntity.setIsCheck(2);
             this.orderDetailRepository.save(orderDetail);
             orderDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
             orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - 1);
@@ -240,7 +251,11 @@ public class OrderServiceImpl implements OrderService {
                 this.orderDetailRepository.save(orderDetailEntity);
                 orderDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
             }
-        } else {
+        }else if(orderDetailRequest.getIsUpdate() ==2){
+            orderDetailEntity.setIsCheck(2);
+            this.orderDetailRepository.save(orderDetailEntity);
+        }
+        else {
             System.out.println("vào update is check");
             orderDetailEntity.setProduct(orderDetailEntity.getProduct());
             orderDetailEntity.setIsCheck(1);
@@ -266,6 +281,8 @@ public class OrderServiceImpl implements OrderService {
             Double total = price * quantity;
             orderDetailEntity.setTotal(total);
             orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetailRequest.getQuantity());
+            product.setQuantity(product.getQuantity() - orderDetailRequest.getQuantity());
+            this.productRepository.save(product);
         }
         this.orderDetailRepository.save(orderDetailEntity);
         UpdateOrderDetailDTO orderDTO = modelMapper.map(orderDetailEntity, UpdateOrderDetailDTO.class);

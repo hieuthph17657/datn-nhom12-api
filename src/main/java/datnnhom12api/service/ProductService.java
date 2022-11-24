@@ -27,4 +27,7 @@ public interface ProductService {
     ProductEntity active(Long id) throws CustomException;
 
     ProductEntity inActive(Long id) throws CustomException;
+
+    List<ProductEntity> discount(Long id, List<Long> idProduct) throws CustomException;
+
 }
