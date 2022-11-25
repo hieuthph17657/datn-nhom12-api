@@ -1,0 +1,68 @@
+package datnnhom12api.controller.admin;
+
+
+import datnnhom12api.entity.ProcessorEntity;
+import datnnhom12api.entity.RamEntity;
+import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.exceptions.CustomValidationException;
+import datnnhom12api.mapper.ProcessorMapper;
+import datnnhom12api.mapper.RamMapper;
+import datnnhom12api.paginationrequest.CartPaginationRequest;
+import datnnhom12api.paginationrequest.RamPaginationRequest;
+import datnnhom12api.request.ProcessorRequest;
+import datnnhom12api.request.RamRequest;
+import datnnhom12api.response.ProcessorResponse;
+import datnnhom12api.response.RamResponse;
+import datnnhom12api.service.RamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/api/rams")
+public class RamController {
+
+    @Autowired
+    private RamService ramService;
+
+    @GetMapping
+    public RamResponse index(@Valid RamPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        Page<RamEntity> page = ramService.paginate(request.getPage(), request.getLimit(), request.getFilters(),
+                request.getOrders());
+        return new RamResponse(RamMapper.toPageDTO(page));
+    }
+
+
+    @PostMapping()
+    public RamResponse create(@Valid @RequestBody RamRequest post, BindingResult bindingResult)
+            throws CustomException, CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        RamEntity postEntity = ramService.create(post);
+        return new RamResponse(RamMapper.getInstance().toDTO(postEntity));
+    }
+
+    @PutMapping("/{id}")
+    public RamResponse edit(@PathVariable("id") Long id, @Valid @RequestBody RamRequest post, BindingResult bindingResult)
+            throws CustomValidationException, CustomException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        RamEntity postEntity = ramService.update(id, post);
+        return new RamResponse(RamMapper.getInstance().toDTO(postEntity));
+    }
+    @DeleteMapping("/{id}")
+    public RamResponse delete(@PathVariable("id") Long id) throws CustomException {
+        ramService.delete(id);
+        return new RamResponse();
+    }
+}

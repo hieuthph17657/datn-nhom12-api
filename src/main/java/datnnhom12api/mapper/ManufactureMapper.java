@@ -13,11 +13,11 @@ import java.util.function.Function;
 
 public class ManufactureMapper {
 
-    private static UserMapper INSTANCE;
+    private static ManufactureMapper INSTANCE;
 
-    public static UserMapper getInstance() {
+    public static ManufactureMapper getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new UserMapper();
+            INSTANCE = new ManufactureMapper();
         }
 
         return INSTANCE;

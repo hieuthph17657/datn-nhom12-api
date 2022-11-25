@@ -1,7 +1,9 @@
 package datnnhom12api.entity;
 
 import datnnhom12api.core.BaseEntity;
+import datnnhom12api.request.ManufactureRequest;
 import datnnhom12api.utils.support.ManufactureStatus;
+import datnnhom12api.utils.support.ProcessorStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +28,11 @@ public class ManufactureEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ManufactureStatus status;
+
+    public void setData(ManufactureRequest request) {
+        this.name = request.getName();
+        this.status = request.getStatus()
+                == ManufactureStatus.DRAFT ? ManufactureStatus.DRAFT
+                : ManufactureStatus.ACTIVE ;
+    }
 }

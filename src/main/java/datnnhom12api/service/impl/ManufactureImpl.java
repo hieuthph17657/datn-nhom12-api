@@ -2,9 +2,12 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.ManufactureEntity;
+import datnnhom12api.entity.ProcessorEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.ManufactureRepository;
 import datnnhom12api.request.ManufactureRequest;
+import datnnhom12api.response.ManufactureResponse;
+import datnnhom12api.response.ProcessorResponse;
 import datnnhom12api.service.ManufactureService;
 import datnnhom12api.specifications.ManufactureSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service("manufactureService")
 @Transactional(rollbackFor = Throwable.class)
@@ -43,4 +49,34 @@ public class ManufactureImpl implements ManufactureService {
         Specification<ManufactureEntity> specifications = ManufactureSpecifications.getInstance().getQueryResult(filters);
         return manufactureRepository.findAll(specifications, pageable);
     }
+
+    @Override
+    public ManufactureEntity create(ManufactureRequest post) {
+        ManufactureEntity manufacture = new ManufactureEntity();
+        manufacture.setData(post);
+        manufacture = manufactureRepository.save(manufacture);
+        return manufacture;
+    }
+
+    @Override
+    public ManufactureEntity update(Long id, ManufactureRequest post) throws CustomException{
+        Optional<ManufactureEntity> manufactureEntityOptional = manufactureRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (manufactureEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id người dùng muốn sửa");
+        }
+        ManufactureEntity manufacture = manufactureEntityOptional.get();
+        manufacture.setData(post);
+        manufacture = manufactureRepository.save(manufacture);
+        return manufacture;
+    }
+
+    @Override
+    public void delete(Long id) {
+        ManufactureEntity processorEntity = this.manufactureRepository.getById(id);
+        manufactureRepository.delete(processorEntity);
+    }
+
 }

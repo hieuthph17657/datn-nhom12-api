@@ -13,4 +13,10 @@ public interface ManufactureService {
     ManufactureEntity insert(ManufactureRequest request) throws CustomException;
 
     Page<ManufactureEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
+    ManufactureEntity create(ManufactureRequest post);
+
+    ManufactureEntity update(Long id, ManufactureRequest post) throws CustomException;
+
+    void delete(Long id);
 }

@@ -13,4 +13,8 @@ public class ManufactureResponse extends BaseResponse<ManufactureDTO> {
     public ManufactureResponse(ManufactureDTO toDTO) {
         super(toDTO);
     }
+
+    public ManufactureResponse() {
+        super();
+    }
 }
