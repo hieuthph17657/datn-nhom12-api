@@ -53,11 +53,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
-        orderRequest.getOrderDetails().forEach(a -> {
-            System.out.println(a.getQuantity());
-        });
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
+        UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
+        orderEntity.setUser(userEntity);
         orderEntity = orderRepository.save(orderEntity);
         List<OrderDetailRequest> list = orderRequest.getOrderDetails();
         for (OrderDetailRequest orderDetailRequest : list) {
@@ -68,12 +67,37 @@ public class OrderServiceImpl implements OrderService {
             orderDetailRepository.save(orderDetailEntity);
         }
         List<CartEntity> listCard = this.cartRepository.findAll();
-        orderRequest.getOrderDetails().forEach(a -> {
-            ProductEntity product = this.productRepository.getById(a.getProductId());
-            product.setQuantity(product.getQuantity()- a.getQuantity());
-            this.productRepository.save(product);
-        });
         this.cartRepository.deleteAll(listCard);
+        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+            System.out.println(orderDetailEntity.getProductId());
+            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+            this.productRepository.save(product);
+        }
+        return orderEntity;
+    }
+
+    @Override
+    public OrderEntity saveOfUser(OrderRequest orderRequest) throws CustomException {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setData(orderRequest);
+        UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
+        orderEntity.setUser(userEntity);
+        orderEntity = orderRepository.save(orderEntity);
+        List<OrderDetailRequest> list = orderRequest.getOrderDetails();
+        for (OrderDetailRequest orderDetailRequest : list) {
+            OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
+            orderDetailEntity.setData(orderDetailRequest);
+            orderDetailEntity.setProduct(this.productRepository.getById(orderDetailRequest.getProductId()));
+            orderDetailEntity.setOrder(orderEntity);
+            orderDetailRepository.save(orderDetailEntity);
+        }
+        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+            System.out.println(orderDetailEntity.getProductId());
+            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+            this.productRepository.save(product);
+        }
         return orderEntity;
     }
 
@@ -238,10 +262,10 @@ public class OrderServiceImpl implements OrderService {
         OrderDetailEntity list = this.orderDetailRepository.getOrderDetailByIsCheckAndProductId(idCheck, orderDetailRequest.getProductId());
         if (orderDetailRequest.getIsUpdate() == null) {
             OrderDetailEntity orderDetail = this.orderDetailRepository.getById(orderDetailEntity.getId());
-           if(list !=null) {
-               list.setIsCheck(1);
-           }
-           orderDetailEntity.setIsCheck(2);
+            if (list != null) {
+                list.setIsCheck(1);
+            }
+            orderDetailEntity.setIsCheck(2);
             this.orderDetailRepository.save(orderDetail);
             orderDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
             orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - 1);
@@ -251,11 +275,10 @@ public class OrderServiceImpl implements OrderService {
                 this.orderDetailRepository.save(orderDetailEntity);
                 orderDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
             }
-        }else if(orderDetailRequest.getIsUpdate() ==2){
+        } else if (orderDetailRequest.getIsUpdate() == 2) {
             orderDetailEntity.setIsCheck(2);
             this.orderDetailRepository.save(orderDetailEntity);
-        }
-        else {
+        } else {
             System.out.println("vào update is check");
             orderDetailEntity.setProduct(orderDetailEntity.getProduct());
             orderDetailEntity.setIsCheck(1);

@@ -21,10 +21,10 @@ import java.util.*;
 public class VnpayConfig {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_Returnurl = "https://www.google.com/";
+    public static String vnp_Returnurl = "http://localhost:3000/user/order";
     public static String vnp_TmnCode = "GHFB4OXM";
     public static String vnp_HashSecret = "ZFUAMZNMBHDZPJRZXQGFLUBWABAXPMVI";
-    public static String vnp_apiUrl = "https://www.google.com/";
+    public static String vnp_apiUrl = "";
 
     public static String md5(String message) {
         String digest = null;

@@ -16,9 +16,11 @@ import java.util.Map;
 
 public interface OrderService {
 
-    OrderEntity save(OrderRequest port) throws CustomException;
+    OrderEntity save(OrderRequest order) throws CustomException;
 
-    OrderEntity edit(Long id, OrderRequest post) throws CustomException;
+    OrderEntity saveOfUser(OrderRequest order) throws CustomException;
+
+    OrderEntity edit(Long id, OrderRequest order) throws CustomException;
 
     OrderEntity delete(Long id) throws CustomException;
 
