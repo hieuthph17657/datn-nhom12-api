@@ -22,13 +22,13 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/processors")
+@RequestMapping("/api")
 public class ProcessorController {
 
     @Autowired
     private ProcessorService processorService;
 
-    @GetMapping
+    @GetMapping("auth/processors")
     public ProcessorResponse index(@Valid CartPaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -39,7 +39,7 @@ public class ProcessorController {
         return new ProcessorResponse(ProcessorMapper.toPageDTO(page));
     }
 
-    @PostMapping()
+    @PostMapping("staff/processors")
     public ProcessorResponse create(@Valid @RequestBody ProcessorRequest post, BindingResult bindingResult)
             throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -48,7 +48,7 @@ public class ProcessorController {
         ProcessorEntity postEntity = processorService.create(post);
         return new ProcessorResponse(ProcessorMapper.getInstance().toDTO(postEntity));
     }
-    @PutMapping("/{id}")
+    @PutMapping("staff/processors/{id}")
     public ProcessorResponse edit(@PathVariable("id") Long id, @Valid @RequestBody ProcessorRequest post, BindingResult bindingResult)
             throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
@@ -58,7 +58,7 @@ public class ProcessorController {
         return new ProcessorResponse(ProcessorMapper.getInstance().toDTO(postEntity));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/staff/processors/{id}")
     public ProcessorResponse delete(@PathVariable("id") Long id) throws CustomException {
         processorService.delete(id);
         return new ProcessorResponse();
