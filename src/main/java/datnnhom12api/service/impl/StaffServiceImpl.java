@@ -1,15 +1,12 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.core.QueryOperator;
 import datnnhom12api.entity.RoleEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.StaffRepository;
-import datnnhom12api.repository.UserRepository;
 import datnnhom12api.request.UserRequest;
 import datnnhom12api.service.StaffService;
-import datnnhom12api.service.UserService;
 import datnnhom12api.specifications.UserSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -2,7 +2,6 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.CategoryEntity;
-import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.CategoryRepository;
 import datnnhom12api.request.CategoryRequest;

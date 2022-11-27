@@ -1,7 +1,6 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.dto.ReturnDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ReturnDetailEntity;
 import datnnhom12api.entity.ReturnEntity;
@@ -14,7 +13,6 @@ import datnnhom12api.request.ReturnDetailRequest;
 import datnnhom12api.request.ReturnRequest;
 import datnnhom12api.service.ReturnService;
 import datnnhom12api.specifications.ReturnSpecifications;
-import datnnhom12api.utils.support.OrderDetailStatus;
 import datnnhom12api.utils.support.ReturnDetailStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
