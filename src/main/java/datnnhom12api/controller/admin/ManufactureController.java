@@ -25,19 +25,19 @@ import javax.validation.Valid;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/manufactures")
+@RequestMapping("/api/staff/manufactures")
 public class ManufactureController {
     @Autowired
     private ManufactureService manufactureService;
 
     @GetMapping
     public ManufactureResponse index(@Valid ManufacturePaginationRequest request, BindingResult bindingResult)
-        throws CustomValidationException {
+            throws CustomValidationException {
         if(bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         Page<ManufactureEntity> page = manufactureService.paginate(
-          request.getPage(), request.getLimit(), request.getFilters(), request.getOrders()
+                request.getPage(), request.getLimit(), request.getFilters(), request.getOrders()
         );
         return new ManufactureResponse(ManufactureMapper.toPageDTO(page));
     }
