@@ -1,13 +1,10 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.entity.InformationEntity;
 import datnnhom12api.entity.RoleEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.repository.InformationRepository;
 import datnnhom12api.repository.UserRepository;
-import datnnhom12api.request.InformationRequest;
 import datnnhom12api.request.UserRequest;
 import datnnhom12api.service.UserService;
 import datnnhom12api.specifications.UserSpecifications;
@@ -17,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
