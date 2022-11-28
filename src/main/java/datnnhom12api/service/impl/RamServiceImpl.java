@@ -2,6 +2,7 @@ package datnnhom12api.service.impl;
 
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.RamDTO;
 import datnnhom12api.entity.ProcessorEntity;
 import datnnhom12api.entity.RamEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -12,6 +13,8 @@ import datnnhom12api.response.RamResponse;
 import datnnhom12api.service.RamService;
 import datnnhom12api.specifications.ProcessorSpecification;
 import datnnhom12api.specifications.RamSpecifications;
+import datnnhom12api.utils.support.RamStatus;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -71,6 +74,26 @@ public class RamServiceImpl implements RamService {
     public void delete(Long id) {
         RamEntity processorEntity = this.ramRepository.getById(id);
         ramRepository.delete(processorEntity);
+    }
+
+    @Override
+    public RamDTO active(Long id) throws CustomException {
+        RamEntity ramEntity = this.ramRepository.getById(id);
+        ramEntity.setStatus(RamStatus.ACTIVE);
+        this.ramRepository.save(ramEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        RamDTO ramDTO = modelMapper.map(ramEntity, RamDTO.class);
+        return ramDTO;
+    }
+
+    @Override
+    public RamDTO inactive(Long id) throws CustomException {
+        RamEntity ramEntity = this.ramRepository.getById(id);
+        ramEntity.setStatus(RamStatus.INACTIVE);
+        this.ramRepository.save(ramEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        RamDTO ramDTO = modelMapper.map(ramEntity, RamDTO.class);
+        return ramDTO;
     }
 
 

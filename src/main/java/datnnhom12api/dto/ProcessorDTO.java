@@ -2,6 +2,7 @@ package datnnhom12api.dto;
 
 import datnnhom12api.core.BaseDTO;
 import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.utils.support.ProcessorStatus;
 import lombok.*;
 
 import java.io.Serializable;
@@ -35,6 +36,10 @@ public class ProcessorDTO extends BaseDTO implements Serializable {
 
     private double price;
 
+    private ProcessorStatus status;
+
     private CategoryEntity categoryId;
+
+
 
 }

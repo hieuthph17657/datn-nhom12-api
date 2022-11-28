@@ -1,17 +1,15 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.entity.CartEntity;
+import datnnhom12api.dto.ProcessorDTO;
 import datnnhom12api.entity.ProcessorEntity;
-import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.ProcessorRepository;
 import datnnhom12api.request.ProcessorRequest;
-import datnnhom12api.response.ProcessorResponse;
-import datnnhom12api.service.OrderService;
 import datnnhom12api.service.ProcessorService;
-import datnnhom12api.specifications.CartSpecifications;
 import datnnhom12api.specifications.ProcessorSpecification;
+import datnnhom12api.utils.support.ProcessorStatus;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -72,5 +70,31 @@ public class ProcessorServiceImpl implements ProcessorService {
     public void delete(Long id) {
         ProcessorEntity processorEntity = this.processorRepository.getById(id);
         processorRepository.delete(processorEntity);
+    }
+
+    @Override
+    public ProcessorEntity getById(Long id) {
+        ProcessorEntity processorEntity = this.processorRepository.getById(id);
+        return processorEntity;
+    }
+
+    @Override
+    public ProcessorDTO active(Long id) throws CustomException {
+        ProcessorEntity processorEntity = this.processorRepository.getById(id);
+        processorEntity.setStatus(ProcessorStatus.ACTIVE);
+        this.processorRepository.save(processorEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        ProcessorDTO processorDTO = modelMapper.map(processorEntity, ProcessorDTO.class);
+        return processorDTO;
+    }
+
+    @Override
+    public ProcessorDTO inactive(Long id) throws CustomException {
+        ProcessorEntity processorEntity = this.processorRepository.getById(id);
+        processorEntity.setStatus(ProcessorStatus.INACTIVE);
+        this.processorRepository.save(processorEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        ProcessorDTO processorDTO = modelMapper.map(processorEntity, ProcessorDTO.class);
+        return processorDTO;
     }
 }
