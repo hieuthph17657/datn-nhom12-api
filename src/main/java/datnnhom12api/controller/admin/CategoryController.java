@@ -22,12 +22,11 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/category")
 public class CategoryController {
     @Autowired
     CategoryService cateService;
 
-    @GetMapping
+    @GetMapping("/api/staff/category")
     public CategoryResponse index(@Valid CategoryPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -36,7 +35,7 @@ public class CategoryController {
         return new CategoryResponse(CategoryMapper.toPageDTO(page));
     }
 
-    @PostMapping()
+    @PostMapping("/api/staff/category")
     public CategoryResponse create(@Valid @RequestBody CategoryRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -45,7 +44,7 @@ public class CategoryController {
         return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/staff/category/{id}")
     public CategoryResponse edit(@PathVariable("id") Long id, @Valid @RequestBody CategoryRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -54,24 +53,24 @@ public class CategoryController {
         return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/staff/category/{id}")
     public CategoryResponse delete(@PathVariable("id") Long id) throws CustomException {
         cateService.delete(id);
         return new CategoryResponse();
     }
-    @PutMapping("/close/{id}")
+    @PutMapping("/api/staff/category/close/{id}")
     public CategoryResponse close(@PathVariable("id") Long id) throws CustomException {
         CategoryEntity postEntity = cateService.close(id);
         return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/open/{id}")
+    @PutMapping("/api/staff/category/open/{id}")
     public CategoryResponse open(@PathVariable("id") Long id) throws CustomException {
         CategoryEntity postEntity = cateService.open(id);
         return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
     }
 
-    @PostMapping("/draft")
+    @PostMapping("/api/staff/category/draft")
     public CategoryResponse draft(@RequestBody CategoryRequest post, BindingResult bindingResult)throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
