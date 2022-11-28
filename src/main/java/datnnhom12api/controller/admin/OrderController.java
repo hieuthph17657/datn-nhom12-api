@@ -43,7 +43,7 @@ public class OrderController {
     }
 
     @PostMapping()
-    public OrderResponse create(@Valid @RequestBody OrderRequest orderRequest, OrderDetailRequest orderDetailRequest,
+    public OrderResponse create(@Valid @RequestBody OrderRequest orderRequest,
                                 BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -52,10 +52,20 @@ public class OrderController {
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
 
+    @PostMapping("/user")
+    public OrderResponse createOfUser(@Valid @RequestBody OrderRequest orderRequest,
+                                BindingResult bindingResult) throws CustomException, CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        OrderEntity orderEntity = orderService.saveOfUser(orderRequest);
+        return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
+    }
+
     @PostMapping("exchanges")
     public ExchangeResponse createOrderDetail(@Valid @RequestBody List<ExchangeRequest> exchangeRequest,
                                               BindingResult bindingResult) throws CustomException, CustomValidationException {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         List<OrderDetailEntity> orderDetailEntities = orderService.createOrderDetail(exchangeRequest);

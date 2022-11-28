@@ -26,6 +26,9 @@ public class OrderRequest {
     @NotBlank(message = "phương thức thanh toán không được để trống")
     private String payment;
 
+    @NotNull
+    private double money;
+
     @NotBlank(message = "địa chỉ không được để trống")
     private String address;
 

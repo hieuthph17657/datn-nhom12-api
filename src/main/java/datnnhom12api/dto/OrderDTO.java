@@ -28,6 +28,8 @@ public class OrderDTO extends BaseDTO implements Serializable {
 
     private String payment;
 
+    private double money;
+
     private String address;
 
     private OrderStatus status;

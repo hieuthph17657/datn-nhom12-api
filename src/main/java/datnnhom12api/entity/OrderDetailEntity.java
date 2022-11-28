@@ -46,16 +46,16 @@ public class OrderDetailEntity extends BaseEntity {
     public void setData(OrderDetailRequest request) {
         this.quantity = request.getQuantity();
         this.isCheck = request.getIsCheck() == null ? null : request.getIsCheck();
-        if (request.getStatus().equals(" ")) {
-            this.status = OrderDetailStatus.CHO_XAC_NHAN;
-        } else if (request.getStatus().equals("Chờ lấy hàng")) {
+        if (request.getStatus().equals("CHO_LAY_HANG")) {
             this.status = OrderDetailStatus.CHO_LAY_HANG;
-        } else if (request.getStatus().equals("Đang giao")) {
+        } else if (request.getStatus().equals("DANG_GIAO")) {
             this.status = OrderDetailStatus.DANG_GIAO;
-        } else if (request.getStatus().equals("Đã nhận")) {
+        } else if (request.getStatus().equals("DA_NHAN")) {
             this.status = OrderDetailStatus.DA_NHAN;
-        } else if (request.getStatus().equals("Đã huỷ")) {
+        } else if (request.getStatus().equals("DA_HUY")) {
             this.status = OrderDetailStatus.DA_HUY;
+        } else {
+            this.status = OrderDetailStatus.CHO_XAC_NHAN;
         }
         this.total = request.getTotal();
     }

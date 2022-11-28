@@ -25,6 +25,7 @@ public class OrderEntity extends BaseEntity {
     private Long id;
     private double total;
     private String payment;
+    private double money;
     private String address;
     private String phone;
     private String customerName;
@@ -45,6 +46,7 @@ public class OrderEntity extends BaseEntity {
     public void setData(OrderRequest request) {
         this.total = request.getTotal();
         this.payment = request.getPayment();
+        this.money = request.getMoney();
         this.address = request.getAddress();
         this.phone = request.getPhone().equals(" ") ? "" : request.getPhone();
         this.customerName = request.getCustomerName().equals(" ") ? " " : request.getCustomerName();
