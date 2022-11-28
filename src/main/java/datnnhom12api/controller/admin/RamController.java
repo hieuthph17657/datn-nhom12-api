@@ -23,13 +23,13 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/rams")
+@RequestMapping("/api")
 public class RamController {
 
     @Autowired
     private RamService ramService;
 
-    @GetMapping
+    @GetMapping("auth/rams")
     public RamResponse index(@Valid RamPaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -41,7 +41,7 @@ public class RamController {
     }
 
 
-    @PostMapping()
+    @PostMapping("/staff/rams")
     public RamResponse create(@Valid @RequestBody RamRequest post, BindingResult bindingResult)
             throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -51,7 +51,7 @@ public class RamController {
         return new RamResponse(RamMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/staff/rams/{id}")
     public RamResponse edit(@PathVariable("id") Long id, @Valid @RequestBody RamRequest post, BindingResult bindingResult)
             throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
@@ -60,7 +60,7 @@ public class RamController {
         RamEntity postEntity = ramService.update(id, post);
         return new RamResponse(RamMapper.getInstance().toDTO(postEntity));
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/staff/rams/{id}")
     public RamResponse delete(@PathVariable("id") Long id) throws CustomException {
         ramService.delete(id);
         return new RamResponse();
