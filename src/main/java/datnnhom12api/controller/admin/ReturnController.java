@@ -27,7 +27,7 @@ public class ReturnController {
     @Autowired
     private ReturnService returnService;
 
-    @GetMapping("/returns")
+    @GetMapping("/staff/returns")
     public ReturnResponse index(@Valid ReturnPaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -38,7 +38,7 @@ public class ReturnController {
         return new ReturnResponse(ReturnMapper.toPageDTO(page));
     }
 
-    @PostMapping("/returns")
+    @PostMapping("/auth/returns")
     public ReturnResponse create(@Valid @RequestBody ReturnRequest post,
                                  BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {

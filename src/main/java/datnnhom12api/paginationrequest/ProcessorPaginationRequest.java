@@ -18,10 +18,15 @@ import java.util.List;
 public class ProcessorPaginationRequest extends PaginationRequest {
     private String searchCpuCompany;
 
+    private String searchStatus;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchCpuCompany != null && !searchCpuCompany.isEmpty()) {
             list.add(new Filter("cpuCompany", QueryOperator.LIKE, searchCpuCompany, null));
+        }
+        if (searchStatus != null && !searchStatus.isEmpty()) {
+            list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
         return list;
     }
