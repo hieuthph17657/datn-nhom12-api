@@ -1,12 +1,15 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.entity.BatteryChargerEntity;
+import datnnhom12api.entity.DiscountEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.BatteryChargerMapper;
+import datnnhom12api.mapper.DiscountMapper;
 import datnnhom12api.paginationrequest.BatteryChargerPaginationRequest;
 import datnnhom12api.request.BatteryChargerRequest;
 import datnnhom12api.response.BatteryChargerResponse;
+import datnnhom12api.response.DiscountResponse;
 import datnnhom12api.service.BatteryChargerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +40,12 @@ public class BatteryChargerController {
         }
         BatteryChargerEntity postEntity = batteryChargerService.create(post);
         return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(postEntity));
+    }
+
+    @GetMapping("/api/admin/batteryCharger/{id}")
+    public BatteryChargerResponse getId(@PathVariable("id") Long id) throws CustomException{
+        BatteryChargerEntity entity =batteryChargerService.getByIdBatteryCharger(id);
+        return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(entity));
     }
 
     @PutMapping("/api/admin/batteryCharger/{id}")

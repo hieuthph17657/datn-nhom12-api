@@ -2,7 +2,6 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.BatteryChargerEntity;
-import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.BatteryChargerRepository;
 import datnnhom12api.repository.ProductRepository;
@@ -80,5 +79,15 @@ public class BatteryChargerServiceImpl implements BatteryChargerService {
         BatteryChargerEntity batteryChargerEntity = batteryChargerRepository.getById(id);
         batteryChargerRepository.delete(batteryChargerEntity);
         return batteryChargerEntity;
+    }
+
+    @Override
+    public BatteryChargerEntity getByIdBatteryCharger(Long id) throws CustomException {
+        Optional<BatteryChargerEntity> batteryChargerEntityOptional = batteryChargerRepository.findById(id);
+        if (batteryChargerEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy đối tượng");
+        }
+        BatteryChargerEntity discountEntity = batteryChargerRepository.getById(id);
+        return discountEntity;
     }
 }

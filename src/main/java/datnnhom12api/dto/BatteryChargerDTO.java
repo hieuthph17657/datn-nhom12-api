@@ -19,6 +19,8 @@ import java.io.Serializable;
 public class BatteryChargerDTO extends BaseDTO implements Serializable {
     private Long id;
 
+    private String batteryType;//loại pin
+
     private String battery;//pin
 
     private String charger;//sac

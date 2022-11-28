@@ -20,6 +20,9 @@ public class BatteryChargerEntity extends BaseEntity {
     @Id
     private Long id;
 
+    @Column(name="battery_type")
+    private String batteryType;//loại pin
+
     @Column(name="battery")
     private String battery;//pin
 
@@ -37,6 +40,7 @@ public class BatteryChargerEntity extends BaseEntity {
 
     public void setData(BatteryChargerRequest request) {
         this.id = request.getId();
+        this.batteryType=request.getBatteryType();
         this.battery = request.getBattery();
         this.charger = request.getCharger();
         this.price= request.getPrice();

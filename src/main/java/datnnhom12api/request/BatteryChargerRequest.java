@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 public class BatteryChargerRequest {
     private Long id;
 
+    private String batteryType;//loại pin
+
 //    @NotNull(message ="pin không được trống")
     private String battery;//pin
 
