@@ -1,6 +1,7 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.RamDTO;
 import datnnhom12api.entity.RamEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.RamRequest;
@@ -18,4 +19,8 @@ public interface RamService {
     RamEntity update(Long id, RamRequest post) throws CustomException;
 
     void delete(Long id);
+
+    RamDTO active(Long id) throws CustomException;
+
+    RamDTO inactive(Long id) throws CustomException;
 }

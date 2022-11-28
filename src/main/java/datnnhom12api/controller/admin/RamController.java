@@ -1,6 +1,7 @@
 package datnnhom12api.controller.admin;
 
 
+import datnnhom12api.dto.RamDTO;
 import datnnhom12api.entity.ProcessorEntity;
 import datnnhom12api.entity.RamEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -41,7 +42,7 @@ public class RamController {
     }
 
 
-    @PostMapping("/staff/rams")
+    @PostMapping("staff/rams")
     public RamResponse create(@Valid @RequestBody RamRequest post, BindingResult bindingResult)
             throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -51,7 +52,7 @@ public class RamController {
         return new RamResponse(RamMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/staff/rams/{id}")
+    @PutMapping("staff/rams/{id}")
     public RamResponse edit(@PathVariable("id") Long id, @Valid @RequestBody RamRequest post, BindingResult bindingResult)
             throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
@@ -64,5 +65,18 @@ public class RamController {
     public RamResponse delete(@PathVariable("id") Long id) throws CustomException {
         ramService.delete(id);
         return new RamResponse();
+    }
+
+
+    @PutMapping(("/staff/rams/{id}/active"))
+    public RamDTO active (@PathVariable("id") Long id) throws CustomException {
+        RamDTO ramDTO = this.ramService.active(id);
+        return ramDTO;
+    }
+
+    @PutMapping(("/staff/rams/{id}/inactive"))
+    public RamDTO inactive (@PathVariable("id") Long id) throws CustomException {
+        RamDTO ramEntity = this.ramService.inactive(id);
+        return ramEntity;
     }
 }
