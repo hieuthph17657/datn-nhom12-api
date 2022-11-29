@@ -45,4 +45,6 @@ public interface OrderService {
     List<OrderEntity> findByDate(String createdAt);
 
     List<OrderDetailEntity> createOrderDetail(List<ExchangeRequest> exchangeRequest);
+
+    OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest);
 }

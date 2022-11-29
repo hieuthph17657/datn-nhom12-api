@@ -146,6 +146,12 @@ public class OrderController {
         List<OrderEntity> list = orderService.findByDate(createdAt);
         return list;
     }
+    //update order detail khi gui yeu cầu trả hàng, set isCheck=2
+    @PutMapping("/{id}/updateOrderDetail")
+    public OrderDetailDTO updateOrderDetail(@PathVariable("id") Long id, @RequestBody OrderDetailRequest orderDetailRequest) {
+        OrderDetailDTO orderDetailDTO = orderService.updateOrderDetail(id, orderDetailRequest);
+        return orderDetailDTO;
+    }
 
 }
 

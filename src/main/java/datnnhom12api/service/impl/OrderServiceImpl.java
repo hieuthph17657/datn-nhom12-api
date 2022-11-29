@@ -55,6 +55,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
+        System.out.println("userID: "+ orderRequest.getUserId());
+
         UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
         orderEntity.setUser(userEntity);
         orderEntity = orderRepository.save(orderEntity);
@@ -71,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
             System.out.println(orderDetailEntity.getProductId());
             ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+            System.out.println("product quantity: "+ product.getQuantity());
             product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
             this.productRepository.save(product);
         }
@@ -341,5 +344,15 @@ public class OrderServiceImpl implements OrderService {
             this.orderDetailRepository.save(orderDetailEntity);
         });
         return list;
+    }
+
+    @Override
+    public OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest) {
+        OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(id);
+        orderDetailEntity.setIsCheck(2);
+        this.orderDetailRepository.save(orderDetailEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        OrderDetailDTO orderDetailDTO= modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
+        return orderDetailDTO;
     }
 }
