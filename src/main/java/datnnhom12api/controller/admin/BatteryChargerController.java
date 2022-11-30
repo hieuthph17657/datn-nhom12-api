@@ -1,16 +1,14 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.entity.BatteryChargerEntity;
-import datnnhom12api.entity.DiscountEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.BatteryChargerMapper;
-import datnnhom12api.mapper.DiscountMapper;
 import datnnhom12api.paginationrequest.BatteryChargerPaginationRequest;
 import datnnhom12api.request.BatteryChargerRequest;
 import datnnhom12api.response.BatteryChargerResponse;
-import datnnhom12api.response.DiscountResponse;
 import datnnhom12api.service.BatteryChargerService;
+import datnnhom12api.utils.support.BatteryChargerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -61,5 +59,27 @@ public class BatteryChargerController {
     public BatteryChargerResponse delete(@PathVariable("id") Long id) throws CustomException {
         batteryChargerService.delete(id);
         return new BatteryChargerResponse();
+    }
+
+    @PutMapping("/api/admin/batteryCharger/close/{id}")
+    public BatteryChargerResponse close(@PathVariable("id") Long id) throws CustomException {
+        BatteryChargerEntity postEntity = batteryChargerService.close(id);
+        return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(postEntity));
+    }
+
+    @PutMapping("/api/admin/batteryCharger/open/{id}")
+    public BatteryChargerResponse open(@PathVariable("id") Long id) throws CustomException {
+        BatteryChargerEntity postEntity = batteryChargerService.open(id);
+        return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(postEntity));
+    }
+
+    @PostMapping("/api/admin/batteryCharger/draft")
+    public BatteryChargerResponse draft(@RequestBody BatteryChargerRequest post, BindingResult bindingResult)throws CustomException, CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        post.setStatus(BatteryChargerStatus.DRAFT);
+        BatteryChargerEntity postEntity = batteryChargerService.create(post);
+        return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(postEntity));
     }
 }

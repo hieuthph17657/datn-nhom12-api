@@ -8,6 +8,7 @@ import datnnhom12api.repository.ProductRepository;
 import datnnhom12api.request.BatteryChargerRequest;
 import datnnhom12api.service.BatteryChargerService;
 import datnnhom12api.specifications.BatteryChargerSpecifications;
+import datnnhom12api.utils.support.BatteryChargerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -89,5 +90,34 @@ public class BatteryChargerServiceImpl implements BatteryChargerService {
         }
         BatteryChargerEntity discountEntity = batteryChargerRepository.getById(id);
         return discountEntity;
+    }
+    @Override
+    public BatteryChargerEntity open(Long id) throws CustomException {
+        Optional<BatteryChargerEntity> batteryChargerEntityOptional = batteryChargerRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id danh mục phải lớn hơn 0");
+        }
+        if (batteryChargerEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id danh mục muốn sửa");
+        }
+        BatteryChargerEntity batteryChargerEntity = batteryChargerEntityOptional.get();
+        batteryChargerEntity.setStatus(BatteryChargerStatus.ACTIVE);
+        batteryChargerEntity = batteryChargerRepository.save(batteryChargerEntity);
+        return batteryChargerEntity;
+    }
+
+    @Override
+    public BatteryChargerEntity close(Long id) throws CustomException {
+        Optional<BatteryChargerEntity> batteryChargerEntityOptional = batteryChargerRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id phải lớn hơn 0");
+        }
+        if (batteryChargerEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy bản ghi muốn sửa");
+        }
+        BatteryChargerEntity batteryChargerEntity = batteryChargerEntityOptional.get();
+        batteryChargerEntity.setStatus(BatteryChargerStatus.INACTIVE);
+        batteryChargerEntity = batteryChargerRepository.save(batteryChargerEntity);
+        return batteryChargerEntity;
     }
 }

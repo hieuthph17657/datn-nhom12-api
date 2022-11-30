@@ -20,4 +20,8 @@ public interface BatteryChargerService {
     BatteryChargerEntity delete(Long id) throws CustomException;
 
     BatteryChargerEntity getByIdBatteryCharger(Long id) throws CustomException;
+
+    BatteryChargerEntity open(Long id) throws CustomException;
+
+    BatteryChargerEntity close(Long id) throws CustomException;
 }
