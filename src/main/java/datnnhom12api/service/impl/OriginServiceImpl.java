@@ -1,12 +1,15 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.OriginDTO;
 import datnnhom12api.entity.OriginEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.OriginRepository;
 import datnnhom12api.request.OriginRequest;
 import datnnhom12api.service.OriginService;
 import datnnhom12api.specifications.OriginSpecifications;
+import datnnhom12api.utils.support.OriginStatus;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,5 +78,25 @@ public class OriginServiceImpl implements OriginService {
         Specification<OriginEntity> specifications = OriginSpecifications.getInstance().getQueryResult(filters);
 
         return OriginRepo.findAll(specifications, pageable);
+    }
+
+    @Override
+    public OriginDTO active(Long id) throws CustomException {
+        OriginEntity originEntity = this.OriginRepo.getById(id);
+        originEntity.setStatus(OriginStatus.ACTIVE);
+        this.OriginRepo.save(originEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        OriginDTO originDTO = modelMapper.map(originEntity, OriginDTO.class);
+        return originDTO;
+    }
+
+    @Override
+    public OriginDTO inactive(Long id) throws CustomException {
+        OriginEntity originEntity = this.OriginRepo.getById(id);
+        originEntity.setStatus(OriginStatus.INACTIVE);
+        this.OriginRepo.save(originEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        OriginDTO originDTO = modelMapper.map(originEntity, OriginDTO.class);
+        return originDTO;
     }
 }
