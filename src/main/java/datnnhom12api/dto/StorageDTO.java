@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 public class StorageDTO extends BaseDTO implements Serializable {
+    private  Long id;
 
     private StorageDetailDTO storageDetail;
 
