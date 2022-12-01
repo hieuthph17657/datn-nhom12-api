@@ -3,7 +3,6 @@ package datnnhom12api.service;
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.OrderDetailDTO;
 import datnnhom12api.dto.UpdateOrderDetailDTO;
-import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
@@ -24,7 +23,7 @@ public interface OrderService {
 
     OrderEntity delete(Long id) throws CustomException;
 
-    Page<OrderEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+    Page<OrderEntity> paginate(String searchStartDate, String searchEndDate, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
 
     UserEntity createUser(CreateUserOnOrderRequest createUserOnOrderRequest) throws CustomException;
 

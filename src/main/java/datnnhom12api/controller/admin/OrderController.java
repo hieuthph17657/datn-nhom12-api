@@ -37,8 +37,8 @@ public class OrderController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<OrderEntity> page = orderService.paginate(request.getPage(), request.getLimit(),
-                request.getFilters(), request.getOrders());
+        Page<OrderEntity> page = orderService.paginate(request.getSearchStartDate(),request.getSearchEndDate(),
+                request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         return new OrderResponse(OrderMapper.toPageDTO(page));
     }
 

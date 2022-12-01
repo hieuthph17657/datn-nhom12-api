@@ -24,6 +24,10 @@ public class OrderPaginationRequest extends PaginationRequest {
 
     private String searchName;
 
+    private String searchStartDate;
+
+    private String searchEndDate;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchAddress != null && !searchAddress.isEmpty()) {

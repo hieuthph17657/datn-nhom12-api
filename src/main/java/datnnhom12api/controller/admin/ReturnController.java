@@ -64,6 +64,13 @@ public class ReturnController {
         return new ReturnResponse();
     }
 
+
+    @GetMapping("/auth/returns/{id}/detail")
+    public ReturnResponse getByIdReturnId(@PathVariable("id")Long id) throws CustomException {
+        ReturnEntity returnEntity = this.returnService.getById(id);
+        return new ReturnResponse(ReturnMapper.getInstance().toDTO(returnEntity));
+    }
+
     @GetMapping("/returns/{id}")
     public List<ReturnDetailEntity> findReturnById (@PathVariable("id") Long id)  throws CustomException {
         List<ReturnDetailEntity>  returnDetailEntities = returnService.findById(id);
@@ -75,5 +82,6 @@ public class ReturnController {
         UpdateReturnDetailDTO returnDetailDTO = this.returnService.updateByReturnDetail(id,returnDetailRequest);
         return  returnDetailDTO;
     }
+
 
 }

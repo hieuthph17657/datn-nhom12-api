@@ -175,7 +175,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderEntity> paginate(int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+    public Page<OrderEntity> paginate(String startDate, String endDate, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         for (String field : sortBy.keySet()) {
             orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
@@ -183,7 +183,13 @@ public class OrderServiceImpl implements OrderService {
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<OrderEntity> specifications = OrderSpecifications.getInstance().getQueryResult(filters);
-        return orderRepository.findAll(specifications, pageable);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        if(startDate==null||endDate==null||startDate==""||endDate==""||startDate.isEmpty()||endDate.isEmpty()){
+            return orderRepository.findAll(specifications,pageable);
+        }else{
+            return orderRepository.betweenDate(LocalDateTime.parse(startDate,dateTimeFormatter),LocalDateTime.parse(endDate,dateTimeFormatter), pageable);
+        }
+//        return orderRepository.findAll(specifications, pageable);
     }
 
     @Override
@@ -273,13 +279,16 @@ public class OrderServiceImpl implements OrderService {
             orderDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
             orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - 1);
             if (orderDetailEntity.getQuantity() == 0) {
-                this.orderDetailRepository.delete(orderDetailEntity);
+                orderDetailEntity.setTotal(0);
+                orderDetailEntity.setIsCheck(10);
+                this.orderDetailRepository.save(orderDetailEntity);
             } else {
                 this.orderDetailRepository.save(orderDetailEntity);
                 orderDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
             }
         } else if (orderDetailRequest.getIsUpdate() == 2) {
             orderDetailEntity.setIsCheck(2);
+
             this.orderDetailRepository.save(orderDetailEntity);
         } else {
             System.out.println("vào update is check");
@@ -338,7 +347,8 @@ public class OrderServiceImpl implements OrderService {
             orderDetailEntity.setOrder(orderEntity);
             orderDetailEntity.setQuantity(exchangeEntity.getQuantity());
             orderDetailEntity.setProduct(this.productRepository.getById(exchangeEntity.getProductId()));
-            orderDetailEntity.setTotal(orderDetailEntity.getTotal());
+            orderDetailEntity.setTotal(this.productRepository.getById(exchangeEntity.getProductId()).getPrice());
+            System.out.println("tổng tiền thêm mới orderDetail: "+ orderDetailEntity.getTotal());
             orderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
             orderDetailEntity.setIsCheck(exchangeEntity.getIsCheck());
             this.orderDetailRepository.save(orderDetailEntity);

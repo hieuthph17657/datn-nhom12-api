@@ -22,6 +22,8 @@ public class ReturnDetailRequest {
 
     private int quantity;
 
+    private  Long id;
+
     private ReturnDetailStatus status;
 
 }
