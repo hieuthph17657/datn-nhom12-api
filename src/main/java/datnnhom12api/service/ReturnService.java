@@ -27,4 +27,6 @@ public interface ReturnService {
     List<ReturnDetailEntity> findById(Long id);
 
     UpdateReturnDetailDTO updateByReturnDetail(Long id, ReturnDetailRequest request);
+
+    ReturnEntity getById(Long id);
 }

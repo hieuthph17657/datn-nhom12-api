@@ -76,7 +76,20 @@ public class ReturnServiceImpl implements ReturnService {
             throw new CustomException(403, "Không tìm thấy mã muốn sửa");
         }
         ReturnEntity returnEntity = returnEntityOptional.get();
-        returnEntity.setData(post);
+        returnEntity.setStatus(post.getStatus());
+        returnEntity.setIsCheck(post.getIsCheck());
+       List<ReturnDetailEntity> returnDetailEntities = this.returnDetailRepository.findReturnByIds(returnEntity.getId());
+       post.getReturnDetailEntities().forEach(request -> {
+           ReturnDetailEntity returnDetailEntity = this.returnDetailRepository.getById(request.getId());
+           returnDetailEntity.setStatus(request.getStatus());
+           this.returnDetailRepository.saveAll(returnDetailEntities);
+       });
+
+
+//       returnDetailEntities.forEach(returnDetailEntity -> {
+//           returnDetailEntity.setStatus(ReturnDetailStatus.DA_XAC_NHAN);
+//       });
+//       this.returnDetailRepository.saveAll(returnDetailEntities);
         ReturnEntity returnEn = this.returnRepository.save(returnEntity);
         return returnEn;
     }
@@ -100,8 +113,6 @@ public class ReturnServiceImpl implements ReturnService {
 
     @Override
     public List<ReturnDetailEntity> findById(Long id) {
-        System.out.println("id return: " + id);
-//        List<ReturnDetailEntity> list =
         return this.returnDetailRepository.findReturnByIds(id);
     }
 
@@ -113,5 +124,10 @@ public class ReturnServiceImpl implements ReturnService {
         this.returnDetailRepository.save(returnDetailEntity);
         UpdateReturnDetailDTO returnDetailDTO = modelMapper.map(returnDetailEntity,UpdateReturnDetailDTO.class);
         return returnDetailDTO;
+    }
+
+    @Override
+    public ReturnEntity getById(Long id) {
+        return this.returnRepository.getById(id);
     }
 }
