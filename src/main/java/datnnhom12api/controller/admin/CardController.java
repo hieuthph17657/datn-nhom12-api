@@ -32,14 +32,14 @@ public class CardController {
         return new CardResponse(CardMapper.toPageDTO(page));
     }
 
-    @PostMapping()
-    public CardResponse create(@Valid @RequestBody CardRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
-        if (bindingResult.hasErrors()) {
-            throw new CustomValidationException(bindingResult.getAllErrors());
-        }
-        CardEntity postEntity = cardService.create(post);
-        return new CardResponse(CardMapper.getInstance().toDTO(postEntity));
-    }
+    // @PostMapping()
+    // public CardResponse create(@Valid @RequestBody CardRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    //     if (bindingResult.hasErrors()) {
+    //         throw new CustomValidationException(bindingResult.getAllErrors());
+    //     }
+    //     CardEntity postEntity = cardService.create(post);
+    //     return new CardResponse(CardMapper.getInstance().toDTO(postEntity));
+    // }
 
     @PutMapping("/{id}")
     public CardResponse edit(@PathVariable("id") Long id, @Valid @RequestBody CardRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
