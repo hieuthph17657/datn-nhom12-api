@@ -1,5 +1,6 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.dto.OriginDTO;
 import datnnhom12api.entity.OriginEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
@@ -52,5 +53,17 @@ public class OriginController {
     public OriginResponse delete(@PathVariable("id") Long id) throws CustomException {
         originService.delete(id);
         return new OriginResponse();
+    }
+
+    @PutMapping(("/api/admin/origin/{id}/active"))
+    public OriginDTO active (@PathVariable("id") Long id) throws CustomException {
+        OriginDTO originDTO = this.originService.active(id);
+        return originDTO;
+    }
+
+    @PutMapping(("/api/admin/origin/{id}/inactive"))
+    public OriginDTO inactive (@PathVariable("id") Long id) throws CustomException {
+        OriginDTO originDTO = this.originService.inactive(id);
+        return originDTO;
     }
 }
