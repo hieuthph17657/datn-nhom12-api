@@ -26,6 +26,9 @@ public class ScreenRequest {
     @NotBlank(message = "loại màn hình không được trống")
     private String screenType;
 
+    //@NotBlank(message = "tần số quét không được trống")
+    private String scanFrequency;
+
     @NotBlank(message = "tấm nền màn hình không được trống")
     private String backgroundPanel;
 
@@ -35,8 +38,14 @@ public class ScreenRequest {
     @NotBlank(message = "độ phủ màu màn hình không được trống")
     private String colorCoverage;
 
+    //@NotBlank(message = "tỉ lệ màn hình không được trống")
+    private String screenRatio;
+
     @NotBlank(message = "màn hình cảm ứng không được trống")
     private String touchScreen;
+
+    //@NotBlank(message ="độ tương phản không được trống")
+    private String contrast;
 
     private double price;
 

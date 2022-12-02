@@ -19,12 +19,11 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/discount")
 public class DiscountController {
     @Autowired
     DiscountService discountService;
 
-    @GetMapping
+    @GetMapping("/api/discount")
         public DiscountResponse index(@Valid DiscountPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -34,13 +33,13 @@ public class DiscountController {
         return new DiscountResponse(DiscountMapper.toPageDTO(page));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/staff/discount/{id}")
     public DiscountResponse getId(@PathVariable("id") Long id) throws CustomException{
         DiscountEntity entity =discountService.getByIdDiscount(id);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(entity));
     }
 
-    @PostMapping()
+    @PostMapping("/api/staff/discount")
     public DiscountResponse create(@Valid @RequestBody DiscountRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -49,7 +48,7 @@ public class DiscountController {
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/staff/discount/{id}")
     public DiscountResponse edit(@PathVariable("id") Long id, @Valid @RequestBody DiscountRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -57,24 +56,24 @@ public class DiscountController {
         DiscountEntity postEntity = discountService.edit(id, post);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
-    @PutMapping("/active/{id}")
+    @PutMapping("/api/admin/active/{id}")
     public DiscountResponse active(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
         DiscountEntity postEntity = discountService.active(id);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
-    @PutMapping("/inactive/{id}")
+    @PutMapping("/api/admin/discount/inactive/{id}")
     public DiscountResponse inActive(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
         DiscountEntity postEntity = discountService.inActive(id);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
-    @PostMapping("/draft")
+    @PostMapping("/api/staff/discount/draft")
     public DiscountResponse draft(@RequestBody DiscountRequest post) throws CustomValidationException, CustomException {
         post.setActive(2);
         DiscountEntity postEntity = discountService.save(post);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/admin/discount/{id}")
     public DiscountResponse delete(@PathVariable("id") Long id) throws CustomException {
         DiscountEntity entity =discountService.getByIdDiscount(id);
         if (entity.getActive()==2) {

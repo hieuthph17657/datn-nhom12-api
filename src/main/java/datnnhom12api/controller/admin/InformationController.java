@@ -18,12 +18,11 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/information")
 public class InformationController {
     @Autowired
     InformationService infoService;
 
-    @GetMapping
+    @GetMapping("/api/information")
     public InformationResponse index(@Valid CategoryPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -33,7 +32,7 @@ public class InformationController {
         return new InformationResponse(InformationMapper.toPageDTO(page));
     }
 
-    @PostMapping()
+    @PostMapping("/api/staff/information")
     public InformationResponse create(@Valid @RequestBody InformationRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -42,7 +41,7 @@ public class InformationController {
         return new InformationResponse(InformationMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/staff/information/{id}")
     public InformationResponse edit(@PathVariable("id") Long id, @Valid @RequestBody InformationRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -51,7 +50,7 @@ public class InformationController {
         return new InformationResponse(InformationMapper.getInstance().toDTO(postEntity));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/admin/information/{id}")
     public InformationResponse delete(@PathVariable("id") Long id) throws CustomException {
         infoService.delete(id);
         return new InformationResponse();

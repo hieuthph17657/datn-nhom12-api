@@ -17,4 +17,8 @@ public interface ScreenService {
     ScreenEntity update(Long id, ScreenRequest post) throws CustomException;
 
     void delete(Long id);
+
+    ScreenEntity open(Long id) throws CustomException;
+
+    ScreenEntity close(Long id) throws CustomException;
 }

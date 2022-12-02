@@ -79,4 +79,5 @@ public class CategoryController {
         CategoryEntity postEntity = cateService.save(post);
         return new CategoryResponse(CategoryMapper.getInstance().toDTO(postEntity));
     }
+
 }

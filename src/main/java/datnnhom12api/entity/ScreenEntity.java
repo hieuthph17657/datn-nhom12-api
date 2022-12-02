@@ -29,8 +29,11 @@ public class ScreenEntity  extends BaseEntity {
     @Column(name = "resolution")
     private String resolution;
 
-    @Column(name = "screnn_type")
+    @Column(name = "screen_type")
     private String screenType;
+
+    @Column(name = "scanFrequency")
+    private String scanFrequency;
 
     @Column(name = "background_panel")
     private String backgroundPanel;
@@ -41,8 +44,14 @@ public class ScreenEntity  extends BaseEntity {
     @Column(name = "color_coverage")
     private String colorCoverage;
 
+    @Column(name = "screen_ratio")
+    private String screenRatio;
+
     @Column(name = "touch_screen")
     private String touchScreen;
+
+    @Column(name = "contrast")
+    private String contrast;
 
     @Column(name = "price")
     private double price;
@@ -52,11 +61,14 @@ public class ScreenEntity  extends BaseEntity {
 
     public void setData(ScreenRequest request) {
         this.price =request.getPrice();
+        this.contrast=request.getContrast();
         this.touchScreen = request.getTouchScreen();
         this.colorCoverage = request.getColorCoverage();
         this.brightness = request.getBrightness();
         this.backgroundPanel = request.getBackgroundPanel();
+        this.screenRatio=request.getScreenRatio();
         this.screenType = request.getScreenType();
+        this.scanFrequency=request.getScanFrequency();
         this.resolution = request.getResolution();
         this.screenTechnology = request.getScreenTechnology();
         this.size = request.getSize();
