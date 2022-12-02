@@ -22,7 +22,7 @@ public class BatteryChargerController {
     @Autowired
     private BatteryChargerService batteryChargerService;
 
-    @GetMapping("/api/staff/batteryCharger")
+    @GetMapping("/api/auth/batteryCharger")
     public BatteryChargerResponse index(@Valid BatteryChargerPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -31,7 +31,7 @@ public class BatteryChargerController {
         return new BatteryChargerResponse(BatteryChargerMapper.toPageDTO(page));
     }
 
-    @PostMapping("/api/admin/batteryCharger")
+    @PostMapping("/api/staff/batteryCharger")
     public BatteryChargerResponse create(@Valid @RequestBody BatteryChargerRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -40,7 +40,7 @@ public class BatteryChargerController {
         return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(postEntity));
     }
 
-    @GetMapping("/api/admin/batteryCharger/{id}")
+    @GetMapping("/api/staff/batteryCharger/{id}")
     public BatteryChargerResponse getId(@PathVariable("id") Long id) throws CustomException{
         BatteryChargerEntity entity =batteryChargerService.getByIdBatteryCharger(id);
         return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(entity));
@@ -73,7 +73,7 @@ public class BatteryChargerController {
         return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toDTO(postEntity));
     }
 
-    @PostMapping("/api/admin/batteryCharger/draft")
+    @PostMapping("/api/staff/batteryCharger/draft")
     public BatteryChargerResponse draft(@RequestBody BatteryChargerRequest post, BindingResult bindingResult)throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());

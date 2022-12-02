@@ -22,21 +22,27 @@ public class ScreenDTO extends BaseDTO implements Serializable {
 
     private Long id;
 
-    private String size;
+    private String size;//Kích thước màn hình
 
-    private String screenTechnology;
+    private String screenTechnology;//Công nghệ màn hình
 
-    private String resolution;
+    private String resolution;//Độ phân giải
 
-    private String screenType;
+    private String screenType;//Loại màn hình
 
-    private String backgroundPanel;
+    private String scanFrequency; //Tần số quét
 
-    private String brightness;
+    private String backgroundPanel;//Tấm nền
 
-    private String colorCoverage;
+    private String brightness;//Độ sáng
 
-    private String touchScreen;
+    private String colorCoverage;//Độ phủ màu
+
+    private String screenRatio;//Tỷ lệ màn hình
+
+    private String touchScreen;// màn hình cảm ứng
+
+    private String contrast;// độ tương phản
 
     private double price;
 

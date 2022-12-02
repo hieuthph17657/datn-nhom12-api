@@ -1,14 +1,13 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.entity.RamEntity;
 import datnnhom12api.entity.ScreenEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.ScreenRepository;
 import datnnhom12api.request.ScreenRequest;
 import datnnhom12api.service.ScreenService;
-import datnnhom12api.specifications.RamSpecifications;
 import datnnhom12api.specifications.ScreenScpecifications;
+import datnnhom12api.utils.support.ScreenStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,5 +68,34 @@ public class ScreenServiceImpl implements ScreenService {
     public void delete(Long id) {
         ScreenEntity screenEntity = this.screenRepository.getById(id);
         screenRepository.delete(screenEntity);
+    }
+    @Override
+    public ScreenEntity open(Long id) throws CustomException {
+        Optional<ScreenEntity> screenEntityOptional = screenRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id danh mục phải lớn hơn 0");
+        }
+        if (screenEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id danh mục muốn sửa");
+        }
+        ScreenEntity screenEntity = screenEntityOptional.get();
+        screenEntity.setStatus(ScreenStatus.ACTIVE);
+        screenEntity = screenRepository.save(screenEntity);
+        return screenEntity;
+    }
+
+    @Override
+    public ScreenEntity close(Long id) throws CustomException {
+        Optional<ScreenEntity> screenEntityOptional = screenRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id phải lớn hơn 0");
+        }
+        if (screenEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy bản ghi muốn sửa");
+        }
+        ScreenEntity screenEntity = screenEntityOptional.get();
+        screenEntity.setStatus(ScreenStatus.INACTIVE);
+        screenEntity = screenRepository.save(screenEntity);
+        return screenEntity;
     }
 }
