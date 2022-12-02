@@ -22,12 +22,12 @@ public class accessoryController {
     @Autowired
     accessoryService accessoryService;
 
-    @GetMapping("/api/staff/accessory/getAll")
+    @GetMapping("/api/auth/accessory/getAll")
     public List<accessoryEntity> getAll() {
         return accessoryService.findAll();
     }
 
-    @GetMapping("/api/staff/accessory")
+    @GetMapping("/api/auth/accessory")
     public accessoryResponse index(@Valid accessoryPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());

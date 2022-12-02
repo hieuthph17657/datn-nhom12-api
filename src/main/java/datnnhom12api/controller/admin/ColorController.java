@@ -1,12 +1,18 @@
 package datnnhom12api.controller.admin;
 
 
+import datnnhom12api.core.PaginationRequest;
 import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.entity.ColorEntity;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.CategoryMapper;
+import datnnhom12api.mapper.ColorMapper;
 import datnnhom12api.paginationrequest.CategoryPaginationRequest;
+import datnnhom12api.paginationrequest.ColorPaginationRequest;
 import datnnhom12api.response.CategoryResponse;
+import datnnhom12api.response.ColorResponse;
 import datnnhom12api.service.CategoryService;
+import datnnhom12api.service.ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -22,14 +28,14 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class ColorController {
     @Autowired
-    CategoryService cateService;
+    ColorService colorService;
 
     @GetMapping("/auth/colors")
-    public CategoryResponse index(@Valid CategoryPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
+    public ColorResponse index(@Valid ColorPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<CategoryEntity> page = cateService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
-        return new CategoryResponse(CategoryMapper.toPageDTO(page));
+        Page<ColorEntity> page = colorService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        return new ColorResponse(ColorMapper.toPageDTO(page));
     }
 }

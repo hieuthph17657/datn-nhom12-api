@@ -85,7 +85,7 @@ public class ProductEntity extends BaseEntity {
 
     private Long originId;
 
-    private Long colorId;
+    private Long storageId;
 
     private Long batteryId;
 
@@ -93,8 +93,11 @@ public class ProductEntity extends BaseEntity {
 
     private String material;
 
+    private Long cardOnboard;
 
+    private String security;
 
+    private String description;
 
     public void setData(ProductRequest request) {
         this.name = request.getName();
@@ -107,7 +110,6 @@ public class ProductEntity extends BaseEntity {
         this.width = request.getWidth();
         this.status = request.getStatus() == ProductStatus.DRAFT ? ProductStatus.DRAFT : ProductStatus.ACTIVE;
         this.imei = request.getImei();
-        this.colorId = request.getColorId();
         this.cardId = request.getCardId();
         this.originId = request.getOriginId();
         this.batteryId = request.getBatteryId();
@@ -116,6 +118,10 @@ public class ProductEntity extends BaseEntity {
         this.processorId = request.getProcessorId();
         this.win = request.getWin();
         this.material = request.getMaterial();
+        this.cardOnboard = request.getCardOnboard();
+        this.security = request.getSecurity();
+        this.storageId = request.getStorageId();
+        this.description = request.getDescription();
     }
 
     public void enrichListImage(List<ImagesEntity> imagesEntities) {

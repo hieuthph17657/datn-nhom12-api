@@ -61,12 +61,22 @@ public class ProductRequest {
 
     private Long originId;
 
-    private Long colorId;
+    private List<Long> colorId;
 
     private Long batteryId;
+
+    private Long storageId;
 
     private String win;
 
     private String material;
+
+    private Long cardOnboard;
+
+    private List<Long> accessoryId;
+
+    private String description;
+
+    private String security;
 
 }

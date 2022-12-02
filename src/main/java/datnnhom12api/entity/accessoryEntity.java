@@ -25,8 +25,8 @@ public class accessoryEntity extends BaseEntity {
     @Column(name = "price")
     private double price;
 
-    @Column(name="type")
-    private String type;
+    @Column(name="category_id")
+    private Long  categoryId;
 
     @Column(name="description")
     private String description;
@@ -34,7 +34,7 @@ public class accessoryEntity extends BaseEntity {
     public void setData(accessoryRequest request) {
         this.name = request.getName();
         this.price = request.getPrice();
-        this.type = request.getType();
+        this.categoryId = request.getCategoryId();
         this.description = request.getDescription();
     }
 }

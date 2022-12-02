@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
 import java.util.*;
 
 @Service("productService")
@@ -47,11 +48,16 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ImageRepository imageRepository;
 
+    @Autowired
+    AccessoryProductRepository accessoryProductRepository;
+
+    @Autowired
+    ProductColorRepository productColorRepository;
+
     @Override
     public ProductEntity insert(ProductRequest productRequest) throws CustomException {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
-//        List<ProductPropertyEntity> productPropertyEntity = productRequest.getProductProperties();
         List<ImageRequest> list = productRequest.getImages();
         for (ImageRequest imageRequest:list){
             ImagesEntity imagesEntity=new ImagesEntity();
@@ -65,6 +71,18 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setManufactureId(productRequest.getManufactureId());
         productEntity = productRepository.save(productEntity);
         Long id = productEntity.getId();
+        productRequest.getAccessoryId().forEach(access -> {
+            accessoryProductEntity accessoryProductEntity = new accessoryProductEntity();
+            accessoryProductEntity.setProductId(id);
+            accessoryProductEntity.setAccessoryId(access);
+            this.accessoryProductRepository.save(accessoryProductEntity);
+        } );
+        productRequest.getColorId().forEach(color -> {
+            ProductColorEntity pColorEntity = new ProductColorEntity();
+            pColorEntity.setColorId(color);
+            pColorEntity.setProductId(id);
+            this.productColorRepository.save(pColorEntity);
+        });
         return productEntity;
     }
 
