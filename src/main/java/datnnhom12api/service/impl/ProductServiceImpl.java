@@ -63,28 +63,8 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setCategoryId(productRequest.getCategoryId());
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufactureId(productRequest.getManufactureId());
-        ConfigurationEntity configuration =new ConfigurationEntity();
-        configuration.setCapacity(productRequest.getConfiguration().getCapacity());
-        configuration.setOptical(productRequest.getConfiguration().getOptical());
-        configuration.setRam(productRequest.getConfiguration().getRam());
-        configuration.setSlot(productRequest.getConfiguration().getSlot());
-        configuration.setWin(productRequest.getConfiguration().getWin());
-        configuration.setHard_drive(productRequest.getConfiguration().getHard_drive());
-        configuration.setProcessor(productRequest.getConfiguration().getProcessor());
-        configuration.setBattery(productRequest.getConfiguration().getBattery());
-        configuration.setScreen(productRequest.getConfiguration().getScreen());
-        configuration.setSecurity(productRequest.getConfiguration().getSecurity());
-        configuration.setProduct(productEntity);
-        productEntity.setConfiguration(configuration);
         productEntity = productRepository.save(productEntity);
         Long id = productEntity.getId();
-//        productPropertyEntity.stream().forEach(productPropertyEntity1 -> {
-//            ProductEntity product = productRepository.getById(id);
-//            productPropertyEntity1.setProduct(product);
-//        });
-//        configuration.setProduct(id);
-        this.configurationRepository.save(configuration);
-//        this.productPropertyRepository.saveAll(productPropertyEntity);
         return productEntity;
     }
 
@@ -115,18 +95,7 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setManufactureId(productRequest.getManufactureId());
         ConfigurationEntity configuration =new ConfigurationEntity();
         System.out.println(productRequest.toString());
-        configuration.setCapacity(productRequest.getConfiguration().getCapacity());
-        configuration.setOptical(productRequest.getConfiguration().getOptical());
-        configuration.setRam(productRequest.getConfiguration().getRam());
-        configuration.setSlot(productRequest.getConfiguration().getSlot());
-        configuration.setWin(productRequest.getConfiguration().getWin());
-        configuration.setHard_drive(productRequest.getConfiguration().getHard_drive());
-        configuration.setProcessor(productRequest.getConfiguration().getProcessor());
-        configuration.setBattery(productRequest.getConfiguration().getBattery());
-        configuration.setScreen(productRequest.getConfiguration().getScreen());
-        configuration.setSecurity(productRequest.getConfiguration().getSecurity());
         configuration.setProduct(productEntity);
-        productEntity.setConfiguration(configuration);
         productEntity = productRepository.save(productEntity);
         this.configurationRepository.save(configuration);
         return productEntity;
@@ -201,7 +170,6 @@ public class ProductServiceImpl implements ProductService {
     private void enrichImage(ProductEntity productEntity) {
         List<ImagesEntity> imagesEntities = this.imageRepository.findAllByProductId(productEntity.getId());
         ConfigurationEntity configuration = this.configurationRepository.findByProductId(productEntity.getId());
-        productEntity.enrichConfiguration(configuration);
         productEntity.enrichListImage(imagesEntities);
     }
 

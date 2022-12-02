@@ -53,12 +53,6 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "debut")
     private String debut;
 
-    @Column(name = "p_n")
-    private String p_n;
-
-    @Column(name = "origin")
-    private String origin;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "created_by")
@@ -73,13 +67,7 @@ public class ProductEntity extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<ImagesEntity> images;
 
-//    @OneToMany(mappedBy = "product")
-//    private List<ProductPropertyEntity> productProperties;
-
     private Long categoryId;
-
-    @OneToOne
-    private ConfigurationEntity configuration;
 
     @ManyToOne
     @JoinColumn(name="id_discount")
@@ -87,8 +75,26 @@ public class ProductEntity extends BaseEntity {
 
     private Long manufactureId;
 
-//   @OneToOne(mappedBy = "product")
-//   private ConfigurationEntity configuration;
+    private Long processorId;
+
+    private Long ramId;
+
+    private Long screenId;
+
+    private Long cardId;
+
+    private Long originId;
+
+    private Long colorId;
+
+    private Long batteryId;
+
+    private String win;
+
+    private String material;
+
+
+
 
     public void setData(ProductRequest request) {
         this.name = request.getName();
@@ -99,24 +105,23 @@ public class ProductEntity extends BaseEntity {
         this.length = request.getLength();
         this.height = request.getHeight();
         this.width = request.getWidth();
-        this.p_n = request.getP_n();
-        this.origin = request.getOrigin();
-//        this.images = request.getImages();
         this.status = request.getStatus() == ProductStatus.DRAFT ? ProductStatus.DRAFT : ProductStatus.ACTIVE;
-//        this.configuration = request.getConfiguration();
         this.imei = request.getImei();
-        this.createdBy = request.getCreatedBy();
-        this.updatedBy = request.getUpdatedBy();
-//        System.out.println("request: "+request.getProductProperties());
-//        this.productProperties = request.getProductProperties();
+        this.colorId = request.getColorId();
+        this.cardId = request.getCardId();
+        this.originId = request.getOriginId();
+        this.batteryId = request.getBatteryId();
+        this.screenId = request.getScreenId();
+        this.ramId = request.getRamId();
+        this.processorId = request.getProcessorId();
+        this.win = request.getWin();
+        this.material = request.getMaterial();
     }
 
     public void enrichListImage(List<ImagesEntity> imagesEntities) {
         images = imagesEntities;
     }
 
-    public void enrichConfiguration(ConfigurationEntity configuration) {
-        this.configuration = configuration;
-    }
+
 }
 

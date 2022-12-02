@@ -38,9 +38,9 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private String debut;
 
-    private String p_n;
+    private String win;
 
-    private String origin;
+    private String material;
 
     private UserEntity created_by;
 
@@ -50,11 +50,21 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private Long manufactureId;
 
-    private ConfigurationEntity configuration;
-
     private List<ImagesEntity> images;
-//
-//    private List<ProductPropertyEntity> productProperties;
 
     private ProductStatus status;
+
+    private ProcessorEntity processorId;
+
+    private RamEntity RamId;
+
+    private ScreenEntity screenId;
+
+    private CardEntity cardId;
+
+    private OriginEntity originId;
+
+    private ColorEntity colorId;
+
+    private Long batteryId;
 }
