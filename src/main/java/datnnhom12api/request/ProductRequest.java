@@ -42,20 +42,7 @@ public class ProductRequest {
     @NotBlank(message = "Năm ra mắt Không được để trống")
     private String debut;
 
-    @NotBlank(message = "Không được để trống")
-    private String p_n;
-
-    @NotBlank(message = "Không được để trống")
-    private String origin;
-
     private List<ImageRequest> images;
-//    private List<String> images;
-
-    //private ConfigurationEntity configuration;
-
-    private UserEntity createdBy;
-
-    private UserEntity updatedBy;
 
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
@@ -64,9 +51,22 @@ public class ProductRequest {
 
     private Long manufactureId;
 
-    private ConfigurationEntity configuration;
+    private Long processorId;
 
-//    @NotEmpty(message = "PRODUCT_PROPERTIES_REQUIRED")
-//    @Size(min = 1, message = "PRODUCT_PROPERTIES_SIZE")
-//    private List<ProductPropertyEntity> productProperties;
+    private Long RamId;
+
+    private Long screenId;
+
+    private Long cardId;
+
+    private Long originId;
+
+    private Long colorId;
+
+    private Long batteryId;
+
+    private String win;
+
+    private String material;
+
 }
