@@ -17,7 +17,7 @@ public class accessoryDTO extends BaseDTO implements Serializable {
 
     private String name;
 
-    private String type;
+    private Long categoryId;
 
     private double price;
 
