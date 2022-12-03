@@ -6,6 +6,7 @@ import datnnhom12api.request.CardRequest;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,6 +16,10 @@ public class CardEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @OneToMany(mappedBy = "card")
+    private List<ProductEntity> products;
+
     @Column(name = "trandemark")
     private String trandemark;
     @Column(name = "model")

@@ -5,6 +5,7 @@ import datnnhom12api.request.RamRequest;
 import datnnhom12api.utils.support.RamStatus;
 import lombok.*;
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -19,6 +20,9 @@ public class RamEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+    @OneToMany(mappedBy = "ram")
+    private List<ProductEntity> products;
 
     @Column(name = "ram_capacity")
     private String ramCapacity;

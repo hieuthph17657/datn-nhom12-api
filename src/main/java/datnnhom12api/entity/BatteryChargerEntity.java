@@ -6,6 +6,7 @@ import datnnhom12api.utils.support.BatteryChargerStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -19,6 +20,9 @@ public class BatteryChargerEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+    @OneToMany(mappedBy = "battery")
+    private List<ProductEntity> products;
 
     @Column(name="battery_type")
     private String batteryType;//loại pin

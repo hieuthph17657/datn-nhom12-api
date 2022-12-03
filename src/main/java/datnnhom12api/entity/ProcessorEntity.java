@@ -9,6 +9,7 @@ import datnnhom12api.utils.support.ProcessorStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -23,6 +24,9 @@ public class ProcessorEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+    @OneToMany(mappedBy = "processor")
+    private List<ProductEntity> products;
 
     @Column(name = "cpu_company")
     private String cpuCompany;

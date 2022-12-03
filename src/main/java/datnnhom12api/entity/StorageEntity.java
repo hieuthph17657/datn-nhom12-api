@@ -6,6 +6,7 @@ import datnnhom12api.request.StorageRequest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -20,6 +21,9 @@ public class StorageEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "storage")
+    private List<ProductEntity> products;
 
     @ManyToOne
     @JoinColumn(name = "storage_detail_id")
