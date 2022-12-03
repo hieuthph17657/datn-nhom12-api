@@ -1,6 +1,8 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.OrderConfirmDTO;
+import datnnhom12api.dto.OrderDTO;
 import datnnhom12api.dto.OrderDetailDTO;
 import datnnhom12api.dto.UpdateOrderDetailDTO;
 import datnnhom12api.entity.*;
@@ -364,5 +366,51 @@ public class OrderServiceImpl implements OrderService {
         ModelMapper modelMapper = new ModelMapper();
         OrderDetailDTO orderDetailDTO= modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
         return orderDetailDTO;
+    }
+
+    @Override
+    public UpdateOrderDetailDTO updateWithReturn(
+            Long orderId, Long orderDetailId,
+            UpdateOrderDetailRequest orderDetailRequest
+    ) {
+        OrderEntity orderEntity = this.orderRepository.getById(orderId);
+        OrderDetailEntity orderDetailEntity = this.orderDetailRepository.findByIdAndOrderId(orderDetailId, orderId);
+        if(orderDetailEntity != null) {
+            int quantity = orderDetailEntity.getQuantity()- orderDetailRequest.getQuantity();
+            System.out.println("quantity: "+ quantity);
+            orderDetailEntity.setQuantity(quantity);
+            orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice()*quantity);
+            this.orderDetailRepository.save(orderDetailEntity);
+            System.out.println("số lượng: "+orderDetailEntity.getQuantity());
+            System.out.println("tổng tiền: "+orderDetailEntity.getTotal());
+            double count = 0;
+            List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderId);
+            for (OrderDetailEntity od : list) {
+                count += od.getTotal();
+            }
+            System.out.println(count);
+            if(count < 0){
+                orderEntity.setTotal(0);
+            }else {
+                orderEntity.setTotal(count);
+            }
+
+            this.orderRepository.save(orderEntity);
+        }else {
+            throw  new RuntimeException("không tìm thấy hoá đơn chi tiết");
+        }
+        ModelMapper modelMapper = new ModelMapper();
+        UpdateOrderDetailDTO orderDetailDTO= modelMapper.map(orderDetailEntity, UpdateOrderDetailDTO.class);
+        return orderDetailDTO;
+    }
+
+    @Override
+    public List<OrderConfirmDTO> findByIdOrderId(List<OrderConfirmDTO> id) {
+        id.forEach(orderId -> {
+            OrderEntity orderEntity = this.orderRepository.getById(orderId.getId());
+            orderEntity.setStatus(orderId.getStatus());
+            this.orderRepository.save(orderEntity);
+        });
+        return null;
     }
 }

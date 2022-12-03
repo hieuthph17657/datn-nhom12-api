@@ -48,7 +48,7 @@ public class OrderEntity extends BaseEntity {
         this.payment = request.getPayment();
         this.money = request.getMoney();
         this.address = request.getAddress();
-        this.phone = request.getPhone().equals(" ") ? "" : request.getPhone();
+        this.phone = request.getPhone();
         this.customerName = request.getCustomerName().equals(" ") ? " " : request.getCustomerName();
         this.note = request.getNote();
         if (request.getStatus() == OrderStatus.CHO_XAC_NHAN){

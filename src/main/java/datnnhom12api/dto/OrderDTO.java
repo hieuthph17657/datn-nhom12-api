@@ -40,7 +40,7 @@ public class OrderDTO extends BaseDTO implements Serializable {
 
     private String phone;
 
-    private UserEntity user;
+    private UserDTO user;
 
     private List<OrderDetailEntity> orderDetails;
 }

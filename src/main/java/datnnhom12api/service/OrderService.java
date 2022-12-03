@@ -1,6 +1,8 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.OrderConfirmDTO;
+import datnnhom12api.dto.OrderDTO;
 import datnnhom12api.dto.OrderDetailDTO;
 import datnnhom12api.dto.UpdateOrderDetailDTO;
 import datnnhom12api.entity.OrderDetailEntity;
@@ -46,4 +48,8 @@ public interface OrderService {
     List<OrderDetailEntity> createOrderDetail(List<ExchangeRequest> exchangeRequest);
 
     OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest);
+
+    UpdateOrderDetailDTO updateWithReturn(Long orderId, Long orderDetailId, UpdateOrderDetailRequest orderDetailRequest);
+
+    List<OrderConfirmDTO> findByIdOrderId(List<OrderConfirmDTO> id);
 }

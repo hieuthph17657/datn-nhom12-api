@@ -21,4 +21,5 @@ public class InformationDTO implements Serializable {
     private String phoneNumber;
     private String address;
     private int active;
+    private Long userId;
 }
