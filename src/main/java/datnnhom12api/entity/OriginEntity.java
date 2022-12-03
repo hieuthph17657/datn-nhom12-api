@@ -8,6 +8,7 @@ import datnnhom12api.utils.support.OriginStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -24,6 +25,9 @@ public class OriginEntity  extends BaseEntity {
 
     @Column(name="name")
     private String name;
+
+    @OneToMany(mappedBy = "origin")
+    private List<ProductEntity> products;
 
     @Enumerated(EnumType.STRING)
     @Column(name="status")

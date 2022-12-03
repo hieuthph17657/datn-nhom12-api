@@ -5,6 +5,7 @@ import datnnhom12api.utils.support.CategoryStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -25,6 +26,9 @@ public class CategoryEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name="status")
     private CategoryStatus status;
+
+    @OneToMany(mappedBy = "category")
+    private List<ProductEntity> products;
 
     public void setData(CategoryRequest request) {
         this.name = request.getName();

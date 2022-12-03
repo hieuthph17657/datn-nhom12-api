@@ -6,6 +6,7 @@ import datnnhom12api.utils.support.ScreenStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -19,6 +20,9 @@ public class ScreenEntity  extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+    @OneToMany(mappedBy = "screen")
+    private List<ProductEntity> products;
 
     @Column(name = "size")
     private String size;

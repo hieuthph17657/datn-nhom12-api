@@ -42,29 +42,29 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private String material;
 
-    private UserEntity created_by;
+    private UserDTO created_by;
 
-    private UserEntity updated_by;
+    private UserDTO updated_by;
 
-    private Long categoryId;
+    private CategoryDTO category;
 
-    private Long manufactureId;
+    private ManufactureDTO manufacture;
 
     private List<ImagesEntity> images;
 
     private ProductStatus status;
 
-    private ProcessorEntity processorId;
+    private ProcessorDTO processor;
 
-    private RamEntity RamId;
+    private RamDTO ram;
 
-    private ScreenEntity screenId;
+    private ScreenDTO screen;
 
-    private CardEntity cardId;
+    private CartDTO card;
 
-    private OriginEntity originId;
+    private OriginDTO origin;
 
-    private ColorEntity colorId;
+    private OriginDTO storage;
 
-    private Long batteryId;
+    private BatteryChargerDTO battery;
 }

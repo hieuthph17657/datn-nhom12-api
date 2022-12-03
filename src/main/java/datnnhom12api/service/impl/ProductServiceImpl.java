@@ -66,9 +66,9 @@ public class ProductServiceImpl implements ProductService {
             imageRepository.save(imagesEntity);
         }
         CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
-        productEntity.setCategoryId(productRequest.getCategoryId());
+        productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
-        productEntity.setManufactureId(productRequest.getManufactureId());
+        productEntity.setManufacture(manufacture);
         productEntity = productRepository.save(productEntity);
         Long id = productEntity.getId();
         productRequest.getAccessoryId().forEach(access -> {
@@ -108,9 +108,9 @@ public class ProductServiceImpl implements ProductService {
             imageRepository.save(imagesEntity);
         }
         CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
-        productEntity.setCategoryId(productRequest.getCategoryId());
+        productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
-        productEntity.setManufactureId(productRequest.getManufactureId());
+        productEntity.setManufacture(manufacture);
         ConfigurationEntity configuration =new ConfigurationEntity();
         System.out.println(productRequest.toString());
         configuration.setProduct(productEntity);

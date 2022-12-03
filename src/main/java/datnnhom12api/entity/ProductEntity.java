@@ -67,27 +67,45 @@ public class ProductEntity extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<ImagesEntity> images;
 
-    private Long categoryId;
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private CategoryEntity category;
 
     @ManyToOne
     @JoinColumn(name="id_discount")
     private DiscountEntity discount;
 
-    private Long manufactureId;
+    @ManyToOne
+    @JoinColumn(name="manufacture_id")
+    private ManufactureEntity manufacture;
 
-    private Long processorId;
+    @ManyToOne
+    @JoinColumn(name="processor_id")
+    private ProcessorEntity processor;
 
-    private Long ramId;
+    @ManyToOne
+    @JoinColumn(name="ram_id")
+    private RamEntity ram;
 
-    private Long screenId;
+    @ManyToOne
+    @JoinColumn(name="screen_id")
+    private ScreenEntity screen;
 
-    private Long cardId;
+    @ManyToOne
+    @JoinColumn(name="card_id")
+    private CardEntity card;
 
-    private Long originId;
+    @ManyToOne
+    @JoinColumn(name="origin_id")
+    private OriginEntity origin;
 
-    private Long storageId;
+    @ManyToOne
+    @JoinColumn(name="storage_id")
+    private StorageEntity storage;
 
-    private Long batteryId;
+    @ManyToOne
+    @JoinColumn(name="battery_id")
+    private BatteryChargerEntity battery;
 
     private String win;
 
@@ -110,17 +128,10 @@ public class ProductEntity extends BaseEntity {
         this.width = request.getWidth();
         this.status = request.getStatus() == ProductStatus.DRAFT ? ProductStatus.DRAFT : ProductStatus.ACTIVE;
         this.imei = request.getImei();
-        this.cardId = request.getCardId();
-        this.originId = request.getOriginId();
-        this.batteryId = request.getBatteryId();
-        this.screenId = request.getScreenId();
-        this.ramId = request.getRamId();
-        this.processorId = request.getProcessorId();
         this.win = request.getWin();
         this.material = request.getMaterial();
         this.cardOnboard = request.getCardOnboard();
         this.security = request.getSecurity();
-        this.storageId = request.getStorageId();
         this.description = request.getDescription();
     }
 

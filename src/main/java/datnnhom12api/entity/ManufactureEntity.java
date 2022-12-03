@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "manufacture")
@@ -28,6 +29,9 @@ public class ManufactureEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ManufactureStatus status;
+
+    @OneToMany(mappedBy = "manufacture")
+    private List<ProductEntity> products;
 
     public void setData(ManufactureRequest request) {
         this.name = request.getName();
