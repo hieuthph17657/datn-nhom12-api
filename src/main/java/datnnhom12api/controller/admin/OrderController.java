@@ -1,5 +1,7 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.dto.OrderConfirmDTO;
+import datnnhom12api.dto.OrderDTO;
 import datnnhom12api.dto.OrderDetailDTO;
 import datnnhom12api.dto.UpdateOrderDetailDTO;
 import datnnhom12api.entity.OrderDetailEntity;
@@ -152,6 +154,25 @@ public class OrderController {
         OrderDetailDTO orderDetailDTO = orderService.updateOrderDetail(id, orderDetailRequest);
         return orderDetailDTO;
     }
+    //update hoá đơn khi đã được phê duyệt trả hàng
+    @PutMapping("{orderId}/update/{orderDetailId}")
+    public UpdateOrderDetailDTO updateTotalOrder(@PathVariable("orderId") Long orderId,
+                                                 @PathVariable("orderDetailId") Long orderDetailId,
+                                                  @RequestBody UpdateOrderDetailRequest orderDetailRequest) {
+        UpdateOrderDetailDTO od = this.orderService.updateWithReturn(orderId,orderDetailId, orderDetailRequest);
+        return od;
+    }
+
+    //confirm order
+
+    @PostMapping("confirm")
+    public List<OrderConfirmDTO> confirmOrder (@RequestBody  List<OrderConfirmDTO> requests){
+        List<OrderConfirmDTO> orderId = this.orderService.findByIdOrderId(requests);
+        return orderId;
+    }
+
+
+
 
 }
 

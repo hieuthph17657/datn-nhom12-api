@@ -41,6 +41,5 @@ public class OrderRequest {
 
     private String note;
 
-    @NotNull(message = "danh sách hóa đơn chi tiết không được trống")
     private List<OrderDetailRequest> orderDetails;
 }
