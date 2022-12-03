@@ -2,6 +2,7 @@ package datnnhom12api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
+import datnnhom12api.dto.ProductDTO;
 import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.utils.support.OrderDetailStatus;
 import lombok.*;
@@ -39,9 +40,13 @@ public class OrderDetailEntity extends BaseEntity {
     @JoinColumn(name = "order_id")
     OrderEntity order;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_id")
     ProductEntity product;
+
+
+    ProductDTO pro;
 
     public void setData(OrderDetailRequest request) {
         this.quantity = request.getQuantity();
@@ -58,5 +63,10 @@ public class OrderDetailEntity extends BaseEntity {
             this.status = OrderDetailStatus.CHO_XAC_NHAN;
         }
         this.total = request.getTotal();
+    }
+
+    public void enrichProduct(ProductEntity product) {
+
+        this.product = product;
     }
 }

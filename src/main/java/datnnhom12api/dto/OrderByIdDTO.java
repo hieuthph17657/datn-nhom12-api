@@ -1,18 +1,11 @@
 package datnnhom12api.dto;
 
 import datnnhom12api.core.BaseDTO;
-import datnnhom12api.entity.CategoryEntity;
-import datnnhom12api.entity.OrderDetailEntity;
-import datnnhom12api.entity.UserEntity;
-import datnnhom12api.request.OrderDetailRequest;
 import datnnhom12api.utils.support.OrderStatus;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
-
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class OrderDTO extends BaseDTO implements Serializable {
+public class OrderByIdDTO extends BaseDTO implements Serializable {
     private Long id;
 
 //    private Long userId;
@@ -43,6 +36,5 @@ public class OrderDTO extends BaseDTO implements Serializable {
 
     private UserDTO user;
 
-//    private List<OrderDetailDTO> orderDetails;
+    private List<OrderDetailDTO> orderDetails;
 }
-

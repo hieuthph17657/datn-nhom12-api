@@ -1,12 +1,10 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.dto.OrderConfirmDTO;
-import datnnhom12api.dto.OrderDTO;
-import datnnhom12api.dto.OrderDetailDTO;
-import datnnhom12api.dto.UpdateOrderDetailDTO;
+import datnnhom12api.dto.*;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.repository.*;
 import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
@@ -26,10 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("orderService")
 @Transactional(rollbackFor = Throwable.class)
@@ -224,14 +220,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDetailEntity> findByOrder(Long id) {
-        return orderDetailRepository.findByOrder(id);
+    public List<OrderDetailDTO> findByOrder(Long id) {
+        List<OrderDetailEntity> orderDEntity = this.orderDetailRepository.findByOrder(id);
+        this.enrichProduct(orderDEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        List<OrderDetailDTO> dtos = orderDEntity
+                .stream()
+                .map(user -> modelMapper.map(user, OrderDetailDTO.class))
+                .collect(Collectors.toList());
+
+        return dtos;
+
+    }
+
+    private void enrichProduct(List<OrderDetailEntity> orderDEntity) {
+        orderDEntity.forEach(orderDetailEntity -> {
+            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProduct().getId());
+            orderDetailEntity.enrichProduct(product);
+        });
     }
 
     @Override
-    public OrderEntity findById(Long id) {
+    public OrderByIdDTO findById(Long id) {
         OrderEntity orderEntity = this.orderRepository.getById(id);
-        return orderEntity;
+       ModelMapper modelMapper = new ModelMapper();
+        OrderByIdDTO orderDTO = modelMapper.map(orderEntity, OrderByIdDTO.class);
+        return orderDTO;
     }
 
     @Override
