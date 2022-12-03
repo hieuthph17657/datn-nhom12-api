@@ -114,7 +114,9 @@ public class ProductEntity extends BaseEntity {
 
     private String material;
 
-    private Long cardOnboard;
+    @ManyToOne
+    @JoinColumn(name="card_onboard")
+    private CardEntity cardOnboard;
 
     private String security;
 
@@ -133,7 +135,6 @@ public class ProductEntity extends BaseEntity {
         this.imei = request.getImei();
         this.win = request.getWin();
         this.material = request.getMaterial();
-        this.cardOnboard = request.getCardOnboard();
         this.security = request.getSecurity();
         this.description = request.getDescription();
     }

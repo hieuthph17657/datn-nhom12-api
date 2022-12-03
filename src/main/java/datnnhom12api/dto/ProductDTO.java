@@ -66,5 +66,9 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private StorageDTO storage;
 
+    private String security;
+
+    private CardDTO cardOnboard;
+
     private BatteryChargerDTO battery;
 }
