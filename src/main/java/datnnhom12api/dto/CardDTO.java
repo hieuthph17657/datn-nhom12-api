@@ -1,12 +1,7 @@
 package datnnhom12api.dto;
 
-import datnnhom12api.entity.CategoryEntity;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 @Data
@@ -22,5 +17,5 @@ public class CardDTO implements Serializable {
     private String model;
     private String memory;
     private Double price;
-    private CategoryEntity category;
+    private CategoryDTO category;
 }

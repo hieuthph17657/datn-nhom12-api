@@ -3,14 +3,19 @@ package datnnhom12api.entity;
 
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.CardRequest;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "Card")
+@Table(name = "card")
+@EqualsAndHashCode(callSuper = true)
 public class CardEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,19 +27,19 @@ public class CardEntity extends BaseEntity {
 
     @Column(name = "trandemark")
     private String trandemark;
+
     @Column(name = "model")
     private String model;
+
     @Column(name = "memory")
     private String memory;
 
     @Column(name = "price")
     private Double price;
 
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
-
 
     public void setData(CardRequest request) {
         this.memory = request.getMemory();
