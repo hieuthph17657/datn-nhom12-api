@@ -20,5 +20,5 @@ public class OrderDetailDTO extends BaseDTO implements Serializable {
     private double total;
     private int quantity;
     private OrderDetailStatus status;
-    private int isCheck;
+    private Integer isCheck;
 }

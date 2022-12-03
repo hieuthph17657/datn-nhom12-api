@@ -1,6 +1,7 @@
 package datnnhom12api.controller.admin;
 
 
+import datnnhom12api.dto.ReturnDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ReturnDetailEntity;
 import datnnhom12api.entity.ReturnEntity;
@@ -35,7 +36,7 @@ public class ReturnController {
         }
         Page<ReturnEntity> page = returnService.paginate(request.getPage(), request.getLimit(),
                 request.getFilters(), request.getOrders());
-        return new ReturnResponse(ReturnMapper.toPageDTO(page));
+        return new ReturnResponse(ReturnMapper.getInstance().toPageDTO(page));
     }
 
     @PostMapping("/auth/returns")
@@ -72,8 +73,8 @@ public class ReturnController {
     }
 
     @GetMapping("/returns/{id}")
-    public List<ReturnDetailEntity> findReturnById (@PathVariable("id") Long id)  throws CustomException {
-        List<ReturnDetailEntity>  returnDetailEntities = returnService.findById(id);
+    public List<ReturnDetailDTO> findReturnById (@PathVariable("id") Long id)  throws CustomException {
+        List<ReturnDetailDTO>  returnDetailEntities = returnService.findById(id);
         return returnDetailEntities;
     }
 

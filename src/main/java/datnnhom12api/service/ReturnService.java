@@ -1,6 +1,7 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.ReturnDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.entity.ReturnDetailEntity;
@@ -24,7 +25,7 @@ public interface ReturnService {
 
     void delete(Long id);
 
-    List<ReturnDetailEntity> findById(Long id);
+    List<ReturnDetailDTO> findById(Long id);
 
     UpdateReturnDetailDTO updateByReturnDetail(Long id, ReturnDetailRequest request);
 

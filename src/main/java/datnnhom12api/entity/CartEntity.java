@@ -23,7 +23,7 @@ public class CartEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "productId")
-    private ProductEntity productId;
+    private ProductEntity product;
 
     @Column(name = "userId")
     private Long userId;

@@ -1,6 +1,8 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.OrderDetailDTO;
+import datnnhom12api.dto.ReturnDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ReturnDetailEntity;
 import datnnhom12api.entity.ReturnEntity;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("returnService")
 @Transactional(rollbackFor = Throwable.class)
@@ -110,8 +113,14 @@ public class ReturnServiceImpl implements ReturnService {
     }
 
     @Override
-    public List<ReturnDetailEntity> findById(Long id) {
-        return this.returnDetailRepository.findReturnByIds(id);
+    public List<ReturnDetailDTO> findById(Long id) {
+        List<ReturnDetailEntity> returnDetailEntity = this.returnDetailRepository.findReturnByIds(id);
+        ModelMapper modelMapper = new ModelMapper();
+        List<ReturnDetailDTO> dtos = returnDetailEntity
+                .stream()
+                .map(user -> modelMapper.map(user, ReturnDetailDTO.class))
+                .collect(Collectors.toList());
+        return dtos;
     }
 
     @Override
