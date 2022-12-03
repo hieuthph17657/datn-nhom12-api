@@ -60,11 +60,11 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private ScreenDTO screen;
 
-    private CartDTO card;
+    private CardDTO card;
 
     private OriginDTO origin;
 
-    private OriginDTO storage;
+    private StorageDTO storage;
 
     private BatteryChargerDTO battery;
 }
