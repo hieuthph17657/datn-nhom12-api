@@ -19,7 +19,7 @@ public class CartDTO extends BaseDTO implements Serializable {
 
     private Long id;
 
-    private ProductEntity productId;
+    private ProductDTO product;
 
     private Long userId;
 

@@ -38,7 +38,7 @@ public class CartServiceImpl implements CartService {
         CartEntity cartEntity = new CartEntity();
         cartEntity.setData(request);
         ProductEntity product = this.productRepository.getById(request.getProductId());
-        cartEntity.setProductId(product);
+        cartEntity.setProduct(product);
         cartEntity = cartRepository.save(cartEntity);
         return cartEntity;
     }
