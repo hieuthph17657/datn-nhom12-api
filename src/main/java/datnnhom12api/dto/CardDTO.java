@@ -22,5 +22,5 @@ public class CardDTO implements Serializable {
     private String model;
     private String memory;
     private Double price;
-    private CategoryEntity category;
+    private CategoryDTO category;
 }

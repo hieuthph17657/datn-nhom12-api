@@ -1,9 +1,6 @@
 package datnnhom12api.controller.admin;
 
-import datnnhom12api.dto.OrderConfirmDTO;
-import datnnhom12api.dto.OrderDTO;
-import datnnhom12api.dto.OrderDetailDTO;
-import datnnhom12api.dto.UpdateOrderDetailDTO;
+import datnnhom12api.dto.*;
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
@@ -107,8 +104,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public List<OrderDetailEntity> getOrderDetail(@PathVariable("id") Long id) throws CustomException {
-        List<OrderDetailEntity> list = orderService.findByOrder(id);
+    public List<OrderDetailDTO> getOrderDetail(@PathVariable("id") Long id) throws CustomException {
+        List<OrderDetailDTO> list = orderService.findByOrder(id);
         return list;
     }
 
@@ -125,9 +122,9 @@ public class OrderController {
     }
 
     @GetMapping("/get/{id}")
-    public OrderResponse getOrder(@PathVariable("id") Long id) throws CustomException {
-        OrderEntity order = orderService.findById(id);
-        return new OrderResponse(OrderMapper.getInstance().toDTO(order));
+    public OrderByIdDTO getOrder(@PathVariable("id") Long id) throws CustomException {
+        OrderByIdDTO order = orderService.findById(id);
+        return order;
     }
 
     @PutMapping("/{id}/updateReturn")

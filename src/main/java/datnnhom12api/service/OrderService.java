@@ -1,10 +1,7 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
-import datnnhom12api.dto.OrderConfirmDTO;
-import datnnhom12api.dto.OrderDTO;
-import datnnhom12api.dto.OrderDetailDTO;
-import datnnhom12api.dto.UpdateOrderDetailDTO;
+import datnnhom12api.dto.*;
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
@@ -29,9 +26,9 @@ public interface OrderService {
 
     UserEntity createUser(CreateUserOnOrderRequest createUserOnOrderRequest) throws CustomException;
 
-    List<OrderDetailEntity> findByOrder(Long id);
+    List<OrderDetailDTO> findByOrder(Long id);
 
-    OrderEntity findById(Long id);
+    OrderByIdDTO findById(Long id);
 
     OrderEntity cancelled(Long id) throws CustomException;
     OrderEntity received(Long id) throws CustomException;

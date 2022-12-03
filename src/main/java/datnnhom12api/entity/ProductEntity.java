@@ -107,6 +107,9 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name="battery_id")
     private BatteryChargerEntity battery;
 
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetailEntity> orderDetailEntities;
+
     private String win;
 
     private String material;

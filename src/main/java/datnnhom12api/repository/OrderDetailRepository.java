@@ -1,6 +1,7 @@
 package datnnhom12api.repository;
 
 import datnnhom12api.entity.OrderDetailEntity;
+import datnnhom12api.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, 
 
     @Query("select o from OrderDetailEntity  o where  o.id = :id and o.order.id = :orderId")
     OrderDetailEntity findByIdAndOrderId(@Param("id") Long orderDetailId,@Param("orderId") Long orderId);
+
+
 }

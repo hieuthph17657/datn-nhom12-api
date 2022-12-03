@@ -14,8 +14,9 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 public class OrderDetailDTO extends BaseDTO implements Serializable {
+    private Long id;
     private Long orderId;
-    private Long productId;
+    private ProductDTO product;
     private double total;
     private int quantity;
     private OrderDetailStatus status;
