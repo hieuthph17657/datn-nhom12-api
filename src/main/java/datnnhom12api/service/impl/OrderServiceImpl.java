@@ -4,7 +4,6 @@ import datnnhom12api.core.Filter;
 import datnnhom12api.dto.*;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.repository.*;
 import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
@@ -24,7 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("orderService")
@@ -53,10 +55,16 @@ public class OrderServiceImpl implements OrderService {
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
-        System.out.println("userID: "+ orderRequest.getUserId());
+        System.out.println("userID: " + orderRequest.getUserId());
 
-        UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
-        orderEntity.setUser(userEntity);
+//        UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
+        if (orderRequest.getUserId() == 0) {
+            orderEntity.setUser(null);
+        } else {
+            UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
+            orderEntity.setUser(userEntity);
+        }
+
         orderEntity = orderRepository.save(orderEntity);
         List<OrderDetailRequest> list = orderRequest.getOrderDetails();
         for (OrderDetailRequest orderDetailRequest : list) {
@@ -71,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
             System.out.println(orderDetailEntity.getProductId());
             ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
-            System.out.println("product quantity: "+ product.getQuantity());
+            System.out.println("product quantity: " + product.getQuantity());
             product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
             this.productRepository.save(product);
         }
@@ -182,10 +190,10 @@ public class OrderServiceImpl implements OrderService {
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<OrderEntity> specifications = OrderSpecifications.getInstance().getQueryResult(filters);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if(startDate==null||endDate==null||startDate==""||endDate==""||startDate.isEmpty()||endDate.isEmpty()){
-            return orderRepository.findAll(specifications,pageable);
-        }else{
-            return orderRepository.betweenDate(LocalDateTime.parse(startDate,dateTimeFormatter),LocalDateTime.parse(endDate,dateTimeFormatter), pageable);
+        if (startDate == null || endDate == null || startDate == "" || endDate == "" || startDate.isEmpty() || endDate.isEmpty()) {
+            return orderRepository.findAll(specifications, pageable);
+        } else {
+            return orderRepository.betweenDate(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), pageable);
         }
 //        return orderRepository.findAll(specifications, pageable);
     }
@@ -243,7 +251,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderByIdDTO findById(Long id) {
         OrderEntity orderEntity = this.orderRepository.getById(id);
-       ModelMapper modelMapper = new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
         OrderByIdDTO orderDTO = modelMapper.map(orderEntity, OrderByIdDTO.class);
         return orderDTO;
     }
@@ -364,7 +372,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetailEntity.setQuantity(exchangeEntity.getQuantity());
             orderDetailEntity.setProduct(this.productRepository.getById(exchangeEntity.getProductId()));
             orderDetailEntity.setTotal(this.productRepository.getById(exchangeEntity.getProductId()).getPrice());
-            System.out.println("tổng tiền thêm mới orderDetail: "+ orderDetailEntity.getTotal());
+            System.out.println("tổng tiền thêm mới orderDetail: " + orderDetailEntity.getTotal());
             orderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
             orderDetailEntity.setIsCheck(exchangeEntity.getIsCheck());
             this.orderDetailRepository.save(orderDetailEntity);
@@ -378,7 +386,7 @@ public class OrderServiceImpl implements OrderService {
         orderDetailEntity.setIsCheck(2);
         this.orderDetailRepository.save(orderDetailEntity);
         ModelMapper modelMapper = new ModelMapper();
-        OrderDetailDTO orderDetailDTO= modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
+        OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
         return orderDetailDTO;
     }
 
@@ -389,32 +397,32 @@ public class OrderServiceImpl implements OrderService {
     ) {
         OrderEntity orderEntity = this.orderRepository.getById(orderId);
         OrderDetailEntity orderDetailEntity = this.orderDetailRepository.findByIdAndOrderId(orderDetailId, orderId);
-        if(orderDetailEntity != null) {
-            int quantity = orderDetailEntity.getQuantity()- orderDetailRequest.getQuantity();
-            System.out.println("quantity: "+ quantity);
+        if (orderDetailEntity != null) {
+            int quantity = orderDetailEntity.getQuantity() - orderDetailRequest.getQuantity();
+            System.out.println("quantity: " + quantity);
             orderDetailEntity.setQuantity(quantity);
-            orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice()*quantity);
+            orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice() * quantity);
             this.orderDetailRepository.save(orderDetailEntity);
-            System.out.println("số lượng: "+orderDetailEntity.getQuantity());
-            System.out.println("tổng tiền: "+orderDetailEntity.getTotal());
+            System.out.println("số lượng: " + orderDetailEntity.getQuantity());
+            System.out.println("tổng tiền: " + orderDetailEntity.getTotal());
             double count = 0;
             List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderId);
             for (OrderDetailEntity od : list) {
                 count += od.getTotal();
             }
             System.out.println(count);
-            if(count < 0){
+            if (count < 0) {
                 orderEntity.setTotal(0);
-            }else {
+            } else {
                 orderEntity.setTotal(count);
             }
 
             this.orderRepository.save(orderEntity);
-        }else {
-            throw  new RuntimeException("không tìm thấy hoá đơn chi tiết");
+        } else {
+            throw new RuntimeException("không tìm thấy hoá đơn chi tiết");
         }
         ModelMapper modelMapper = new ModelMapper();
-        UpdateOrderDetailDTO orderDetailDTO= modelMapper.map(orderDetailEntity, UpdateOrderDetailDTO.class);
+        UpdateOrderDetailDTO orderDetailDTO = modelMapper.map(orderDetailEntity, UpdateOrderDetailDTO.class);
         return orderDetailDTO;
     }
 
@@ -425,6 +433,45 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setStatus(orderId.getStatus());
             this.orderRepository.save(orderEntity);
         });
+        return null;
+    }
+
+    @Override
+    public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request,Long orderId) {
+        request.forEach(orderExchangeDTO -> {
+            System.out.println(orderExchangeDTO.getId());
+            Integer Id = Math.toIntExact(orderExchangeDTO.getId());
+            System.out.println(Id);
+            OrderDetailEntity orderDetail = this.orderDetailRepository.
+                    getOrderDetailByIsCheckAndProductId(Id, orderExchangeDTO.getProductId());
+            OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(Long.valueOf(orderDetail.getIsCheck()));
+            if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
+                orderDetailEntity.setTotal(0);
+                orderDetailEntity.setQuantity(0);
+                this.orderDetailRepository.save(orderDetailEntity);
+                orderDetail.setIsCheck(1);
+                this.orderDetailRepository.save(orderDetail);
+            } else if (orderDetailEntity.getQuantity() > 0 && orderDetailEntity.getQuantity() > orderDetail.getQuantity()) {
+                orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetail.getQuantity());
+                orderDetailEntity.setTotal(
+                        orderDetailEntity.getProduct().getPrice() * (orderDetailEntity.getQuantity() - orderDetail.getQuantity()));
+                this.orderDetailRepository.save(orderDetailEntity);
+                orderDetail.setIsCheck(1);
+                this.orderDetailRepository.save(orderDetail);
+            }
+        });
+        OrderEntity order = this.orderRepository.getById(orderId);
+        double count = 0;
+        List<OrderDetailEntity> list = this.orderDetailRepository.findByOrderAndIscheck(order.getId());
+        for (OrderDetailEntity od : list) {
+            count += od.getTotal();
+        }
+        System.out.println(count);
+        if (count < 0) {
+            order.setTotal(0);
+        } else {
+            order.setTotal(count);
+        }
         return null;
     }
 }
