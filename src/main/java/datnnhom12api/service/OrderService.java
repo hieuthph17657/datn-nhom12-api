@@ -49,4 +49,6 @@ public interface OrderService {
     UpdateOrderDetailDTO updateWithReturn(Long orderId, Long orderDetailId, UpdateOrderDetailRequest orderDetailRequest);
 
     List<OrderConfirmDTO> findByIdOrderId(List<OrderConfirmDTO> id);
+
+    List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId);
 }

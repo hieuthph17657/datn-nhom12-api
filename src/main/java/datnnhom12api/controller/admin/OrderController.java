@@ -168,6 +168,13 @@ public class OrderController {
         return orderId;
     }
 
+    //cập nhật lại hoá đơn chi tiết khi đổi hàng
+    @PutMapping("update/exchange/{orderId}")
+   public List<OrderExchangeDTO> confirmOrderWhenExchange(@RequestBody List<OrderExchangeDTO> request,
+                                                          @PathVariable("orderId")Long orderId) {
+        List<OrderExchangeDTO> orderExchangeDTOS = this.orderService.updateWhenExchange(request, orderId);
+        return orderExchangeDTOS;
+    }
 
 
 

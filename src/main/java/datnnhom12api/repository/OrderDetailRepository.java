@@ -30,4 +30,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, 
     OrderDetailEntity findByIdAndOrderId(@Param("id") Long orderDetailId,@Param("orderId") Long orderId);
 
 
+    @Query("select o from OrderDetailEntity o where o.order.id = :id and (o.isCheck is null or o.isCheck = 1)")
+    List<OrderDetailEntity> findByOrderAndIscheck(@Param("id") Long id);
 }
