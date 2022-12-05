@@ -2,6 +2,8 @@ package datnnhom12api.entity;
 
 
 import datnnhom12api.core.BaseEntity;
+import datnnhom12api.request.ColorRequest;
+import datnnhom12api.request.RamRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,4 +24,12 @@ public class ColorEntity extends BaseEntity {
 
     @Column(name="name")
     private String name;
+
+    @Column(name="status")
+    private int status;
+
+    public void setData(ColorRequest request) {
+        this.name = request.getName();
+        this.status = request.getStatus();
+    }
 }
