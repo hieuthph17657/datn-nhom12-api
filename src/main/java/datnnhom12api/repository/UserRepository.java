@@ -1,5 +1,6 @@
 package datnnhom12api.repository;
 
+import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.RoleEntity;
 import datnnhom12api.entity.UserEntity;
 import org.springframework.data.domain.Page;
@@ -28,4 +29,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
 
     @Query("select r from RoleEntity r where r.role = 'CUSTOMER'")
     RoleEntity findRoleCustomer();
+
+
+    SumProductDTO countCustomer();
 }

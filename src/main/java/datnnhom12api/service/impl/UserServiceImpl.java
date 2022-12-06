@@ -1,6 +1,7 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.RoleEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -158,5 +159,11 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity userEntity = userEntityOptional.get();
         return userEntity;
+    }
+
+    @Override
+    public SumProductDTO countCustomer() {
+        SumProductDTO user = this.userRepository.countCustomer();
+        return user;
     }
 }

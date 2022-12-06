@@ -51,4 +51,12 @@ public interface OrderService {
     List<OrderConfirmDTO> findByIdOrderId(List<OrderConfirmDTO> id);
 
     List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId);
+
+    List<StatisticalMonthDTO> statisticalByYear(Integer year);
+
+    List<StatisticalOrderDTO> statisticalByOrder(Integer month, Integer year);
+
+    List<StatisticalProductDTO> statisticalByProduct();
+
+    SumProductDTO countOrder();
 }

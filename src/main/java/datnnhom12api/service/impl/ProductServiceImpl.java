@@ -3,6 +3,7 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.*;
@@ -246,5 +247,11 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setStatus(ProductStatus.INACTIVE);
         productEntity = productRepository.save(productEntity);
         return productEntity;
+    }
+
+    @Override
+    public SumProductDTO sumProduct() {
+        SumProductDTO productDTO = this.productRepository.sumProduct();
+        return productDTO;
     }
 }

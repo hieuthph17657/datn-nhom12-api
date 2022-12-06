@@ -2,6 +2,7 @@ package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.ProductRequest;
@@ -30,4 +31,5 @@ public interface ProductService {
 
     List<ProductEntity> discount(Long id, List<Long> idProduct) throws CustomException;
 
+    SumProductDTO sumProduct();
 }
