@@ -1,6 +1,7 @@
 package datnnhom12api.dto;
 
 
+import datnnhom12api.core.BaseDTO;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,8 +12,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ColorDTO implements Serializable {
+public class ColorDTO extends BaseDTO implements Serializable {
     private Long id;
 
     private String name;
+
+    private int status;
 }
