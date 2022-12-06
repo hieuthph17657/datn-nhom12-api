@@ -29,6 +29,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
     @Query("select r from RoleEntity r where r.role = 'CUSTOMER'")
     RoleEntity findRoleCustomer();
 
+    SumProductDTO countCustomer();
+
     @Query("SELECT count(ul) FROM UserRoleEntity ul WHERE ul.roleId = 3")
     int countCustomer();
 }
