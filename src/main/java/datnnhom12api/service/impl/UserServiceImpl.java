@@ -166,4 +166,6 @@ public class UserServiceImpl implements UserService {
         SumProductDTO user = this.userRepository.countCustomer();
         return user;
     }
+
+
 }

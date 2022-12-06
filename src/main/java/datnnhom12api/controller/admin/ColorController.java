@@ -65,15 +65,4 @@ public class ColorController {
         return new ColorResponse();
     }
 
-    @PutMapping(("staff/color/{id}/active"))
-    public ColorDTO active (@PathVariable("id") Long id) throws CustomException{
-        ColorDTO colorDTO = this.colorService.active(id);
-        return colorDTO;
-    }
-
-    @PutMapping(("staff/color/{id}/inactive"))
-    public ColorDTO inactive (@PathVariable("id") Long id) throws CustomException{
-        ColorDTO colorDTO = this.colorService.inactive(id);
-        return colorDTO;
-    }
 }
