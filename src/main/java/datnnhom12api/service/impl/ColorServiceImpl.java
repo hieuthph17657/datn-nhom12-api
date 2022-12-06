@@ -51,7 +51,7 @@ public class ColorServiceImpl implements ColorService {
     @Override
     public ColorEntity create(ColorRequest post) {
         ColorEntity colorEntity = new ColorEntity();
-        colorEntity.setData(post);
+        colorEntity.setName(post.getName());
         colorEntity = colorRepository.save(colorEntity);
         return colorEntity;
     }
@@ -75,25 +75,5 @@ public class ColorServiceImpl implements ColorService {
     public void delete(Long id) {
         ColorEntity processorEntity = this.colorRepository.getById(id);
         colorRepository.delete(processorEntity);
-    }
-
-    @Override
-    public ColorDTO active(Long id) throws CustomException {
-        ColorEntity colorEntity = this.colorRepository.getById(id);
-        colorEntity.setStatus(1);
-        this.colorRepository.save(colorEntity);
-        ModelMapper modelMapper = new ModelMapper();
-        ColorDTO colorDTO = modelMapper.map(colorEntity, ColorDTO.class);
-        return colorDTO;
-    }
-
-    @Override
-    public ColorDTO inactive(Long id) throws CustomException {
-        ColorEntity colorEntity = this.colorRepository.getById(id);
-        colorEntity.setStatus(0);
-        this.colorRepository.save(colorEntity);
-        ModelMapper modelMapper = new ModelMapper();
-        ColorDTO colorDTO = modelMapper.map(colorEntity, ColorDTO.class);
-        return colorDTO;
     }
 }

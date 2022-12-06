@@ -16,6 +16,4 @@ public class ColorDTO extends BaseDTO implements Serializable {
     private Long id;
 
     private String name;
-
-    private int status;
 }

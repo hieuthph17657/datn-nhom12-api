@@ -18,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ColorPaginationRequest extends PaginationRequest {
     private String searchName;
+
+    private String searchStatus;
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchName != null && !searchName.isEmpty()) {

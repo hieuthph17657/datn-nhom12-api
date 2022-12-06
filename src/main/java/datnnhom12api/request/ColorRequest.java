@@ -15,7 +15,4 @@ import java.time.LocalDateTime;
 public class ColorRequest {
     @NotBlank(message = "Color không được để trống")
     private String name ;
-
-    @NotNull(message = "trạng thái không được để trống")
-    private int status;
 }

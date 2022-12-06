@@ -184,34 +184,34 @@ public class ProductServiceImpl implements ProductService {
         return listdiscountProduct;
     }
 
-    @Override
-    public List<ProductEntity> noDiscount(Long id, List<Long> idProduct) throws CustomException {
-        Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
-        DiscountEntity discountEntity = discountEntityOptional.get();
-        List<ProductEntity> list = productRepository.findAll();
-        ProductEntity productEntity = null ;
-        List<ProductEntity> listdiscountProduct = new ArrayList<>();
-        for (ProductEntity product:list){
-            for (Long iP: idProduct){
-                if (product.getId() == iP){
-                    Optional<ProductEntity> productEntityOptional = productRepository.findById(iP);
-                    if (id <= 0) {
-                        throw new CustomException(403, "Mã sản phẩm phải lớn hơn 0");
-                    }
-                    if (productEntityOptional.isEmpty()) {
-                        throw new CustomException(403, "Không tìm thấy mã sản phẩm muốn sửa");
-                    }
-                    productEntity = productEntityOptional.get();
-                    productEntity.setDiscount(null);
-                    productEntity.setPrice(productEntity.getPrice() + (productEntity.getPrice() * discountEntity.getRatio() / 100));
-                    productEntity = productRepository.save(productEntity);
-                    listdiscountProduct.add(productEntity);
-                }
-            }
-
-        }
-        return listdiscountProduct;
-    }
+//    @Override
+//    public List<ProductEntity> noDiscount(Long id, List<Long> idProduct) throws CustomException {
+//        Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
+//        DiscountEntity discountEntity = discountEntityOptional.get();
+//        List<ProductEntity> list = productRepository.findAll();
+//        ProductEntity productEntity = null ;
+//        List<ProductEntity> listdiscountProduct = new ArrayList<>();
+//        for (ProductEntity product:list){
+//            for (Long iP: idProduct){
+//                if (product.getId() == iP){
+//                    Optional<ProductEntity> productEntityOptional = productRepository.findById(iP);
+//                    if (id <= 0) {
+//                        throw new CustomException(403, "Mã sản phẩm phải lớn hơn 0");
+//                    }
+//                    if (productEntityOptional.isEmpty()) {
+//                        throw new CustomException(403, "Không tìm thấy mã sản phẩm muốn sửa");
+//                    }
+//                    productEntity = productEntityOptional.get();
+//                    productEntity.setDiscount(null);
+//                    productEntity.setPrice(productEntity.getPrice() + (productEntity.getPrice() * discountEntity.getRatio() / 100));
+//                    productEntity = productRepository.save(productEntity);
+//                    listdiscountProduct.add(productEntity);
+//                }
+//            }
+//
+//        }
+//        return listdiscountProduct;
+//    }
 
     private void enrichImage(ProductEntity productEntity) {
         List<ImagesEntity> imagesEntities = this.imageRepository.findAllByProductId(productEntity.getId());
