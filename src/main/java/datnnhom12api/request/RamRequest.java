@@ -38,9 +38,6 @@ public class RamRequest {
     @NotNull(message = "Giá tiền không được để trống")
     private double price;
 
-    @NotNull(message = "Id thể loại không được để trống")
-    private Long categoryId;
-
     @Enumerated(EnumType.STRING)
     private RamStatus status;
 }

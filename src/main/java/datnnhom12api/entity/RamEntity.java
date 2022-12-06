@@ -48,9 +48,6 @@ public class RamEntity extends BaseEntity {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "category_id")
-    private Long categoryId;
-
     @Enumerated(EnumType.STRING)
     private RamStatus status;
 
@@ -63,7 +60,6 @@ public class RamEntity extends BaseEntity {
         this.ramSpeed = request.getRamSpeed();
         this.price = request.getPrice();
         this.maxRamSupport = request.getMaxRamSupport();
-        this.categoryId = request.getCategoryId();
         this.status = request.getStatus()
                 == RamStatus.DRAFT ? RamStatus.DRAFT
                 : RamStatus.ACTIVE ;

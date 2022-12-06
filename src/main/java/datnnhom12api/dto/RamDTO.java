@@ -35,7 +35,5 @@ public class RamDTO extends BaseDTO implements Serializable {
 
     private double price;
 
-    private CategoryEntity categoryId;
-
     private RamStatus status;
 }
