@@ -15,7 +15,11 @@ public class ProductColorEntity extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private ProductEntity product;
 
-    private Long colorId;
+    @ManyToOne
+    @JoinColumn(name="color_id")
+    private ColorEntity color;
 }

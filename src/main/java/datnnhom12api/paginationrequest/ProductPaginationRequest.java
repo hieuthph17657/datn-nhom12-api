@@ -18,10 +18,22 @@ import java.util.List;
 public class ProductPaginationRequest extends PaginationRequest {
     private String searchProductName;
 
+    private String searchStatus;
+
+    private String searchPrice;
+
+    private String searchDiscount;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchProductName != null && !searchProductName.isEmpty()) {
             list.add(new Filter("name", QueryOperator.LIKE, searchProductName, null));
+        }
+        if (searchStatus != null && !searchStatus.isEmpty()) {
+            list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
+        }
+        if (searchPrice != null && !searchPrice.isEmpty()) {
+            list.add(new Filter("price", QueryOperator.GREATER_THAN, searchPrice, null));
         }
         return list;
     }

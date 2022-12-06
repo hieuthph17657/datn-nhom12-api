@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -32,6 +33,9 @@ public class DiscountEntity{
     private LocalDateTime endDate;
     @Column(name="active")
     private int active;
+
+    @OneToMany(mappedBy = "discount")
+    private List<ProductEntity> products;
 //    @ManyToOne
 //    @JoinColumn(name="id_product")
 //    private ProductEntity product;
