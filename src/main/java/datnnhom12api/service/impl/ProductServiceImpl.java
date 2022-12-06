@@ -186,12 +186,6 @@ public class ProductServiceImpl implements ProductService {
         return listdiscountProduct;
     }
 
-    @Override
-    public SumProductDTO sumProduct() {
-        SumProductDTO productDTO = this.productRepository.sumProduct();
-        return productDTO;
-    }
-
     private void enrichImage(ProductEntity productEntity) {
         List<ImagesEntity> imagesEntities = this.imageRepository.findAllByProductId(productEntity.getId());
         ConfigurationEntity configuration = this.configurationRepository.findByProductId(productEntity.getId());
@@ -225,5 +219,11 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setStatus(ProductStatus.INACTIVE);
         productEntity = productRepository.save(productEntity);
         return productEntity;
+    }
+
+    @Override
+    public SumProductDTO sumProduct() {
+        SumProductDTO productDTO = this.productRepository.sumProduct();
+        return productDTO;
     }
 }
