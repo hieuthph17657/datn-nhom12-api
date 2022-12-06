@@ -1,6 +1,7 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.CreateUserOnOrderRequest;
@@ -28,4 +29,6 @@ public interface UserService {
     UserEntity close(Long id) throws CustomException;
 
     UserEntity find(Long id) throws CustomException;
+
+    SumProductDTO countCustomer();
 }

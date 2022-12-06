@@ -23,10 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("orderService")
@@ -437,7 +434,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request,Long orderId) {
+    public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId) {
         request.forEach(orderExchangeDTO -> {
             System.out.println(orderExchangeDTO.getId());
             Integer Id = Math.toIntExact(orderExchangeDTO.getId());
@@ -473,5 +470,48 @@ public class OrderServiceImpl implements OrderService {
             order.setTotal(count);
         }
         return null;
+    }
+
+    @Override
+    public List<StatisticalMonthDTO> statisticalByYear(Integer year) {
+        List<StatisticalMonthDTO> list = this.orderRepository.statisticalByYear(year);
+        HashMap<Integer, Double> map = new HashMap<>();
+
+        list.forEach((item) -> {
+           map.put(item.getMonth(), item.getTotal());
+        });
+        list.clear();
+        for (int i = 1; i <= 12; i++) {
+            StatisticalMonthDTO ob = new StatisticalMonthDTO();
+            if(map.containsKey(i)){
+                ob.setMonth(i);
+                ob.setTotal(map.get(i).doubleValue());
+            }else {
+                ob.setMonth(i);
+                ob.setTotal(0);
+            }
+
+            list.add(ob);
+        }
+        return list;
+    }
+
+    @Override
+    public List<StatisticalOrderDTO> statisticalByOrder(Integer month, Integer year) {
+        List<StatisticalOrderDTO> order= this.orderRepository.statisticalByOrder(month, year);
+        System.out.println(order.size());
+        return order;
+    }
+
+    @Override
+    public List<StatisticalProductDTO> statisticalByProduct() {
+        List<StatisticalProductDTO> order = this.orderRepository.statisticalByProduct();
+        return order;
+    }
+
+    @Override
+    public SumProductDTO countOrder() {
+        SumProductDTO order = this.orderRepository.countOrder();
+        return order;
     }
 }
