@@ -6,7 +6,7 @@ import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.ScreenRepository;
 import datnnhom12api.request.ScreenRequest;
 import datnnhom12api.service.ScreenService;
-import datnnhom12api.specifications.ScreenScpecifications;
+import datnnhom12api.specifications.ScreenSpecifications;
 import datnnhom12api.utils.support.ScreenStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +37,7 @@ public class ScreenServiceImpl implements ScreenService {
         }
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
-        Specification<ScreenEntity> specifications = ScreenScpecifications.getInstance().getQueryResult(filters);
+        Specification<ScreenEntity> specifications = ScreenSpecifications.getInstance().getQueryResult(filters);
         return screenRepository.findAll(specifications, pageable);
     }
 
