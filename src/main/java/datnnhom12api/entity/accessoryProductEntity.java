@@ -16,7 +16,11 @@ public class accessoryProductEntity extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private ProductEntity product;
 
-    private Long accessoryId;
+    @ManyToOne
+    @JoinColumn(name="accessory_id")
+    private accessoryEntity accessory;
 }

@@ -40,6 +40,8 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private String win;
 
+    private String description;
+
     private String material;
 
     private UserDTO created_by;
@@ -51,6 +53,10 @@ public class ProductDTO extends BaseDTO implements Serializable {
     private ManufactureDTO manufacture;
 
     private List<ImagesEntity> images;
+
+    private List<ProductColorDTO> productColors;
+
+    private List<accessoryProductDTO> accessoryProducts;
 
     private ProductStatus status;
 

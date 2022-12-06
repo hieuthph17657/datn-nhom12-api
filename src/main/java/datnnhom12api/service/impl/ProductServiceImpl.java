@@ -54,13 +54,19 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductColorRepository productColorRepository;
 
+    @Autowired
+    ColorRepository colorRepository;
+
+    @Autowired
+    accessoryRepository accessoryRepository;
+
     @Override
     public ProductEntity insert(ProductRequest productRequest) throws CustomException {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
         List<ImageRequest> list = productRequest.getImages();
-        for (ImageRequest imageRequest:list){
-            ImagesEntity imagesEntity=new ImagesEntity();
+        for (ImageRequest imageRequest : list) {
+            ImagesEntity imagesEntity = new ImagesEntity();
             imagesEntity.setData(imageRequest);
             imagesEntity.setProduct(productEntity);
             imageRepository.save(imagesEntity);
@@ -73,14 +79,16 @@ public class ProductServiceImpl implements ProductService {
         Long id = productEntity.getId();
         productRequest.getAccessoryId().forEach(access -> {
             accessoryProductEntity accessoryProductEntity = new accessoryProductEntity();
-            accessoryProductEntity.setProductId(id);
-            accessoryProductEntity.setAccessoryId(access);
+            accessoryProductEntity.setProduct(productRepository.getById(id));
+            accessoryProductEntity.setAccessory(accessoryRepository.getById(access));
             this.accessoryProductRepository.save(accessoryProductEntity);
-        } );
+        });
         productRequest.getColorId().forEach(color -> {
             ProductColorEntity pColorEntity = new ProductColorEntity();
-            pColorEntity.setColorId(color);
-            pColorEntity.setProductId(id);
+//            pColorEntity.setColorId(color);
+//            pColorEntity.setProductId(id);
+            pColorEntity.setColor(colorRepository.getById(color));
+            pColorEntity.setProduct(productRepository.getById(id));
             this.productColorRepository.save(pColorEntity);
         });
         return productEntity;
@@ -97,12 +105,12 @@ public class ProductServiceImpl implements ProductService {
         }
         ProductEntity productEntity = productEntityOptional.get();
         productEntity.setData(productRequest);
-        if(productEntity.getId()!=null) {
+        if (productEntity.getId() != null) {
             imageRepository.deleteAllByProductId(productEntity.getId());
         }
         List<ImageRequest> list = productRequest.getImages();
-        for (ImageRequest imageRequest:list){
-            ImagesEntity imagesEntity=new ImagesEntity();
+        for (ImageRequest imageRequest : list) {
+            ImagesEntity imagesEntity = new ImagesEntity();
             imagesEntity.setData(imageRequest);
             imagesEntity.setProduct(productEntity);
             imageRepository.save(imagesEntity);
@@ -111,16 +119,31 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufacture(manufacture);
-        ConfigurationEntity configuration =new ConfigurationEntity();
-        System.out.println(productRequest.toString());
+        ConfigurationEntity configuration = new ConfigurationEntity();
         configuration.setProduct(productEntity);
         productEntity = productRepository.save(productEntity);
+        productColorRepository.deleteAllProductColorByProductId(id);
+        List<Long> longList = productRequest.getColorId();
+        for (Long color : longList) {
+            ProductColorEntity pColorEntity = new ProductColorEntity();
+            pColorEntity.setColor(colorRepository.getById(color));
+            pColorEntity.setProduct(productRepository.getById(id));
+            this.productColorRepository.save(pColorEntity);
+        }
+        accessoryProductRepository.deleteAllAccessoryProductByProductId(id);
+        List<Long> longs = productRequest.getAccessoryId();
+        for (Long access : longs) {
+            accessoryProductEntity accessoryProductEntity = new accessoryProductEntity();
+            accessoryProductEntity.setAccessory(accessoryRepository.getById(access));
+            accessoryProductEntity.setProduct(productRepository.getById(id));
+            this.accessoryProductRepository.save(accessoryProductEntity);
+        }
         this.configurationRepository.save(configuration);
         return productEntity;
     }
 
     @Override
-    public ProductEntity delete(Long id) throws CustomException{
+    public ProductEntity delete(Long id) throws CustomException {
         Optional<ProductEntity> productEntityOptional = productRepository.findById(id);
         if (productEntityOptional.isEmpty()) {
             throw new CustomException(403, "Không tìm thấy sản phẩm");
@@ -161,11 +184,11 @@ public class ProductServiceImpl implements ProductService {
         Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
         DiscountEntity discountEntity = discountEntityOptional.get();
         List<ProductEntity> list = productRepository.findAll();
-        ProductEntity productEntity = null ;
+        ProductEntity productEntity = null;
         List<ProductEntity> listdiscountProduct = new ArrayList<>();
-        for (ProductEntity product:list){
-            for (Long iP: idProduct){
-                if (product.getId() == iP){
+        for (ProductEntity product : list) {
+            for (Long iP : idProduct) {
+                if (product.getId() == iP) {
                     Optional<ProductEntity> productEntityOptional = productRepository.findById(iP);
                     if (id <= 0) {
                         throw new CustomException(403, "Mã sản phẩm phải lớn hơn 0");
@@ -234,6 +257,7 @@ public class ProductServiceImpl implements ProductService {
         productEntity = productRepository.save(productEntity);
         return productEntity;
     }
+
     @Override
     public ProductEntity inActive(Long id) throws CustomException {
         Optional<ProductEntity> productEntityOptional = productRepository.findById(id);

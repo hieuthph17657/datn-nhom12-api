@@ -5,6 +5,7 @@ import datnnhom12api.request.accessoryRequest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -30,6 +31,9 @@ public class accessoryEntity extends BaseEntity {
 
     @Column(name="description")
     private String description;
+
+    @OneToMany(mappedBy = "accessory")
+    private List<accessoryProductEntity> accessoryProducts;
 
     public void setData(accessoryRequest request) {
         this.name = request.getName();
