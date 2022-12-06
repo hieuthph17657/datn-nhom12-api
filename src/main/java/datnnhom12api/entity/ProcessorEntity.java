@@ -54,10 +54,6 @@ public class ProcessorEntity extends BaseEntity {
 
     @Column(name = "price")
     private double price;
-
-    @Column(name = "category_id")
-    private Long categoryId;
-
     @Enumerated(EnumType.STRING)
     private ProcessorStatus status;
 
@@ -65,7 +61,6 @@ public class ProcessorEntity extends BaseEntity {
         this.cpuCompany = request.getCpuCompany();
         this.caching = request.getCaching();
         this.price = request.getPrice();
-        this.categoryId = request.getCategoryId();
         this.cpuSpeed = request.getCpuSpeed();
         this.multiplier = request.getMultiplier();
         this.cpuTechnology = request.getCpuTechnology();

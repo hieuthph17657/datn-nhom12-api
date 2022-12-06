@@ -44,8 +44,6 @@ public class ProcessorRequest {
     @NotNull(message = "Giá tiền không được để trống")
     private double price;
 
-    private Long categoryId;
-
     @Enumerated(EnumType.STRING)
     private ProcessorStatus status;
 }

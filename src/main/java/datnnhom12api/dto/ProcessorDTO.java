@@ -38,8 +38,5 @@ public class ProcessorDTO extends BaseDTO implements Serializable {
 
     private ProcessorStatus status;
 
-    private CategoryEntity categoryId;
-
-
 
 }

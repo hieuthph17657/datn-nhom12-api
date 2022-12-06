@@ -27,9 +27,6 @@ public class BatteryChargerRequest {
 //    @NotNull(message ="giá không được trống")
     private double price;
 
-    @NotNull(message ="loại sản phẩm không được trống")
-    private Long categoryId;
-
     @Enumerated(EnumType.STRING)
     private BatteryChargerStatus status;
 }
