@@ -25,11 +25,14 @@ public class WinEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "version")
+    private String version;
     @Enumerated(EnumType.STRING)
     private WinStatus status;
 
     public void setData(WinRequest request) {
         this.name = request.getName();
+        this.version= request.getVersion();
         this.status = request.getStatus()
                 == WinStatus.DRAFT ? WinStatus.DRAFT
                 : WinStatus.ACTIVE ;

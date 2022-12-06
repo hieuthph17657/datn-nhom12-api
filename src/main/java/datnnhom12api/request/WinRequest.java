@@ -14,8 +14,10 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class WinRequest {
-    @NotBlank(message = "tên win không được trống")
+    @NotBlank(message = "tên hệ điều hành không được trống")
     private String name;
+    @NotBlank(message = "phiên bản hệ điều hành không được trống")
+    private String version;
     @Enumerated(EnumType.STRING)
     private WinStatus status;
 }

@@ -18,10 +18,15 @@ import java.util.List;
 public class WinPaginationRequest extends PaginationRequest {
     private String searchName;
 
+    private String searchVersion;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchName != null && !searchName.isEmpty()) {
             list.add(new Filter("name", QueryOperator.LIKE, searchName, null));
+        }
+        if (searchVersion != null && !searchVersion.isEmpty()) {
+            list.add(new Filter("version", QueryOperator.LIKE, searchVersion, null));
         }
         return list;
     }

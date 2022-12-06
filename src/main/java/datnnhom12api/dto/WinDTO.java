@@ -19,6 +19,7 @@ import java.io.Serializable;
 public class WinDTO extends BaseDTO implements Serializable {
     private Long id;
     private String name;
+    private String version;
     @Enumerated(EnumType.STRING)
     private WinStatus status;
 }
