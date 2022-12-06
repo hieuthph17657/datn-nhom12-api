@@ -18,8 +18,4 @@ public interface ColorService {
     ColorEntity update(Long id, ColorRequest post) throws CustomException;
 
     void delete(Long id);
-
-    ColorDTO active(Long id) throws CustomException;
-
-    ColorDTO inactive(Long id) throws CustomException;
 }
