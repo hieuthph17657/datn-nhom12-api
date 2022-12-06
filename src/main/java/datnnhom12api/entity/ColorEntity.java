@@ -6,7 +6,9 @@ import datnnhom12api.request.ColorRequest;
 import datnnhom12api.request.RamRequest;
 import lombok.*;
 
+
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -25,4 +27,6 @@ public class ColorEntity extends BaseEntity {
     @Column(name="name")
     private String name;
 
+    @OneToMany(mappedBy = "color")
+    private List<ProductColorEntity> productColors;
 }
