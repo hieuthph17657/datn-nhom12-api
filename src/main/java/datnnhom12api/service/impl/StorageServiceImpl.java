@@ -63,6 +63,8 @@ public class StorageServiceImpl implements StorageService {
         Optional<StorageEntity> storageEntityOptional = storageRepository.findById(id);
         StorageEntity storageEntity = storageEntityOptional.get();
         storageEntity.setData(post);
+        StorageDetailEntity storageDetailEntity = this.storageDetailRepository.getById(post.getStorageDetailId());
+        storageEntity.setStorageDetail(storageDetailEntity);
         storageEntity = storageRepository.save(storageEntity);
         return storageEntity;
     }
