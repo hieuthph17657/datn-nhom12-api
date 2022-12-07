@@ -16,24 +16,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductPaginationRequest extends PaginationRequest {
-    private String searchProductName;
+    private String searchProductKey;
 
     private String searchStatus;
 
     private String searchPrice;
 
-    private String searchDiscount;
+    private String searchImei;
 
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
-        if (searchProductName != null && !searchProductName.isEmpty()) {
-            list.add(new Filter("name", QueryOperator.LIKE, searchProductName, null));
-        }
         if (searchStatus != null && !searchStatus.isEmpty()) {
             list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
         if (searchPrice != null && !searchPrice.isEmpty()) {
-            list.add(new Filter("price", QueryOperator.GREATER_THAN, searchPrice, null));
+            list.add(new Filter("price", QueryOperator.LESS_THAN, searchPrice, null));
+        }
+        if (searchImei != null && !searchImei.isEmpty()) {
+            list.add(new Filter("imei", QueryOperator.EQUALS, searchImei, null));
         }
         return list;
     }
