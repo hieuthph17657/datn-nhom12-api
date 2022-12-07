@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -38,12 +39,12 @@ public class ProductController {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         Page<ProductEntity> page = productService.paginate(
-                request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+                request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
         return new ProductResponse(ProductMapper.toPageDTO(page));
     }
 
     @GetMapping("/all")
-    public List<ProductEntity> getAll(){
+    public List<ProductEntity> getAll() {
         List<ProductEntity> product = this.productRepository.findAll();
         return product;
     }
@@ -59,8 +60,7 @@ public class ProductController {
             @Valid @RequestBody ProductRequest productRequest,
             BindingResult bindingResult)
             throws CustomException,
-            CustomValidationException
-    {
+            CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -69,7 +69,7 @@ public class ProductController {
     }
 
     @PutMapping("/discountProduct/{id}")
-    public  ProductResponse discount(
+    public ProductResponse discount(
             @PathVariable("id") Long id,
             @Valid @RequestBody List<Long> idProduct,
             BindingResult bindingResult
@@ -77,7 +77,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        List<ProductEntity> productEntity = productService.discount(id,idProduct );
+        List<ProductEntity> productEntity = productService.discount(id, idProduct);
         return new ProductResponse(ProductMapper.getInstance().toListDTO(productEntity));
     }
 
@@ -86,19 +86,20 @@ public class ProductController {
     public ProductResponse edit(
             @PathVariable("id") Long id,
             @Valid @RequestBody ProductRequest productRequest,
-            BindingResult bindingResult) throws CustomValidationException, CustomException
-    {
+            BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         ProductEntity productEntity = productService.update(id, productRequest);
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
+
     @PutMapping("/active/{id}")
     public ProductResponse active(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
         ProductEntity postEntity = productService.active(id);
         return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
     }
+
     @PutMapping("/inactive/{id}")
     public ProductResponse inActive(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
         ProductEntity postEntity = productService.inActive(id);
