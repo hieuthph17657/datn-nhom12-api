@@ -1,21 +1,21 @@
 package datnnhom12api.response;
 
 import datnnhom12api.core.BaseResponse;
-import datnnhom12api.dto.accessoryDTO;
+import datnnhom12api.dto.AccessoryDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public class accessoryResponse extends BaseResponse<accessoryDTO> {
-    public accessoryResponse(Page<accessoryDTO> toPageDTO) {
+public class accessoryResponse extends BaseResponse<AccessoryDTO> {
+    public accessoryResponse(Page<AccessoryDTO> toPageDTO) {
         super(toPageDTO);
     }
 
-    public accessoryResponse(List<accessoryDTO> toListDTO) {
+    public accessoryResponse(List<AccessoryDTO> toListDTO) {
         super(toListDTO);
     }
 
-    public accessoryResponse(accessoryDTO toDTO) {
+    public accessoryResponse(AccessoryDTO toDTO) {
         super(toDTO);
     }
 

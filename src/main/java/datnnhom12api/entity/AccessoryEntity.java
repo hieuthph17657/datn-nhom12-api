@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "accessories")
 @EqualsAndHashCode(callSuper = true)
-public class accessoryEntity extends BaseEntity {
+public class AccessoryEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -33,7 +33,7 @@ public class accessoryEntity extends BaseEntity {
     private String description;
 
     @OneToMany(mappedBy = "accessory")
-    private List<accessoryProductEntity> accessoryProducts;
+    private List<AccessoryProductEntity> accessoryProducts;
 
     public void setData(accessoryRequest request) {
         this.name = request.getName();

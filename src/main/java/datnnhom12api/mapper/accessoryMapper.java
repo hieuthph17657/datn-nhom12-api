@@ -1,7 +1,7 @@
 package datnnhom12api.mapper;
 
-import datnnhom12api.dto.accessoryDTO;
-import datnnhom12api.entity.accessoryEntity;
+import datnnhom12api.dto.AccessoryDTO;
+import datnnhom12api.entity.AccessoryEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
@@ -23,28 +23,28 @@ public class accessoryMapper {
     public accessoryMapper() {
     }
 
-    public static accessoryDTO toDTO(accessoryEntity accessory) {
+    public static AccessoryDTO toDTO(AccessoryEntity accessory) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(accessory, accessoryDTO.class);
+        return modelMapper.map(accessory, AccessoryDTO.class);
     }
 
-    public static accessoryEntity toEntity(accessoryMapper accessoryMapper) {
+    public static AccessoryEntity toEntity(accessoryMapper accessoryMapper) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(accessoryMapper, accessoryEntity.class);
+        return modelMapper.map(accessoryMapper, AccessoryEntity.class);
     }
 
-    public static Page<accessoryDTO> toPageDTO(Page<accessoryEntity> page) {
+    public static Page<AccessoryDTO> toPageDTO(Page<AccessoryEntity> page) {
         return page.map(new Function<>() {
             @Override
-            public accessoryDTO apply(accessoryEntity entity) {
+            public AccessoryDTO apply(AccessoryEntity entity) {
                 return accessoryMapper.toDTO(entity);
             }
         });
     }
 
-    public static List<accessoryDTO> toListDTO(List<accessoryEntity> entityList) {
-        List<accessoryDTO> list = new ArrayList<>();
-        for (accessoryEntity e : entityList) {
+    public static List<AccessoryDTO> toListDTO(List<AccessoryEntity> entityList) {
+        List<AccessoryDTO> list = new ArrayList<>();
+        for (AccessoryEntity e : entityList) {
             list.add(accessoryMapper.toDTO(e));
         }
         return list;

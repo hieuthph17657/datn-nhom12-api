@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "card")
+@Table(name = "cards")
 @EqualsAndHashCode(callSuper = true)
 public class CardEntity extends BaseEntity {
     @Id

@@ -37,12 +37,6 @@ public class ProductServiceImpl implements ProductService {
     CategoryRepository categoryRepository;
 
     @Autowired
-    ProductPropertyRepository productPropertyRepository;
-
-    @Autowired
-    ConfigurationRepository configurationRepository;
-
-    @Autowired
     ManufactureRepository manufactureRepository;
 
     @Autowired
@@ -78,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
         productEntity = productRepository.save(productEntity);
         Long id = productEntity.getId();
         productRequest.getAccessoryId().forEach(access -> {
-            accessoryProductEntity accessoryProductEntity = new accessoryProductEntity();
+            AccessoryProductEntity accessoryProductEntity = new AccessoryProductEntity();
             accessoryProductEntity.setProduct(productRepository.getById(id));
             accessoryProductEntity.setAccessory(accessoryRepository.getById(access));
             this.accessoryProductRepository.save(accessoryProductEntity);
@@ -119,8 +113,6 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufacture(manufacture);
-        ConfigurationEntity configuration = new ConfigurationEntity();
-        configuration.setProduct(productEntity);
         productEntity = productRepository.save(productEntity);
         productColorRepository.deleteAllProductColorByProductId(id);
         List<Long> longList = productRequest.getColorId();
@@ -133,12 +125,11 @@ public class ProductServiceImpl implements ProductService {
         accessoryProductRepository.deleteAllAccessoryProductByProductId(id);
         List<Long> longs = productRequest.getAccessoryId();
         for (Long access : longs) {
-            accessoryProductEntity accessoryProductEntity = new accessoryProductEntity();
+            AccessoryProductEntity accessoryProductEntity = new AccessoryProductEntity();
             accessoryProductEntity.setAccessory(accessoryRepository.getById(access));
             accessoryProductEntity.setProduct(productRepository.getById(id));
             this.accessoryProductRepository.save(accessoryProductEntity);
         }
-        this.configurationRepository.save(configuration);
         return productEntity;
     }
 
@@ -257,7 +248,6 @@ public class ProductServiceImpl implements ProductService {
 
     private void enrichImage(ProductEntity productEntity) {
         List<ImagesEntity> imagesEntities = this.imageRepository.findAllByProductId(productEntity.getId());
-        ConfigurationEntity configuration = this.configurationRepository.findByProductId(productEntity.getId());
         productEntity.enrichListImage(imagesEntities);
     }
 

@@ -31,5 +31,5 @@ public class ReturnDTO extends BaseDTO implements Serializable {
 
     private ReturnStatus status;
 
-    private List<ReturnDetailDTO> returnDetailEntities;
+//    private List<ReturnDetailDTO> returnDetailEntities;
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class accessoryDTO extends BaseDTO implements Serializable {
+public class AccessoryDTO extends BaseDTO implements Serializable {
 
     private Long id;
 
