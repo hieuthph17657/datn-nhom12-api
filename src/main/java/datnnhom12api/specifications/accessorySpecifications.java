@@ -1,9 +1,9 @@
 package datnnhom12api.specifications;
 
 import datnnhom12api.core.BaseSpecifications;
-import datnnhom12api.entity.accessoryEntity;
+import datnnhom12api.entity.AccessoryEntity;
 
-public class accessorySpecifications extends BaseSpecifications<accessoryEntity> {
+public class accessorySpecifications extends BaseSpecifications<AccessoryEntity> {
     private static accessorySpecifications INSTANCE;
 
     public static accessorySpecifications getInstance() {

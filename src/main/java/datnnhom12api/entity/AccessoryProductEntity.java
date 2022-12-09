@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "accessory_product")
-public class accessoryProductEntity extends BaseEntity {
+public class AccessoryProductEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +22,5 @@ public class accessoryProductEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name="accessory_id")
-    private accessoryEntity accessory;
+    private AccessoryEntity accessory;
 }

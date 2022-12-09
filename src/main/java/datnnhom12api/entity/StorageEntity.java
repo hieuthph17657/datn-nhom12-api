@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "storage")
+@Table(name = "storages")
 @EqualsAndHashCode(callSuper = true)
 public class StorageEntity extends BaseEntity {
 

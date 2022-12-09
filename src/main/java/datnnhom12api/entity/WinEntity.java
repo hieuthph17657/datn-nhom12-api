@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "win")
+@Table(name = "wins")
 @EqualsAndHashCode(callSuper = true)
 public class WinEntity extends BaseEntity {
     @Id

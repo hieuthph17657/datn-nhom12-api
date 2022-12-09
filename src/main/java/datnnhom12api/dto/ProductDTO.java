@@ -5,8 +5,6 @@ import datnnhom12api.entity.*;
 import datnnhom12api.utils.support.ProductStatus;
 import lombok.*;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.List;
 
@@ -56,7 +54,7 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private List<ProductColorDTO> productColors;
 
-    private List<accessoryProductDTO> accessoryProducts;
+    private List<AccessoryProductDTO> accessoryProducts;
 
     private ProductStatus status;
 

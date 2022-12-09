@@ -71,7 +71,7 @@ public class ProductEntity extends BaseEntity {
     private List<ProductColorEntity> productColors;
 
     @OneToMany(mappedBy = "product")
-    private List<accessoryProductEntity> accessoryProducts;
+    private List<AccessoryProductEntity> accessoryProducts;
 
     @ManyToOne
     @JoinColumn(name="category_id")

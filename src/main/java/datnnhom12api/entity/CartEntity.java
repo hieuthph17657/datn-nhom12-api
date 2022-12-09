@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "cart")
+@Table(name = "carts")
 @EqualsAndHashCode(callSuper = true)
 public class CartEntity extends BaseEntity {
 

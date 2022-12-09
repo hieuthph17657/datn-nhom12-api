@@ -1,13 +1,13 @@
 package datnnhom12api.controller.admin;
 
-import datnnhom12api.entity.accessoryEntity;
+import datnnhom12api.entity.AccessoryEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.accessoryMapper;
 import datnnhom12api.paginationrequest.accessoryPaginationRequest;
 import datnnhom12api.request.accessoryRequest;
 import datnnhom12api.response.accessoryResponse;
-import datnnhom12api.service.accessoryService;
+import datnnhom12api.service.AccessoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -20,10 +20,10 @@ import java.util.List;
 @RestController
 public class accessoryController {
     @Autowired
-    accessoryService accessoryService;
+    AccessoryService accessoryService;
 
     @GetMapping("/api/auth/accessory/getAll")
-    public List<accessoryEntity> getAll() {
+    public List<AccessoryEntity> getAll() {
         return accessoryService.findAll();
     }
 
@@ -32,7 +32,7 @@ public class accessoryController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<accessoryEntity> page = accessoryService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        Page<AccessoryEntity> page = accessoryService.paginate(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         return new accessoryResponse(accessoryMapper.toPageDTO(page));
     }
 
@@ -41,7 +41,7 @@ public class accessoryController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        accessoryEntity postEntity = accessoryService.create(post);
+        AccessoryEntity postEntity = accessoryService.create(post);
         return new accessoryResponse(accessoryMapper.getInstance().toDTO(postEntity));
     }
 }

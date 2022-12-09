@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "manufacture")
+@Table(name = "manufactures")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

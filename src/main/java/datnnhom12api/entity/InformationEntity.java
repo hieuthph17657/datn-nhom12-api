@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "information")
+@Table(name = "informations")
 @EqualsAndHashCode(callSuper = true)
 public class InformationEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

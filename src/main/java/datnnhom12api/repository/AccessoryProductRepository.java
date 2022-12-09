@@ -1,15 +1,15 @@
 package datnnhom12api.repository;
 
 
-import datnnhom12api.entity.accessoryProductEntity;
+import datnnhom12api.entity.AccessoryProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccessoryProductRepository extends JpaRepository<accessoryProductEntity, Long> {
+public interface AccessoryProductRepository extends JpaRepository<AccessoryProductEntity, Long> {
     @Modifying
-    @Query("DELETE FROM accessoryProductEntity ac where ac.product.id = ?1")
+    @Query("DELETE FROM AccessoryProductEntity ac where ac.product.id = ?1")
     void deleteAllAccessoryProductByProductId(Long id);
 }
