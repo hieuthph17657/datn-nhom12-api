@@ -48,21 +48,25 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
+
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
-        System.out.println("userID: " + orderRequest.getUserId());
-
-//        UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
         if (orderRequest.getUserId() == 0) {
             orderEntity.setUser(null);
         } else {
             UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
             orderEntity.setUser(userEntity);
         }
-
         orderEntity = orderRepository.save(orderEntity);
+        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+        orderHistory.setOrderId(orderEntity);
+        orderHistory.setTotal(orderEntity.getTotal());
+        orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
+        this.orderHistoryRepository.save(orderHistory);
         List<OrderDetailRequest> list = orderRequest.getOrderDetails();
         for (OrderDetailRequest orderDetailRequest : list) {
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
@@ -76,7 +80,6 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
             System.out.println(orderDetailEntity.getProductId());
             ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
-            System.out.println("product quantity: " + product.getQuantity());
             product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
             this.productRepository.save(product);
         }
@@ -427,8 +430,13 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderConfirmDTO> findByIdOrderId(List<OrderConfirmDTO> id) {
         id.forEach(orderId -> {
             OrderEntity orderEntity = this.orderRepository.getById(orderId.getId());
+            OrderHistoryEntity orderHistory = new OrderHistoryEntity();
             orderEntity.setStatus(orderId.getStatus());
             this.orderRepository.save(orderEntity);
+            orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
+            orderHistory.setOrderId(orderEntity);
+            orderHistory.setTotal(orderEntity.getTotal());
+            this.orderHistoryRepository.save(orderHistory);
         });
         return null;
     }
