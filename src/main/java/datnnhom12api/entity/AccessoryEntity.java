@@ -1,7 +1,7 @@
 package datnnhom12api.entity;
 
 import datnnhom12api.core.BaseEntity;
-import datnnhom12api.request.accessoryRequest;
+import datnnhom12api.request.AccessoryRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,7 +35,7 @@ public class AccessoryEntity extends BaseEntity {
     @OneToMany(mappedBy = "accessory")
     private List<AccessoryProductEntity> accessoryProducts;
 
-    public void setData(accessoryRequest request) {
+    public void setData(AccessoryRequest request) {
         this.name = request.getName();
         this.price = request.getPrice();
         this.categoryId = request.getCategoryId();

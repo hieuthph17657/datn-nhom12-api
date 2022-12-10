@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Getter
 @Setter
-public class accessoryRequest {
+public class AccessoryRequest {
     @NotBlank(message = "Tên phụ kiện không được để trống")
     private String name;
 

@@ -25,8 +25,6 @@ public class BatteryChargerDTO extends BaseDTO implements Serializable {
 
     private String charger;//sac
 
-    private double price;
-
     @Enumerated(EnumType.STRING)
     private BatteryChargerStatus status;
 

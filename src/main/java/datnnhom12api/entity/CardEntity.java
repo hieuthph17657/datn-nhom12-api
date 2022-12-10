@@ -34,9 +34,6 @@ public class CardEntity extends BaseEntity {
     @Column(name = "memory")
     private String memory;
 
-    @Column(name = "price")
-    private Double price;
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
@@ -45,7 +42,6 @@ public class CardEntity extends BaseEntity {
         this.memory = request.getMemory();
         this.model = request.getModel();
         this.trandemark = request.getTrandemark();
-        this.price = request.getPrice();
         this.category = request.getCategory();
     }
 }

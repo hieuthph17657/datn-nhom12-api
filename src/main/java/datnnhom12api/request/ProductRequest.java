@@ -47,7 +47,7 @@ public class ProductRequest {
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
-    private Long categoryId;
+    private List<Long> categoryId;
 
     private Long manufactureId;
 
@@ -67,7 +67,7 @@ public class ProductRequest {
 
     private Long storageId;
 
-    private String win;
+    private Long winId;
 
     private String material;
 

@@ -1,16 +1,14 @@
 package datnnhom12api.controller.admin;
 
 
-import datnnhom12api.dto.StatisticalMonthDTO;
-import datnnhom12api.dto.StatisticalOrderDTO;
-import datnnhom12api.dto.StatisticalProductDTO;
-import datnnhom12api.dto.SumProductDTO;
+import datnnhom12api.dto.*;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.response.OrderResponse;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.service.ProductService;
+import datnnhom12api.service.ReturnService;
 import datnnhom12api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +29,9 @@ public class StatisticalController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ReturnService returnService;
 
     @GetMapping("/statistical/{year}")
     public List<StatisticalMonthDTO> index(@PathVariable("year") Integer year){
@@ -67,6 +68,14 @@ public class StatisticalController {
         SumProductDTO user = userService.countCustomer();
         return user;
     }
+
+    @GetMapping("/statistical/inventory")
+    public List<InventoryDTO> findAllInventory(){
+        List<InventoryDTO> inventory = returnService.getAllInventory();
+        return inventory;
+    }
+
+
 
 
 

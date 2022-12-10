@@ -1,23 +1,22 @@
 package datnnhom12api.response;
 
 import datnnhom12api.core.BaseResponse;
-import datnnhom12api.dto.CartDTO;
-import datnnhom12api.dto.ReturnDTO;
+import datnnhom12api.dto.ExchangeDTO;
 import org.springframework.data.domain.Page;
 
-public class ReturnResponse extends BaseResponse<ReturnDTO> {
-    public ReturnResponse(int status, String message, ReturnDTO data) {
+public class ReturnResponse extends BaseResponse<ExchangeDTO> {
+    public ReturnResponse(int status, String message, ExchangeDTO data) {
         super(status, message, data);
     }
 
     public ReturnResponse() {
     }
 
-    public ReturnResponse(ReturnDTO data) {
+    public ReturnResponse(ExchangeDTO data) {
         super(data);
     }
 
-    public ReturnResponse(Page<ReturnDTO> toPageDTO) {
+    public ReturnResponse(Page<ExchangeDTO> toPageDTO) {
         super(toPageDTO);
     }
 }

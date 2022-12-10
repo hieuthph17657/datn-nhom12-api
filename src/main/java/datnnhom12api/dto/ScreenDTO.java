@@ -44,7 +44,5 @@ public class ScreenDTO extends BaseDTO implements Serializable {
 
     private String contrast;// độ tương phản
 
-    private double price;
-
     private ScreenStatus status;
 }

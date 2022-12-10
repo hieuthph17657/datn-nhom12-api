@@ -16,6 +16,5 @@ public class CardDTO implements Serializable {
     private String trandemark;
     private String model;
     private String memory;
-    private Double price;
     private CategoryDTO category;
 }

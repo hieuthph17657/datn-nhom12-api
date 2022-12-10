@@ -1,16 +1,15 @@
 package datnnhom12api.controller.admin;
 
 
-import datnnhom12api.dto.ReturnDetailDTO;
+import datnnhom12api.dto.ExchangeDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
-import datnnhom12api.entity.ReturnDetailEntity;
-import datnnhom12api.entity.ReturnEntity;
+import datnnhom12api.entity.ExchangeEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
-import datnnhom12api.mapper.ReturnMapper;
-import datnnhom12api.paginationrequest.ReturnPaginationRequest;
-import datnnhom12api.request.ReturnDetailRequest;
-import datnnhom12api.request.ReturnRequest;
+import datnnhom12api.mapper.ExchangeMapper;
+import datnnhom12api.paginationrequest.ExchangePaginationRequest;
+import datnnhom12api.request.ExchangeDetailRequest;
+import datnnhom12api.request.ExchangeRequest2;
 import datnnhom12api.response.ReturnResponse;
 import datnnhom12api.service.ReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,40 +22,40 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
-public class ReturnController {
+public class ExchangeController {
 
     @Autowired
     private ReturnService returnService;
 
     @GetMapping("/staff/returns")
-    public ReturnResponse index(@Valid ReturnPaginationRequest request, BindingResult bindingResult)
+    public ReturnResponse index(@Valid ExchangePaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<ReturnEntity> page = returnService.paginate(request.getPage(), request.getLimit(),
+        Page<ExchangeEntity> page = returnService.paginate(request.getPage(), request.getLimit(),
                 request.getFilters(), request.getOrders());
-        return new ReturnResponse(ReturnMapper.getInstance().toPageDTO(page));
+        return new ReturnResponse(ExchangeMapper.getInstance().toPageDTO(page));
     }
 
     @PostMapping("/auth/returns")
-    public ReturnResponse create(@Valid @RequestBody ReturnRequest post,
+    public ReturnResponse create(@Valid @RequestBody ExchangeRequest2 post,
                                  BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        ReturnEntity postEntity = returnService.insert(post);
-        return new ReturnResponse(ReturnMapper.getInstance().toDTO(postEntity));
+        ExchangeEntity postEntity = returnService.insert(post);
+        return new ReturnResponse(ExchangeMapper.getInstance().toDTO(postEntity));
     }
 
     @PutMapping("/returns/{id}")
-    public ReturnResponse edit(@PathVariable("id") Long id, @Valid @RequestBody ReturnRequest post,
+    public ReturnResponse edit(@PathVariable("id") Long id, @Valid @RequestBody ExchangeRequest2 post,
                                BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        ReturnEntity postEntity = this.returnService.update(id, post);
-        return new ReturnResponse(ReturnMapper.getInstance().toDTO(postEntity));
+        ExchangeEntity postEntity = this.returnService.update(id, post);
+        return new ReturnResponse(ExchangeMapper.getInstance().toDTO(postEntity));
     }
 
     @DeleteMapping("/returns/{id}")
@@ -68,19 +67,19 @@ public class ReturnController {
 
     @GetMapping("/auth/returns/{id}/detail")
     public ReturnResponse getByIdReturnId(@PathVariable("id")Long id) throws CustomException {
-        ReturnEntity returnEntity = this.returnService.getById(id);
-        return new ReturnResponse(ReturnMapper.getInstance().toDTO(returnEntity));
+        ExchangeEntity exchangeEntity = this.returnService.getById(id);
+        return new ReturnResponse(ExchangeMapper.getInstance().toDTO(exchangeEntity));
     }
 
     @GetMapping("/returns/{id}")
-    public List<ReturnDetailDTO> findReturnById (@PathVariable("id") Long id)  throws CustomException {
-        List<ReturnDetailDTO>  returnDetailEntities = returnService.findById(id);
+    public List<ExchangeDetailDTO> findReturnById (@PathVariable("id") Long id)  throws CustomException {
+        List<ExchangeDetailDTO>  returnDetailEntities = returnService.findById(id);
         return returnDetailEntities;
     }
 
     @PutMapping("/{id}/updateReturnDetails")
-    public UpdateReturnDetailDTO updateByReturnDetail(@PathVariable("id")Long id,@RequestBody  ReturnDetailRequest returnDetailRequest){
-        UpdateReturnDetailDTO returnDetailDTO = this.returnService.updateByReturnDetail(id,returnDetailRequest);
+    public UpdateReturnDetailDTO updateByReturnDetail(@PathVariable("id")Long id,@RequestBody ExchangeDetailRequest exchangeDetailRequest){
+        UpdateReturnDetailDTO returnDetailDTO = this.returnService.updateByReturnDetail(id, exchangeDetailRequest);
         return  returnDetailDTO;
     }
 

@@ -45,9 +45,6 @@ public class RamEntity extends BaseEntity {
     @Column(name = "remaining_slot")
     private int remainingSlot;
 
-    @Column(name = "price")
-    private double price;
-
     @Enumerated(EnumType.STRING)
     private RamStatus status;
 
@@ -58,7 +55,6 @@ public class RamEntity extends BaseEntity {
         this.looseSlot = request.getLooseSlot();
         this.onboardRam = request.getOnboardRam();
         this.ramSpeed = request.getRamSpeed();
-        this.price = request.getPrice();
         this.maxRamSupport = request.getMaxRamSupport();
         this.status = request.getStatus()
                 == RamStatus.DRAFT ? RamStatus.DRAFT

@@ -47,8 +47,6 @@ public class ScreenRequest {
     //@NotBlank(message ="độ tương phản không được trống")
     private String contrast;
 
-    private double price;
-
     @Enumerated(EnumType.STRING)
     private ScreenStatus status;
 }

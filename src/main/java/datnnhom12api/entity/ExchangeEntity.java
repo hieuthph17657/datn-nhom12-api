@@ -1,9 +1,7 @@
 package datnnhom12api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import datnnhom12api.core.BaseEntity;
-import datnnhom12api.request.ReturnRequest;
-import datnnhom12api.utils.support.ProductStatus;
+import datnnhom12api.request.ExchangeRequest2;
 import datnnhom12api.utils.support.ReturnStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "returns")
-public class ReturnEntity extends BaseEntity {
+@Table(name = "exchanges")
+public class ExchangeEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,10 +38,10 @@ public class ReturnEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReturnStatus status;
 
-    @OneToMany(mappedBy = "Return")
-    List<ReturnDetailEntity> returnDetailEntities;
+    @OneToMany(mappedBy = "exchange")
+    List<ExchangeDetailEntity> returnDetailEntities;
 
-    public void setData(ReturnRequest request){
+    public void setData(ExchangeRequest2 request){
         this.isCheck = request.getIsCheck();
         this.orderId = request.getOrderId();
         this.reason = request.getReason();

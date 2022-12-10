@@ -3,8 +3,8 @@ package datnnhom12api.service.impl;
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.AccessoryEntity;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.repository.accessoryRepository;
-import datnnhom12api.request.accessoryRequest;
+import datnnhom12api.repository.AccessoryRepository;
+import datnnhom12api.request.AccessoryRequest;
 import datnnhom12api.service.AccessoryService;
 import datnnhom12api.specifications.accessorySpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ import java.util.Map;
 
 @Service("accessoryService")
 @Transactional(rollbackFor = Throwable.class)
-public class accessoryServiceImpl implements AccessoryService {
+public class AccessoryServiceImpl implements AccessoryService {
 
     @Autowired
-    accessoryRepository accessoryRepo;
+    AccessoryRepository accessoryRepo;
 
     @Override
-    public AccessoryEntity create(accessoryRequest accessoryRequest) throws CustomException {
+    public AccessoryEntity create(AccessoryRequest accessoryRequest) throws CustomException {
         AccessoryEntity accessoryEntity = new AccessoryEntity();
         accessoryEntity.setData(accessoryRequest);
         accessoryEntity = accessoryRepo.save(accessoryEntity);

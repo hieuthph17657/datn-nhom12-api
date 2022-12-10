@@ -24,6 +24,8 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private Double price;
 
+    private YearDTO year;
+
     private String imei;
 
     private Float weight;
@@ -46,7 +48,7 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private UserDTO updated_by;
 
-    private CategoryDTO category;
+    private List<CategoryDTO> category;
 
     private ManufactureDTO manufacture;
 
