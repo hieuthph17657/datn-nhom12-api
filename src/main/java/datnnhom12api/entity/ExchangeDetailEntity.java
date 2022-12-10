@@ -14,9 +14,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "return_detail")
+@Table(name = "exchange_detail")
 @EqualsAndHashCode(callSuper = true)
-public class ReturnDetailEntity extends BaseEntity {
+public class ExchangeDetailEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -35,8 +35,8 @@ public class ReturnDetailEntity extends BaseEntity {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "return_id")
-    ReturnEntity Return;
+    @JoinColumn(name = "exchange_id")
+    ExchangeEntity exchange;
 
     @Enumerated(EnumType.STRING)
     private ReturnDetailStatus status;

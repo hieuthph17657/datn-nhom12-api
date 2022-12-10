@@ -35,9 +35,6 @@ public class RamRequest {
     @NotNull(message = "Số khe cắm còn lại không được để trống")
     private int remainingSlot;
 
-    @NotNull(message = "Giá tiền không được để trống")
-    private double price;
-
     @Enumerated(EnumType.STRING)
     private RamStatus status;
 }

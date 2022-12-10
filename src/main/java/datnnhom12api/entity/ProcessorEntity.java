@@ -52,15 +52,12 @@ public class ProcessorEntity extends BaseEntity {
     @Column(name = "caching")
     private String caching;
 
-    @Column(name = "price")
-    private double price;
     @Enumerated(EnumType.STRING)
     private ProcessorStatus status;
 
     public void setData(ProcessorRequest request) {
         this.cpuCompany = request.getCpuCompany();
         this.caching = request.getCaching();
-        this.price = request.getPrice();
         this.cpuSpeed = request.getCpuSpeed();
         this.multiplier = request.getMultiplier();
         this.cpuTechnology = request.getCpuTechnology();

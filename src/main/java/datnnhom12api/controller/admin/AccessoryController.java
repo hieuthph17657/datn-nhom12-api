@@ -5,7 +5,7 @@ import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.accessoryMapper;
 import datnnhom12api.paginationrequest.accessoryPaginationRequest;
-import datnnhom12api.request.accessoryRequest;
+import datnnhom12api.request.AccessoryRequest;
 import datnnhom12api.response.accessoryResponse;
 import datnnhom12api.service.AccessoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class accessoryController {
+public class AccessoryController {
     @Autowired
     AccessoryService accessoryService;
 
@@ -37,7 +37,7 @@ public class accessoryController {
     }
 
     @PostMapping("/api/admin/accessory")
-    public accessoryResponse create(@Valid @RequestBody accessoryRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
+    public accessoryResponse create(@Valid @RequestBody AccessoryRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }

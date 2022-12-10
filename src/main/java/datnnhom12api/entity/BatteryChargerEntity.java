@@ -33,9 +33,6 @@ public class BatteryChargerEntity extends BaseEntity {
     @Column(name="charger")
     private String charger;//sac
 
-    @Column(name = "price")
-    private double price;
-
     @Enumerated(EnumType.STRING)
     private BatteryChargerStatus status;
 
@@ -44,7 +41,6 @@ public class BatteryChargerEntity extends BaseEntity {
         this.batteryType=request.getBatteryType();
         this.battery = request.getBattery();
         this.charger = request.getCharger();
-        this.price= request.getPrice();
         this.status = request.getStatus()
                 == BatteryChargerStatus.DRAFT ? BatteryChargerStatus.DRAFT
                 : request.getStatus()

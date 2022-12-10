@@ -22,6 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Year;
 import java.util.*;
 
 @Service("productService")
@@ -52,12 +53,47 @@ public class ProductServiceImpl implements ProductService {
     ColorRepository colorRepository;
 
     @Autowired
-    accessoryRepository accessoryRepository;
+    AccessoryRepository accessoryRepository;
+
+    @Autowired
+    OriginRepository originRepository;
+
+    @Autowired
+    CardRepository cardRepository;
+
+    @Autowired
+    BatteryChargerRepository batteryChargerRepository;
+
+    @Autowired
+    ProcessorRepository processorRepository;
+
+    @Autowired
+    RamRepository ramRepository;
+
+    @Autowired
+    ScreenRepository screenRepository;
+
+    @Autowired
+    StorageRepository storageRepository;
+
+    @Autowired
+    ProductCategoryRepository productCategoryRepository;
+
+    @Autowired
+    YearRepository yearRepository;
 
     @Override
     public ProductEntity insert(ProductRequest productRequest) throws CustomException {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
+        productEntity.setOrigin(this.originRepository.getById(productRequest.getOriginId()));
+        productEntity.setScreen(this.screenRepository.getById(productRequest.getScreenId()));
+        productEntity.setStorage(this.storageRepository.getById(productRequest.getStorageId()));
+        productEntity.setRam(this.ramRepository.getById(productRequest.getRamId()));
+        productEntity.setProcessor(this.processorRepository.getById(productRequest.getProcessorId()));
+        productEntity.setCard(this.cardRepository.getById(productRequest.getCardId()));
+        productEntity.setCardOnboard(this.cardRepository.getById(productRequest.getCardOnboard()));
+        productEntity.setBattery(this.batteryChargerRepository.getById(productRequest.getBatteryId()));
         List<ImageRequest> list = productRequest.getImages();
         for (ImageRequest imageRequest : list) {
             ImagesEntity imagesEntity = new ImagesEntity();
@@ -65,8 +101,6 @@ public class ProductServiceImpl implements ProductService {
             imagesEntity.setProduct(productEntity);
             imageRepository.save(imagesEntity);
         }
-        CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
-        productEntity.setCategory(category);
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufacture(manufacture);
         productEntity = productRepository.save(productEntity);
@@ -79,12 +113,23 @@ public class ProductServiceImpl implements ProductService {
         });
         productRequest.getColorId().forEach(color -> {
             ProductColorEntity pColorEntity = new ProductColorEntity();
-//            pColorEntity.setColorId(color);
-//            pColorEntity.setProductId(id);
             pColorEntity.setColor(colorRepository.getById(color));
             pColorEntity.setProduct(productRepository.getById(id));
             this.productColorRepository.save(pColorEntity);
         });
+
+        productRequest.getCategoryId().forEach(cate -> {
+            ProductCategoryEntity productCategory = new ProductCategoryEntity();
+            productCategory.setProduct(productRepository.getById(id));
+            productCategory.setCategory(categoryRepository.getById(cate));
+            this.productCategoryRepository.save(productCategory);
+        });
+        YearEntity year = new YearEntity();
+        int yearCurrent = Year.now().getValue();
+        year.setProduct(this.productRepository.getById(id));
+        year.setPrice(productRequest.getPrice());
+        year.setYear(String.valueOf(yearCurrent));
+        this.yearRepository.save(year);
         return productEntity;
     }
 
@@ -109,8 +154,7 @@ public class ProductServiceImpl implements ProductService {
             imagesEntity.setProduct(productEntity);
             imageRepository.save(imagesEntity);
         }
-        CategoryEntity category = this.categoryRepository.getById(productRequest.getCategoryId());
-        productEntity.setCategory(category);
+
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufacture(manufacture);
         productEntity = productRepository.save(productEntity);
@@ -207,7 +251,7 @@ public class ProductServiceImpl implements ProductService {
                     }
                     productEntity = productEntityOptional.get();
                     productEntity.setDiscount(discountEntity);
-                    productEntity.setPrice(productEntity.getPrice() - (productEntity.getPrice() * discountEntity.getRatio() / 100));
+//                    productEntity.setPrice(productEntity.getPrice() - (productEntity.getPrice() * discountEntity.getRatio() / 100));
                     productEntity = productRepository.save(productEntity);
                     listdiscountProduct.add(productEntity);
                 }

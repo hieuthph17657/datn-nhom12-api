@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ReturnRequest {
+public class ExchangeRequest2 {
 
     @NotNull(message = "Id hoá đơn không được trống")
     private Long orderId;
@@ -27,7 +27,7 @@ public class ReturnRequest {
 
     private ReturnStatus status;
 
-    private List<ReturnDetailRequest> returnDetailEntities;
+    private List<ExchangeDetailRequest> returnDetailEntities;
 
 
 }

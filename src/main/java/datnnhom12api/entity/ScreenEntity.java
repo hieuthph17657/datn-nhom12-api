@@ -57,14 +57,10 @@ public class ScreenEntity  extends BaseEntity {
     @Column(name = "contrast")
     private String contrast;
 
-    @Column(name = "price")
-    private double price;
-
     @Enumerated(EnumType.STRING)
     private ScreenStatus status;
 
     public void setData(ScreenRequest request) {
-        this.price =request.getPrice();
         this.contrast=request.getContrast();
         this.touchScreen = request.getTouchScreen();
         this.colorCoverage = request.getColorCoverage();

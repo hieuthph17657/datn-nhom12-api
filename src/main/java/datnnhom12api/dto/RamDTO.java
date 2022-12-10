@@ -33,7 +33,5 @@ public class RamDTO extends BaseDTO implements Serializable {
 
     private int remainingSlot;
 
-    private double price;
-
     private RamStatus status;
 }

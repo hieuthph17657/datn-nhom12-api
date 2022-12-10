@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReturnPaginationRequest extends PaginationRequest {
+public class ExchangePaginationRequest extends PaginationRequest {
     private String searchStatus;
 
     private String check;

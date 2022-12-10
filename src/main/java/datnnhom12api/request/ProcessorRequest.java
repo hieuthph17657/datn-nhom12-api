@@ -41,9 +41,6 @@ public class ProcessorRequest {
     @NotBlank(message = "Bộ nhớ đệm không được để trống")
     private String caching;
 
-    @NotNull(message = "Giá tiền không được để trống")
-    private double price;
-
     @Enumerated(EnumType.STRING)
     private ProcessorStatus status;
 }

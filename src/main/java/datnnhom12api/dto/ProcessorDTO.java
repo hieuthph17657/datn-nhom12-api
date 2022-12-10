@@ -34,8 +34,6 @@ public class ProcessorDTO extends BaseDTO implements Serializable {
 
     private String caching;
 
-    private double price;
-
     private ProcessorStatus status;
 
 
