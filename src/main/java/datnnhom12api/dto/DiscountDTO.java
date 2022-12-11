@@ -1,9 +1,12 @@
 package datnnhom12api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import datnnhom12api.utils.support.DiscountStatus;
 import lombok.*;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,5 +22,6 @@ public class DiscountDTO implements Serializable {
     private Double ratio;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private int active;
+    @Enumerated(EnumType.STRING)
+    private DiscountStatus status;
 }
