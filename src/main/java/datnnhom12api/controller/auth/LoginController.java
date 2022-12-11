@@ -1,8 +1,12 @@
 package datnnhom12api.controller.auth;
 
 import datnnhom12api.dto.AuthDTO;
+import datnnhom12api.dto.InformationDTO;
 import datnnhom12api.dto.RoleDTO;
+import datnnhom12api.entity.InformationEntity;
 import datnnhom12api.entity.RoleEntity;
+import datnnhom12api.mapper.InformationMapper;
+import datnnhom12api.mapper.UserMapper;
 import datnnhom12api.request.AuthRequest;
 import datnnhom12api.response.AuthResponse;
 import datnnhom12api.entity.UserEntity;
@@ -53,6 +57,7 @@ public class LoginController {
             authDTO.setId(userEntity.getId());
             authDTO.setToken(jwt);
             authDTO.setUsername(userEntity.getUsername());
+            authDTO.setInformation(InformationMapper.toListDTO(userEntity.getInformation()));
             List<RoleDTO> list = new ArrayList<>();
             for (RoleEntity e : userEntity.getRoles()) {
                 list.add(new RoleDTO(e.getId(), e.getRole()));
