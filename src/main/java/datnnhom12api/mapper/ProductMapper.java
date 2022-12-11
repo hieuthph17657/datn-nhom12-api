@@ -1,6 +1,7 @@
 package datnnhom12api.mapper;
 
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDiscountDTO;
 import datnnhom12api.entity.ProductEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -46,6 +47,17 @@ public class ProductMapper {
         List<ProductDTO> list = new ArrayList<>();
         for (ProductEntity e : entityList) {
             list.add(ProductMapper.toDTO(e));
+        }
+        return list;
+    }
+    public static ProductDiscountDTO toProDiscountDTO(ProductEntity product) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(product, ProductDiscountDTO.class);
+    }
+    public static List<ProductDiscountDTO> toListProDiscountDTO(List<ProductEntity> entityList) {
+        List<ProductDiscountDTO> list = new ArrayList<>();
+        for (ProductEntity e : entityList) {
+            list.add(ProductMapper.toProDiscountDTO(e));
         }
         return list;
     }

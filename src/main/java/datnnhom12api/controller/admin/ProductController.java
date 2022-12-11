@@ -12,6 +12,7 @@ import datnnhom12api.repository.ProductRepository;
 import datnnhom12api.request.DiscountRequest;
 import datnnhom12api.request.ProductRequest;
 import datnnhom12api.response.DiscountResponse;
+import datnnhom12api.response.ProductDiscountResponse;
 import datnnhom12api.response.ProductResponse;
 import datnnhom12api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,15 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public List<ProductEntity> getAll() {
+    public ProductResponse getAll(){
         List<ProductEntity> product = this.productRepository.findAll();
-        return product;
+        return new ProductResponse(ProductMapper.toListDTO(product));
+    }
+
+    @GetMapping("/allProDiscount")
+    public ProductDiscountResponse getAllProDiscount(){
+        List<ProductEntity> product = this.productRepository.findAll();
+        return new ProductDiscountResponse(ProductMapper.toListProDiscountDTO(product));
     }
 
     @GetMapping("/{id}")
@@ -79,6 +86,15 @@ public class ProductController {
         }
         List<ProductEntity> productEntity = productService.discount(id, idProduct);
         return new ProductResponse(ProductMapper.getInstance().toListDTO(productEntity));
+    }
+
+    @PutMapping("/noDiscountProduct/{id}/{idPro}")
+    public  ProductResponse nodiscount(
+            @PathVariable("id") Long id,
+            @PathVariable("idPro") Long idPro
+    ) throws CustomValidationException, CustomException {
+        ProductEntity productEntity = productService.noDiscount(id,idPro );
+        return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 
 

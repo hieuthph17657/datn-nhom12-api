@@ -7,6 +7,7 @@ import datnnhom12api.repository.DiscountRepository;
 import datnnhom12api.request. DiscountRequest;
 import datnnhom12api.service.DiscountService;
 import datnnhom12api.specifications.DiscountSpecifications;
+import datnnhom12api.utils.support.DiscountStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,7 +62,7 @@ public class DiscountServiceImpl implements DiscountService {
             throw new CustomException(403, "không tìm thấy id giảm giá muốn active");
         }
         DiscountEntity discountEntity = discountEntityOptional.get();
-        discountEntity.setActive(1);
+        discountEntity.setStatus(DiscountStatus.ACTIVE);
         discountEntity = discountRepository.save(discountEntity);
         return discountEntity;
     }
@@ -76,7 +77,7 @@ public class DiscountServiceImpl implements DiscountService {
             throw new CustomException(403, "không tìm thấy id giảm giá muốn active");
         }
         DiscountEntity discountEntity = discountEntityOptional.get();
-        discountEntity.setActive(0);
+        discountEntity.setStatus(DiscountStatus.INACTIVE);
         discountEntity = discountRepository.save(discountEntity);
         return discountEntity;
     }

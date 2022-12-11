@@ -10,6 +10,7 @@ import datnnhom12api.request.DiscountRequest;
 import datnnhom12api.response.DiscountResponse;
 import datnnhom12api.service.DiscountService;
 import datnnhom12api.service.InformationService;
+import datnnhom12api.utils.support.DiscountStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -56,7 +57,7 @@ public class DiscountController {
         DiscountEntity postEntity = discountService.edit(id, post);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
-    @PutMapping("/api/admin/active/{id}")
+    @PutMapping("/api/admin/discount/active/{id}")
     public DiscountResponse active(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
         DiscountEntity postEntity = discountService.active(id);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
@@ -68,7 +69,7 @@ public class DiscountController {
     }
     @PostMapping("/api/staff/discount/draft")
     public DiscountResponse draft(@RequestBody DiscountRequest post) throws CustomValidationException, CustomException {
-        post.setActive(2);
+        post.setStatus(DiscountStatus.DRAFT);
         DiscountEntity postEntity = discountService.save(post);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }
@@ -76,7 +77,7 @@ public class DiscountController {
     @DeleteMapping("/api/admin/discount/{id}")
     public DiscountResponse delete(@PathVariable("id") Long id) throws CustomException {
         DiscountEntity entity =discountService.getByIdDiscount(id);
-        if (entity.getActive()==2) {
+        if (entity.getStatus()==DiscountStatus.DRAFT) {
             discountService.delete(id);
             return new DiscountResponse();
         }else{

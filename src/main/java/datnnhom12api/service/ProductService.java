@@ -25,6 +25,8 @@ public interface ProductService {
 
     ProductDTO findById(Long id);
 
+    ProductEntity noDiscount(Long id, Long idProduct) throws CustomException;
+
     ProductEntity active(Long id) throws CustomException;
 
     ProductEntity inActive(Long id) throws CustomException;

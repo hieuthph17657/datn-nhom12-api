@@ -1,8 +1,11 @@
 package datnnhom12api.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import datnnhom12api.utils.support.DiscountStatus;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -28,6 +31,6 @@ public class DiscountRequest {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endDate;
 
-    @NotNull(message = "trạng thái không được để trống")
-    private int active;
+    @Enumerated(EnumType.STRING)
+    private DiscountStatus status;
 }
