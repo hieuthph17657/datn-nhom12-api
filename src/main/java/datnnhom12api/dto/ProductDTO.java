@@ -48,11 +48,11 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private UserDTO updated_by;
 
-    private List<CategoryDTO> category;
+    private CategoryDTO category;
 
     private ManufactureDTO manufacture;
 
-    private List<ImagesEntity> images;
+    private List<ImageDTO> images;
 
     private List<ProductColorDTO> productColors;
 
@@ -78,5 +78,5 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private BatteryChargerDTO battery;
 
-    private DiscountEntity discount;
+    private DiscountDTO discount;
 }

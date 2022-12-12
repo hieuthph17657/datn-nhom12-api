@@ -1,7 +1,6 @@
 package datnnhom12api.dto;
 
 import datnnhom12api.core.BaseDTO;
-import datnnhom12api.entity.DiscountEntity;
 import lombok.*;
 
 import java.io.Serializable;
@@ -24,5 +23,5 @@ public class ProductDiscountDTO extends BaseDTO implements Serializable {
 
     private String imei;
 
-    private DiscountEntity discount;
+    private DiscountDTO discount;
 }
