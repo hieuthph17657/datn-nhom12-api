@@ -1,6 +1,7 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.entity.DiscountEntity;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -57,8 +58,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO getById(@PathVariable Long id) {
-        ProductDTO product = this.productService.findById(id);
+    public ProductDTOById getById(@PathVariable Long id) {
+        ProductDTOById product = this.productService.findById(id);
         return product;
     }
 

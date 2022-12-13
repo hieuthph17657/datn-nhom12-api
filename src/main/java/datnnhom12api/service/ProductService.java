@@ -2,6 +2,7 @@ package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -23,7 +24,7 @@ public interface ProductService {
 
     ProductEntity create(ProductEntity productEntity);
 
-    ProductDTO findById(Long id);
+    ProductDTOById findById(Long id);
 
     ProductEntity noDiscount(Long id, Long idProduct) throws CustomException;
 

@@ -6,7 +6,7 @@ import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.AccessoryRepository;
 import datnnhom12api.request.AccessoryRequest;
 import datnnhom12api.service.AccessoryService;
-import datnnhom12api.specifications.accessorySpecifications;
+import datnnhom12api.specifications.AccessorySpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +43,7 @@ public class AccessoryServiceImpl implements AccessoryService {
         }
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
-        Specification<AccessoryEntity> specifications = accessorySpecifications.getInstance().getQueryResult(filters);
+        Specification<AccessoryEntity> specifications = AccessorySpecifications.getInstance().getQueryResult(filters);
         return accessoryRepo.findAll(specifications, pageable);
     }
 

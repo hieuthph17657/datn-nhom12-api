@@ -1,7 +1,7 @@
 package datnnhom12api.dto;
 
 import datnnhom12api.core.BaseDTO;
-import datnnhom12api.entity.*;
+import datnnhom12api.entity.ImagesEntity;
 import datnnhom12api.utils.support.ProductStatus;
 import lombok.*;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class ProductDTO extends BaseDTO implements Serializable {
+public class ProductDTOById extends BaseDTO implements Serializable {
     private Long id;
 
     private String name;
@@ -24,7 +24,7 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private Double price;
 
-//    private YearDTO year;
+    private YearDTO year;
 
     private String imei;
 
@@ -38,15 +38,15 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private String debut;
 
-//    private WinDTO win;
+    private WinDTO win;
 
     private String description;
 
     private String material;
 
-//    private UserDTO created_by;
-//
-//    private UserDTO updated_by;
+    private UserDTO created_by;
+
+    private UserDTO updated_by;
 
     private List<ProductCategoryDTO> categoryProducts;
 
@@ -56,25 +56,26 @@ public class ProductDTO extends BaseDTO implements Serializable {
 
     private List<ProductColorDTO> productColors;
 
-//    private List<AccessoryProductDTO> accessoryProducts;
+
+    private List<AccessoryProductDTO> accessoryProducts;
 
     private ProductStatus status;
 
-//    private ProcessorDTO processor;
+    private ProcessorDTO processor;
 
-//    private RamDTO ram;
+    private RamDTO ram;
 
-//    private ScreenDTO screen;
+    private ScreenDTO screen;
 
-//    private CardDTO card;
+    private CardDTO card;
 
     private OriginDTO origin;
 
-//    private StorageDTO storage;
+    private StorageDTO storage;
 
     private String security;
 
-//    private CardDTO cardOnboard;
+    private CardDTO cardOnboard;
 
-//    private BatteryChargerDTO battery;
+    private BatteryChargerDTO battery;
 }
