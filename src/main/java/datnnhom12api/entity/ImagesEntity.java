@@ -31,17 +31,13 @@ public class ImagesEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
-    @Column(name = "return_id")
-    private Long return_id;
 
     @Column(name = "exchange_id")
     private Long exchange_id;
 
     public void setData(ImageRequest request) {
-//        this.productId = request.getProductId();
         this.name = request.getName();
         this.product = request.getProduct();
-        this.return_id = request.getReturn_id();
         this.exchange_id = request.getExchange_id();
     }
 }

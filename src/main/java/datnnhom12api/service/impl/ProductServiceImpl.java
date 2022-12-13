@@ -3,6 +3,7 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
@@ -82,12 +83,17 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     YearRepository yearRepository;
 
+
+    @Autowired
+    WinRepository winRepository;
+
     @Override
     public ProductEntity insert(ProductRequest productRequest) throws CustomException {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setData(productRequest);
         productEntity.setOrigin(this.originRepository.getById(productRequest.getOriginId()));
         productEntity.setScreen(this.screenRepository.getById(productRequest.getScreenId()));
+        productEntity.setWin(this.winRepository.getById(productRequest.getWinId()));
         productEntity.setStorage(this.storageRepository.getById(productRequest.getStorageId()));
         productEntity.setRam(this.ramRepository.getById(productRequest.getRamId()));
         productEntity.setProcessor(this.processorRepository.getById(productRequest.getProcessorId()));
@@ -197,25 +203,27 @@ public class ProductServiceImpl implements ProductService {
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<ProductEntity> specifications = ProductSpecifications.getInstance().getQueryResult(filters);
-        if ((searchProductKey != null && searchImei != null && searchStatus  != null && searchPrice  != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyAll(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), specifications, pageable);
-        } else if ((searchProductKey  != null && searchImei  != null && searchStatus  != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals(""))) {
-            return productRepository.findProductByKeyDontPrice(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), specifications, pageable);
-        } else if ((searchProductKey != null && searchImei != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyDontStatus(searchProductKey, searchImei, Double.valueOf(searchPrice), specifications, pageable);
-        } else if ((searchProductKey != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyDontImei(searchProductKey, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), specifications, pageable);
-        } else if ((searchProductKey != null && searchImei != null) && (!searchProductKey.equals("") && !searchImei.equals(""))) {
-            return productRepository.findProductByKeyDontPriceAndStatus(searchProductKey, searchImei, specifications, pageable);
-        } else if ((searchProductKey != null && searchStatus != null) && (!searchProductKey.equals("") && !searchStatus.equals(""))) {
-            return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, ProductStatus.valueOf(searchStatus), specifications, pageable);
-        } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), specifications, pageable);
-        } else if ((searchProductKey != null) && (!searchProductKey.equals(""))) {
-            return productRepository.findProductByKeyDontPriceAndStatusAndImei(searchProductKey, specifications, pageable);
-        } else {
-            return productRepository.findAll(specifications, pageable);
-        }
+//        if ((searchProductKey != null && searchImei != null && searchStatus  != null && searchPrice  != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
+//            return productRepository.findProductByKeyAll(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), specifications, pageable);
+//        } else if ((searchProductKey  != null && searchImei  != null && searchStatus  != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals(""))) {
+//            return productRepository.findProductByKeyDontPrice(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), specifications, pageable);
+//        } else if ((searchProductKey != null && searchImei != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchPrice.equals(""))) {
+//            return productRepository.findProductByKeyDontStatus(searchProductKey, searchImei, Double.valueOf(searchPrice), specifications, pageable);
+//        } else if ((searchProductKey != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
+//            return productRepository.findProductByKeyDontImei(searchProductKey, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), specifications, pageable);
+//        } else if ((searchProductKey != null && searchImei != null) && (!searchProductKey.equals("") && !searchImei.equals(""))) {
+//            return productRepository.findProductByKeyDontPriceAndStatus(searchProductKey, searchImei, specifications, pageable);
+//        } else if ((searchProductKey != null && searchStatus != null) && (!searchProductKey.equals("") && !searchStatus.equals(""))) {
+//            return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, ProductStatus.valueOf(searchStatus), specifications, pageable);
+//        } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
+//            return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), specifications, pageable);
+//        } else
+//            if ((searchProductKey != null) && (!searchProductKey.equals(""))) {
+//            return productRepository.findProductByKeyDontPriceAndStatusAndImei(searchProductKey, specifications, pageable);
+//        } else {
+
+//        }
+        return productRepository.findAll(specifications, pageable);
     }
 
     @Override
@@ -224,11 +232,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO findById(Long id) {
+    public ProductDTOById findById(Long id) {
         ModelMapper modelMapper = new ModelMapper();
         ProductEntity productEntity = this.productRepository.getById(id);
         this.enrichImage(productEntity);
-        ProductDTO productDTO = modelMapper.map(productEntity, ProductDTO.class);
+        ProductDTOById productDTO = modelMapper.map(productEntity, ProductDTOById.class);
         return productDTO;
     }
 

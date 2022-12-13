@@ -71,11 +71,10 @@ public class ProductEntity extends BaseEntity {
     private List<ProductColorEntity> productColors;
 
     @OneToMany(mappedBy = "product")
-    private List<AccessoryProductEntity> accessoryProducts;
+    private List<ProductCategoryEntity> categoryProducts;
 
-    @ManyToOne
-    @JoinColumn(name="category_id")
-    private CategoryEntity category;
+    @OneToMany(mappedBy = "product")
+    private List<AccessoryProductEntity> accessoryProducts;
 
     @ManyToOne
     @JoinColumn(name="id_discount")
@@ -116,8 +115,10 @@ public class ProductEntity extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<OrderDetailEntity> orderDetailEntities;
 
-    @Column(name = "win_id")
-    private Long winId;
+
+    @ManyToOne
+    @JoinColumn(name = "win_id")
+    private WinEntity win;
 
     private String material;
 
@@ -140,7 +141,6 @@ public class ProductEntity extends BaseEntity {
         this.width = request.getWidth();
         this.status = request.getStatus() == ProductStatus.DRAFT ? ProductStatus.DRAFT : ProductStatus.ACTIVE;
         this.imei = request.getImei();
-        this.winId = request.getWinId();
         this.material = request.getMaterial();
         this.security = request.getSecurity();
         this.description = request.getDescription();

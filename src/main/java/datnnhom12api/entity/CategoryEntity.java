@@ -27,9 +27,6 @@ public class CategoryEntity extends BaseEntity {
     @Column(name="status")
     private CategoryStatus status;
 
-    @OneToMany(mappedBy = "category")
-    private List<ProductEntity> products;
-
     public void setData(CategoryRequest request) {
         this.name = request.getName();
         this.status = request.getStatus()
