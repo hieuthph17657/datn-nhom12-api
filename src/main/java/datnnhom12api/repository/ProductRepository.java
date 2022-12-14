@@ -31,8 +31,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
 //            Double searchPrice, Specification<ProductEntity> specifications, Pageable pageable
 //    );
 //
-    @Query("SELECT p FROM ProductEntity p where p.imei = ?2 and p.status = ?3 and (p.name like %?1% or p.category.name like %?1% or p.manufacture.name like %?1%)")
-    Page<ProductEntity> findProductByKeyDontPrice(String searchProductKey, String searchImei, ProductStatus searchStatus, Specification<ProductEntity> specifications, Pageable pageable);
+
 //
 //    @Query("SELECT p FROM ProductEntity p where p.imei = ?2 and p.price < ?3 and (p.name like %?1% or p.category.name like %?1% or p.manufacture.name like %?1%)")
 //    Page<ProductEntity> findProductByKeyDontStatus(String searchProductKey, String searchImei, Double searchPrice, Specification<ProductEntity> specifications, Pageable pageable);
