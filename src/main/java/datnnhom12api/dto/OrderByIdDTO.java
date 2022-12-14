@@ -37,4 +37,6 @@ public class OrderByIdDTO extends BaseDTO implements Serializable {
     private UserDTO user;
 
     private List<OrderDetailDTO> orderDetails;
+
+    private double shippingFree;
 }

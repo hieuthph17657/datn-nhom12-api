@@ -27,6 +27,9 @@ public class OrderEntity extends BaseEntity {
     private String payment;
     private double money;
     private String address;
+
+    @Column(name = "shipping_free")
+    private double shippingFree;
     private String phone;
     private String customerName;
     private String note;

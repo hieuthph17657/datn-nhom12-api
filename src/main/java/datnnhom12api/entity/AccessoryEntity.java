@@ -23,12 +23,6 @@ public class AccessoryEntity extends BaseEntity {
     @Column(name="name")
     private String name;
 
-    @Column(name = "price")
-    private double price;
-
-    @Column(name="category_id")
-    private Long  categoryId;
-
     @Column(name="description")
     private String description;
 
@@ -37,8 +31,6 @@ public class AccessoryEntity extends BaseEntity {
 
     public void setData(AccessoryRequest request) {
         this.name = request.getName();
-        this.price = request.getPrice();
-        this.categoryId = request.getCategoryId();
         this.description = request.getDescription();
     }
 }

@@ -14,12 +14,7 @@ public class AccessoryRequest {
     @NotBlank(message = "Tên phụ kiện không được để trống")
     private String name;
 
-    @NotNull(message = "Loại phụ kiện không được để trống")
-    private Long categoryId;
-
     @NotBlank(message = "Mô tả không được để trống")
     private String description;
 
-    @NotNull(message = "Giá tiền không được để trống")
-    private double price;
 }
