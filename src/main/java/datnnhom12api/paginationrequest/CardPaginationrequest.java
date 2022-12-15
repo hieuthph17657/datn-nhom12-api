@@ -15,12 +15,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CardPaginationrequest extends PaginationRequest {
-    private String searchName;
+    private String trandemark;
+    private String memory;
 
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
-        if (searchName != null && !searchName.isEmpty()) {
-            list.add(new Filter("name", QueryOperator.LIKE, searchName, null));
+        if (trandemark != null && !trandemark.isEmpty()) {
+            list.add(new Filter("trandemark", QueryOperator.LIKE, trandemark, null));
+        }if (memory != null && !memory.isEmpty()) {
+            list.add(new Filter("memory", QueryOperator.LIKE, memory, null));
         }
         return list;
     }
