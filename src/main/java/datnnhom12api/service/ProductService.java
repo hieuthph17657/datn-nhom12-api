@@ -35,4 +35,6 @@ public interface ProductService {
     List<ProductEntity> discount(Long id, List<Long> idProduct) throws CustomException;
 
     SumProductDTO sumProduct();
+
+    ProductEntity copyProduct(ProductRequest productRequest, Long id);
 }
