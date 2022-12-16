@@ -122,17 +122,17 @@ public class ProductController {
         ProductEntity postEntity = productService.inActive(id);
         return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
     }
-//    @PostMapping("/draft")
-//    public ProductResponse draft(@RequestBody ProductRequest post) throws CustomValidationException, CustomException {
-//        post.setActive(2);
-//        ProductEntity postEntity = productService.save(post);
-//        return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
-//    }
 
-//
-//    @DeleteMapping("/{id}")
-//    public ProductResponse delete(@PathVariable("id") Long id) throws CustomException {
-//        productService.delete(id);
-//        return new ProductResponse();
-//    }
+    @PostMapping("/copy/{productId}")
+    public ProductResponse copyProduct(
+            @Valid @RequestBody ProductRequest productRequest,
+            BindingResult bindingResult, @PathVariable("productId") Long productId)
+            throws CustomException,
+            CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        ProductEntity productEntity = productService.copyProduct(productRequest, productId);
+        return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
+    }
 }

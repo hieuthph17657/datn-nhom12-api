@@ -331,4 +331,54 @@ public class ProductServiceImpl implements ProductService {
         SumProductDTO productDTO = this.productRepository.sumProduct();
         return productDTO;
     }
+
+    @Override
+    public ProductEntity copyProduct(ProductRequest productRequest, Long productId) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setData(productRequest);
+        productEntity.setOrigin(this.originRepository.getById(productRequest.getOriginId()));
+        productEntity.setScreen(this.screenRepository.getById(productRequest.getScreenId()));
+        productEntity.setWin(this.winRepository.getById(productRequest.getWinId()));
+        productEntity.setStorage(this.storageRepository.getById(productRequest.getStorageId()));
+        productEntity.setRam(this.ramRepository.getById(productRequest.getRamId()));
+        productEntity.setProcessor(this.processorRepository.getById(productRequest.getProcessorId()));
+        productEntity.setCard(this.cardRepository.getById(productRequest.getCardId()));
+        productEntity.setCardOnboard(this.cardRepository.getById(productRequest.getCardOnboard()));
+        productEntity.setBattery(this.batteryChargerRepository.getById(productRequest.getBatteryId()));
+
+
+        List<ImagesEntity> list = this.imageRepository.findAllByProductId(productId);
+        for (ImagesEntity imageRequest : list) {
+            ImagesEntity imagesEntity = new ImagesEntity();
+            imagesEntity.setName(imageRequest.getName());
+            imagesEntity.setProduct(productEntity);
+            imageRepository.save(imagesEntity);
+        }
+        ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
+        productEntity.setManufacture(manufacture);
+        productEntity = productRepository.save(productEntity);
+        Long id = productEntity.getId();
+        productRequest.getAccessoryId().forEach(access -> {
+            AccessoryProductEntity accessoryProductEntity = new AccessoryProductEntity();
+            accessoryProductEntity.setProduct(productRepository.getById(id));
+            accessoryProductEntity.setAccessory(accessoryRepository.getById(access));
+            this.accessoryProductRepository.save(accessoryProductEntity);
+        });
+        productRequest.getColorId().forEach(color -> {
+            ProductColorEntity pColorEntity = new ProductColorEntity();
+            pColorEntity.setColor(colorRepository.getById(color));
+            pColorEntity.setProduct(productRepository.getById(id));
+            this.productColorRepository.save(pColorEntity);
+        });
+
+        productRequest.getCategoryId().forEach(cate -> {
+            ProductCategoryEntity productCategory = new ProductCategoryEntity();
+            productCategory.setProduct(productRepository.getById(id));
+            productCategory.setCategory(categoryRepository.getById(cate));
+            this.productCategoryRepository.save(productCategory);
+        });
+        YearEntity year = new YearEntity();
+
+        return productEntity;
+    }
 }
