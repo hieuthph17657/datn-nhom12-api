@@ -29,9 +29,6 @@ public class ProductPaginationRequest extends PaginationRequest {
         if (searchStatus != null && !searchStatus.isEmpty()) {
             list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
-        if (searchPrice != null && !searchPrice.isEmpty()) {
-            list.add(new Filter("price", QueryOperator.LESS_THAN, searchPrice, null));
-        }
         if (searchImei != null && !searchImei.isEmpty()) {
             list.add(new Filter("imei", QueryOperator.EQUALS, searchImei, null));
         }
