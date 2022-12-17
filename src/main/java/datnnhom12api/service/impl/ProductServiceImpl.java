@@ -259,7 +259,7 @@ public class ProductServiceImpl implements ProductService {
                     }
                     productEntity = productEntityOptional.get();
                     productEntity.setDiscount(discountEntity);
-                    productEntity.setPrice(productEntity.getPrice() - (productEntity.getPrice() * discountEntity.getRatio() / 100));
+                    productEntity.setPrice(Math.ceil(productEntity.getPrice() - (productEntity.getPrice() * discountEntity.getRatio() / 100)));
                     productEntity = productRepository.save(productEntity);
                     listdiscountProduct.add(productEntity);
                 }
@@ -283,7 +283,7 @@ public class ProductServiceImpl implements ProductService {
             if (product.getDiscount()!=null&&product.getId()==idPro){
                 productEntity = productEntityOptional.get();
                 productEntity.setDiscount(null);
-                productEntity.setPrice(productEntity.getPrice()/((100- discountEntity.getRatio()) / 100));
+                productEntity.setPrice(Math.ceil(productEntity.getPrice()/((100- discountEntity.getRatio()) / 100)));
                 productEntity = productRepository.save(productEntity);
             }
         }
