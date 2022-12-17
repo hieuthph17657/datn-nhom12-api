@@ -77,4 +77,5 @@ public class ProductDTO extends BaseDTO implements Serializable {
 //    private CardDTO cardOnboard;
 
 //    private BatteryChargerDTO battery;
+    private DiscountDTO discount;
 }
