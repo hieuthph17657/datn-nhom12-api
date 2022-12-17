@@ -203,27 +203,41 @@ public class ProductServiceImpl implements ProductService {
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<ProductEntity> specifications = ProductSpecifications.getInstance().getQueryResult(filters);
-//        if ((searchProductKey != null && searchImei != null && searchStatus  != null && searchPrice  != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
-//            return productRepository.findProductByKeyAll(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), specifications, pageable);
-//        } else if ((searchProductKey  != null && searchImei  != null && searchStatus  != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals(""))) {
-//            return productRepository.findProductByKeyDontPrice(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), specifications, pageable);
-//        } else if ((searchProductKey != null && searchImei != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchPrice.equals(""))) {
-//            return productRepository.findProductByKeyDontStatus(searchProductKey, searchImei, Double.valueOf(searchPrice), specifications, pageable);
-//        } else if ((searchProductKey != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
-//            return productRepository.findProductByKeyDontImei(searchProductKey, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), specifications, pageable);
-//        } else if ((searchProductKey != null && searchImei != null) && (!searchProductKey.equals("") && !searchImei.equals(""))) {
-//            return productRepository.findProductByKeyDontPriceAndStatus(searchProductKey, searchImei, specifications, pageable);
-//        } else if ((searchProductKey != null && searchStatus != null) && (!searchProductKey.equals("") && !searchStatus.equals(""))) {
-//            return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, ProductStatus.valueOf(searchStatus), specifications, pageable);
-//        } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
-//            return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), specifications, pageable);
-//        } else
-//            if ((searchProductKey != null) && (!searchProductKey.equals(""))) {
-//            return productRepository.findProductByKeyDontPriceAndStatusAndImei(searchProductKey, specifications, pageable);
-//        } else {
-
-//        }
-        return productRepository.findAll(specifications, pageable);
+        Double endPrice = Double.valueOf(0);
+        if (searchPrice != null && !searchPrice.equals("") && Integer.parseInt(searchPrice) < 10000000) {
+            searchPrice = 1 + "";
+            endPrice = Double.valueOf(9999999);
+        } else if (searchPrice != null && !searchPrice.equals("") && Integer.parseInt(searchPrice) >= 10000000 && Integer.parseInt(searchPrice) < 15000000) {
+            searchPrice = 10000000 + "";
+            endPrice = Double.valueOf(15000000);
+        } else if (searchPrice != null && !searchPrice.equals("") && Integer.parseInt(searchPrice) >= 15000000 && Integer.parseInt(searchPrice) < 20000000) {
+            searchPrice = 15000000 + "";
+            endPrice = Double.valueOf(20000000);
+        } else if (searchPrice != null && !searchPrice.equals("") && Integer.parseInt(searchPrice) >= 20000000) {
+            searchPrice = 20000001 + "";
+            endPrice = Double.valueOf(100000000);
+        }
+        if ((searchProductKey != null && searchImei != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
+            return productRepository.findProductByKeyAll(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else if ((searchProductKey != null && searchImei != null && searchStatus != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals(""))) {
+            return productRepository.findProductByKeyDontPrice(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), specifications, pageable);
+        } else if ((searchProductKey != null && searchImei != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchPrice.equals(""))) {
+            return productRepository.findProductByKeyDontStatus(searchProductKey, searchImei, Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else if ((searchProductKey != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
+            return productRepository.findProductByKeyDontImei(searchProductKey, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else if ((searchProductKey != null && searchImei != null) && (!searchProductKey.equals("") && !searchImei.equals(""))) {
+            return productRepository.findProductByKeyDontPriceAndStatus(searchProductKey, searchImei, specifications, pageable);
+        } else if ((searchProductKey != null && searchStatus != null) && (!searchProductKey.equals("") && !searchStatus.equals(""))) {
+            return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, ProductStatus.valueOf(searchStatus), specifications, pageable);
+        } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
+            return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else if ((searchProductKey != null) && (!searchProductKey.equals(""))) {
+            return productRepository.findProductByKeyDontPriceAndStatusAndImei(searchProductKey, specifications, pageable);
+        } else if ((searchPrice != null) && (!searchPrice.equals(""))) {
+            return productRepository.findProductByPrice(Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else {
+            return productRepository.findAll(specifications, pageable);
+        }
     }
 
     @Override
@@ -247,9 +261,9 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> list = productRepository.findAll();
         ProductEntity productEntity = null;
         List<ProductEntity> listdiscountProduct = new ArrayList<>();
-        for (ProductEntity product:list){
-            for (Long iP: idProduct){
-                if (product.getId() == iP&&product.getDiscount()==null){
+        for (ProductEntity product : list) {
+            for (Long iP : idProduct) {
+                if (product.getId() == iP && product.getDiscount() == null) {
                     Optional<ProductEntity> productEntityOptional = productRepository.findById(iP);
                     if (id <= 0) {
                         throw new CustomException(403, "Mã sản phẩm phải lớn hơn 0");
@@ -274,13 +288,13 @@ public class ProductServiceImpl implements ProductService {
         Optional<DiscountEntity> discountEntityOptional = discountRepository.findById(id);
         DiscountEntity discountEntity = discountEntityOptional.get();
         List<ProductEntity> list = productRepository.findAll();
-        ProductEntity productEntity = null ;
+        ProductEntity productEntity = null;
         Optional<ProductEntity> productEntityOptional = productRepository.findById(idPro);
         if (productEntityOptional.isEmpty()) {
             throw new CustomException(403, "Không tìm thấy mã sản phẩm muốn sửa");
         }
-        for (ProductEntity product:list){
-            if (product.getDiscount()!=null&&product.getId()==idPro){
+        for (ProductEntity product : list) {
+            if (product.getDiscount() != null && product.getId() == idPro) {
                 productEntity = productEntityOptional.get();
                 productEntity.setDiscount(null);
                 productEntity.setPrice(Math.ceil(productEntity.getPrice()/((100- discountEntity.getRatio()) / 100)));
