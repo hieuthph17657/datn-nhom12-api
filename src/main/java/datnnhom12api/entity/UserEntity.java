@@ -20,8 +20,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class UserEntity extends BaseEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
