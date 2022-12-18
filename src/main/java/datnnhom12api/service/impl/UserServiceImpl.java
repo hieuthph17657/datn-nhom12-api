@@ -2,9 +2,11 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.SumProductDTO;
+import datnnhom12api.entity.InformationEntity;
 import datnnhom12api.entity.RoleEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.repository.InformationRepository;
 import datnnhom12api.repository.UserRepository;
 import datnnhom12api.request.UserRequest;
 import datnnhom12api.service.UserService;
@@ -31,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    InformationRepository informationRepository;
+
     @Override
     public UserEntity save(UserRequest userRequest) throws CustomException {
         List<UserEntity> userEntityList = userRepository.findAll();
@@ -46,6 +51,14 @@ public class UserServiceImpl implements UserService {
         roleEntityList.add(roleEntity);
         userEntity.setRoles(roleEntityList);
         userEntity = userRepository.save(userEntity);
+        InformationEntity informationEntity = new InformationEntity();
+        informationEntity.setUser(userEntity);
+        informationEntity.setActive(0);
+        informationEntity.setEmail("none");
+        informationEntity.setAddress("none");
+        informationEntity.setPhoneNumber("none");
+        informationEntity.setFullName("none");
+        this.informationRepository.save(informationEntity);
         return userEntity;
     }
 
