@@ -24,5 +24,7 @@ public class ExchangeDetailDTO extends BaseDTO implements Serializable {
 
     private int quantity;
 
+    private Integer orderChange;
+
     private ReturnDetailStatus status;
 }

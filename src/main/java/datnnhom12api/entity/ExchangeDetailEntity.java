@@ -29,7 +29,7 @@ public class ExchangeDetailEntity extends BaseEntity {
     @JoinColumn(name = "order_detail_id")
     private OrderDetailEntity orderDetail;
 
-//    private Long orderDetailId;
+    private Integer orderChange;
 
     private int quantity;
 

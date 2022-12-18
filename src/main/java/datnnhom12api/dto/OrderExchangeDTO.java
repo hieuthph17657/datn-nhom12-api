@@ -26,4 +26,6 @@ public class OrderExchangeDTO extends BaseDTO implements Serializable {
     private OrderDetailStatus status;
 
     private Integer isCheck;
+
+    private String isBoolean;
 }

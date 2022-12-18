@@ -21,6 +21,8 @@ public class ExchangeDetailRequest {
 
     private  Long id;
 
+    private Integer orderChange;
+
     private ReturnDetailStatus status;
 
 }
