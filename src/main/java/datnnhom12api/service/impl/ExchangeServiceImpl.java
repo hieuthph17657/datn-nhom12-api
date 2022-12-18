@@ -62,6 +62,7 @@ public class ExchangeServiceImpl implements ReturnService {
             exchangeDetailEntity.setOrderDetail(this.orderDetailRepository.getById(item.getOrderDetailId()));
             exchangeDetailEntity.setProductId(this.productRepository.getById(item.getProductId()));
             exchangeDetailEntity.setStatus(ReturnDetailStatus.YEU_CAU);
+            exchangeDetailEntity.setOrderChange(item.getOrderChange());
             this.exchangeDetailRepository.save(exchangeDetailEntity);
         });
         return exchangeEntity;

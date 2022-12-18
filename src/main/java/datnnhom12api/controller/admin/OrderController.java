@@ -61,6 +61,8 @@ public class OrderController {
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
 
+
+    //tạo order detail khi đổi hàng
     @PostMapping("exchanges")
     public ExchangeResponse createOrderDetail(@Valid @RequestBody List<ExchangeRequest> exchangeRequest,
                                               BindingResult bindingResult) throws CustomException, CustomValidationException {

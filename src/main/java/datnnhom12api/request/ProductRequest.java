@@ -39,7 +39,7 @@ public class ProductRequest {
     @NotNull(message = "Không được để trống chiều cao")
     private Float height;
 
-    @NotBlank(message = "Năm ra mắt Không được để trống")
+//    @NotBlank(message = "Năm ra mắt Không được để trống")
     private String debut;
 
     private List<ImageRequest> images;

@@ -78,6 +78,7 @@ public class OrderServiceImpl implements OrderService {
         List<CartEntity> listCard = this.cartRepository.findAll();
         this.cartRepository.deleteAll(listCard);
         for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+            System.out.println("888888888888888888888888 va trong để cập nhập số lượng sản phẩm");
             System.out.println(orderDetailEntity.getProductId());
             ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
             product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
@@ -374,16 +375,19 @@ public class OrderServiceImpl implements OrderService {
             orderDetailEntity.setTotal(this.productRepository.getById(exchangeEntity.getProductId()).getPrice());
             System.out.println("tổng tiền thêm mới orderDetail: " + orderDetailEntity.getTotal());
             orderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
+            System.out.println("is check  create orderDetail:"+exchangeEntity.getIsCheck());
             orderDetailEntity.setIsCheck(exchangeEntity.getIsCheck());
             this.orderDetailRepository.save(orderDetailEntity);
+            list.add(orderDetailEntity);
         });
+
         return list;
     }
 
     @Override
     public OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest) {
         OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(id);
-        orderDetailEntity.setIsCheck(2);
+        orderDetailEntity.setIsCheck(1);
         this.orderDetailRepository.save(orderDetailEntity);
         ModelMapper modelMapper = new ModelMapper();
         OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
@@ -443,27 +447,34 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId) {
+        System.out.println(request.size());
         request.forEach(orderExchangeDTO -> {
-            System.out.println(orderExchangeDTO.getId());
-            Integer Id = Math.toIntExact(orderExchangeDTO.getId());
-            System.out.println(Id);
-            OrderDetailEntity orderDetail = this.orderDetailRepository.
-                    getOrderDetailByIsCheckAndProductId(Id, orderExchangeDTO.getProductId());
-            OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(Long.valueOf(orderDetail.getIsCheck()));
-            if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
-                orderDetailEntity.setTotal(0);
-                orderDetailEntity.setQuantity(0);
-                this.orderDetailRepository.save(orderDetailEntity);
-                orderDetail.setIsCheck(1);
-                this.orderDetailRepository.save(orderDetail);
-            } else if (orderDetailEntity.getQuantity() > 0 && orderDetailEntity.getQuantity() > orderDetail.getQuantity()) {
-                orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetail.getQuantity());
-                orderDetailEntity.setTotal(
-                        orderDetailEntity.getProduct().getPrice() * (orderDetailEntity.getQuantity() - orderDetail.getQuantity()));
-                this.orderDetailRepository.save(orderDetailEntity);
-                orderDetail.setIsCheck(1);
-                this.orderDetailRepository.save(orderDetail);
+            if(orderExchangeDTO.getIsBoolean().equals("true")){
+                System.out.println(orderExchangeDTO.getId());
+                Integer Id = Math.toIntExact(orderExchangeDTO.getId());
+                System.out.println("isCheck:"+Id);
+                System.out.println("productId trong isCheck:"+ orderExchangeDTO.getProductId());
+                //sản phẩm gửi
+                OrderDetailEntity orderDetail = this.orderDetailRepository.getById(Long.valueOf(orderExchangeDTO.getIsCheck()));
+                //sản phẩm trước đó
+                OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(Long.valueOf(orderDetail.getIsCheck()));
+                if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
+                    orderDetailEntity.setTotal(0);
+                    orderDetailEntity.setQuantity(0);
+                    this.orderDetailRepository.save(orderDetailEntity);
+                    orderDetail.setIsCheck(1);
+                    this.orderDetailRepository.save(orderDetail);
+                } else if (orderDetailEntity.getQuantity() > 0 && orderDetailEntity.getQuantity() > orderDetail.getQuantity()) {
+                    orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetail.getQuantity());
+                    orderDetailEntity.setTotal(
+                            orderDetailEntity.getProduct().getPrice() * (orderDetailEntity.getQuantity() - orderDetail.getQuantity()));
+                    this.orderDetailRepository.save(orderDetailEntity);
+                    orderDetail.setIsCheck(1);
+                    this.orderDetailRepository.save(orderDetail);
+                }
             }
+
+
         });
         OrderEntity order = this.orderRepository.getById(orderId);
         double count = 0;

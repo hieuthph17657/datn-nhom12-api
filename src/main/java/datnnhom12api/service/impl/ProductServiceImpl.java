@@ -150,10 +150,20 @@ public class ProductServiceImpl implements ProductService {
         }
         ProductEntity productEntity = productEntityOptional.get();
         productEntity.setData(productRequest);
-        if (productEntity.getId() != null) {
-            imageRepository.deleteAllByProductId(productEntity.getId());
-        }
+//        if (productEntity.getId() != null) {
+//            imageRepository.deleteAllByProductId(productEntity.getId());
+//        }
+         this.productCategoryRepository.deleteAllProductCategoryByProductId(id);
+        productRequest.getCategoryId().forEach(cate -> {
+            ProductCategoryEntity productCategoryE = new ProductCategoryEntity();
+            productCategoryE.setProduct(productRepository.getById(id));
+            productCategoryE.setCategory(categoryRepository.getById(cate));
+            this.productCategoryRepository.save(productCategoryE);
+        });
+
         List<ImageRequest> list = productRequest.getImages();
+        System.out.println("--------------- images request");
+        System.out.println(productRequest.getImages().size());
         for (ImageRequest imageRequest : list) {
             ImagesEntity imagesEntity = new ImagesEntity();
             imagesEntity.setData(imageRequest);
@@ -164,6 +174,8 @@ public class ProductServiceImpl implements ProductService {
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufacture(manufacture);
         productEntity = productRepository.save(productEntity);
+
+
         productColorRepository.deleteAllProductColorByProductId(id);
         List<Long> longList = productRequest.getColorId();
         for (Long color : longList) {
@@ -392,6 +404,11 @@ public class ProductServiceImpl implements ProductService {
             this.productCategoryRepository.save(productCategory);
         });
         YearEntity year = new YearEntity();
+        int yearCurrent = Year.now().getValue();
+        year.setProduct(this.productRepository.getById(id));
+        year.setPrice(productRequest.getPrice());
+        year.setYear(String.valueOf(yearCurrent));
+        this.yearRepository.save(year);
 
         return productEntity;
     }

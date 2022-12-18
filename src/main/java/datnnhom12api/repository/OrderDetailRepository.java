@@ -32,4 +32,5 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, 
 
     @Query("select o from OrderDetailEntity o where o.order.id = :id and (o.isCheck is null or o.isCheck = 1)")
     List<OrderDetailEntity> findByOrderAndIscheck(@Param("id") Long id);
+
 }
