@@ -44,4 +44,13 @@ public class AccessoryController {
         AccessoryEntity postEntity = accessoryService.create(post);
         return new accessoryResponse(accessoryMapper.getInstance().toDTO(postEntity));
     }
+
+    @PutMapping("/api/admin/accessory/{id}")
+    public accessoryResponse edit(@PathVariable("id") Long id, @Valid @RequestBody AccessoryRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        AccessoryEntity postEntity = accessoryService.edit(id, post);
+        return new accessoryResponse(accessoryMapper.getInstance().toDTO(postEntity));
+    }
 }

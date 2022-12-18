@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service("accessoryService")
 @Transactional(rollbackFor = Throwable.class)
@@ -30,6 +31,21 @@ public class AccessoryServiceImpl implements AccessoryService {
     @Override
     public AccessoryEntity create(AccessoryRequest accessoryRequest) throws CustomException {
         AccessoryEntity accessoryEntity = new AccessoryEntity();
+        accessoryEntity.setData(accessoryRequest);
+        accessoryEntity = accessoryRepo.save(accessoryEntity);
+        return accessoryEntity;
+    }
+
+    @Override
+    public AccessoryEntity edit(Long id, AccessoryRequest accessoryRequest) throws CustomException {
+        Optional<AccessoryEntity> accessoryEntityOptional = accessoryRepo.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id truyền vào phải lớn hơn 0");
+        }
+        if (accessoryEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id phụ kiện muốn sửa");
+        }
+        AccessoryEntity accessoryEntity = accessoryEntityOptional.get();
         accessoryEntity.setData(accessoryRequest);
         accessoryEntity = accessoryRepo.save(accessoryEntity);
         return accessoryEntity;
