@@ -34,6 +34,8 @@ public class ImagesEntity {
 
     @Column(name = "exchange_id")
     private Long exchange_id;
+    @Column(name = "order_id")
+    private Long order_id;
 
     public void setData(ImageRequest request) {
         this.name = request.getName();

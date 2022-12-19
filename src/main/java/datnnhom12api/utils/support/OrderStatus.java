@@ -5,5 +5,6 @@ public enum OrderStatus {
     CHO_LAY_HANG,
     DANG_GIAO,
     DA_NHAN,
-    DA_HUY
+    DA_HUY,
+    CHUA_THANH_TOAN
 }
