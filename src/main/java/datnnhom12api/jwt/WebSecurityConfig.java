@@ -50,7 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().and().csrf().disable().
-                authorizeRequests().antMatchers("/auth/**", "/v1/FileUpload/files/**", "/api/**").permitAll()
+                authorizeRequests().antMatchers("/auth/**", "/v1/FileUpload/files/**").permitAll()
+                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/staff/**").hasAnyRole("ADMIN", "STAFF")
+                .antMatchers("/api/customer/**").hasRole("CUSTOMER")
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)
