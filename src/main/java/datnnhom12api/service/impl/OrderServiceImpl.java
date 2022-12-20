@@ -4,6 +4,8 @@ import datnnhom12api.core.Filter;
 import datnnhom12api.dto.*;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.jwt.JwtTokenProvider;
+import datnnhom12api.jwt.user.UserService;
 import datnnhom12api.repository.*;
 import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
@@ -17,10 +19,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -49,7 +53,12 @@ public class OrderServiceImpl implements OrderService {
     private CartRepository cartRepository;
 
     @Autowired
+    private JwtTokenProvider jwtTokenUtil;
+
+    @Autowired
     private OrderHistoryRepository orderHistoryRepository;
+    @Autowired
+    private UserService userDetailsService;
 
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
@@ -62,8 +71,10 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setUser(userEntity);
         }
         orderEntity = orderRepository.save(orderEntity);
+
         OrderHistoryEntity orderHistory = new OrderHistoryEntity();
         orderHistory.setOrderId(orderEntity);
+        orderHistory.setVerifier("DucNT");
         orderHistory.setTotal(orderEntity.getTotal());
         orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
         this.orderHistoryRepository.save(orderHistory);
@@ -78,13 +89,19 @@ public class OrderServiceImpl implements OrderService {
         List<CartEntity> listCard = this.cartRepository.findAll();
         this.cartRepository.deleteAll(listCard);
         for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
-            System.out.println("888888888888888888888888 va trong để cập nhập số lượng sản phẩm");
-            System.out.println(orderDetailEntity.getProductId());
             ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
             product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
             this.productRepository.save(product);
         }
         return orderEntity;
+    }
+
+    public String getJwt(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer")) {
+            return authHeader.replace("Bearer", "");
+        }
+        return null;
     }
 
     @Override
@@ -375,7 +392,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetailEntity.setTotal(this.productRepository.getById(exchangeEntity.getProductId()).getPrice());
             System.out.println("tổng tiền thêm mới orderDetail: " + orderDetailEntity.getTotal());
             orderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
-            System.out.println("is check  create orderDetail:"+exchangeEntity.getIsCheck());
+            System.out.println("is check  create orderDetail:" + exchangeEntity.getIsCheck());
             orderDetailEntity.setIsCheck(exchangeEntity.getIsCheck());
             this.orderDetailRepository.save(orderDetailEntity);
             list.add(orderDetailEntity);
@@ -449,15 +466,25 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId) {
         System.out.println(request.size());
         request.forEach(orderExchangeDTO -> {
-            if(orderExchangeDTO.getIsBoolean().equals("true")){
+            if (orderExchangeDTO.getIsBoolean().equals("true")) {
                 System.out.println(orderExchangeDTO.getId());
                 Integer Id = Math.toIntExact(orderExchangeDTO.getId());
-                System.out.println("isCheck:"+Id);
-                System.out.println("productId trong isCheck:"+ orderExchangeDTO.getProductId());
+                System.out.println("isCheck:" + Id);
+                System.out.println("productId trong isCheck:" + orderExchangeDTO.getProductId());
                 //sản phẩm gửi
                 OrderDetailEntity orderDetail = this.orderDetailRepository.getById(Long.valueOf(orderExchangeDTO.getIsCheck()));
                 //sản phẩm trước đó
                 OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(Long.valueOf(orderDetail.getIsCheck()));
+                if(orderExchangeDTO.getExchangeStatus()==3) {
+                    //xử lý  công trử sản phẩm khi đổi hàng thành công
+                    ProductEntity productEntity = this.productRepository.getById(orderDetailEntity.getProduct().getId());
+                    productEntity.setQuantity(productEntity.getQuantity() + orderDetail.getQuantity());
+                    this.productRepository.save(productEntity);
+
+                    ProductEntity product2 = this.productRepository.getById(orderDetail.getProduct().getId());
+                    product2.setQuantity(product2.getQuantity() -orderDetail.getQuantity());
+                    this.productRepository.save(product2);
+                }
                 if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
                     orderDetailEntity.setTotal(0);
                     orderDetailEntity.setQuantity(0);
@@ -472,9 +499,9 @@ public class OrderServiceImpl implements OrderService {
                     orderDetail.setIsCheck(1);
                     this.orderDetailRepository.save(orderDetail);
                 }
+
+
             }
-
-
         });
         OrderEntity order = this.orderRepository.getById(orderId);
         double count = 0;
@@ -497,15 +524,15 @@ public class OrderServiceImpl implements OrderService {
         HashMap<Integer, Double> map = new HashMap<>();
 
         list.forEach((item) -> {
-           map.put(item.getMonth(), item.getTotal());
+            map.put(item.getMonth(), item.getTotal());
         });
         list.clear();
         for (int i = 1; i <= 12; i++) {
             StatisticalMonthDTO ob = new StatisticalMonthDTO();
-            if(map.containsKey(i)){
+            if (map.containsKey(i)) {
                 ob.setMonth(i);
                 ob.setTotal(map.get(i).doubleValue());
-            }else {
+            } else {
                 ob.setMonth(i);
                 ob.setTotal(0);
             }
@@ -517,7 +544,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<StatisticalOrderDTO> statisticalByOrder(Integer month, Integer year) {
-        List<StatisticalOrderDTO> order= this.orderRepository.statisticalByOrder(month, year);
+        List<StatisticalOrderDTO> order = this.orderRepository.statisticalByOrder(month, year);
         System.out.println(order.size());
         return order;
     }
