@@ -38,5 +38,7 @@ public class OrderByIdDTO extends BaseDTO implements Serializable {
 
     private List<OrderDetailDTO> orderDetails;
 
+    private List<ImageDTO> images;
+
     private double shippingFree;
 }

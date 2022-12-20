@@ -17,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
 
+    @Autowired
+    private ImageRepository imageRepository;
+
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
         OrderEntity orderEntity = new OrderEntity();
@@ -84,6 +89,12 @@ public class OrderServiceImpl implements OrderService {
             product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
             this.productRepository.save(product);
         }
+
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println(authentication.getName());
+//        UserEntity userEntity = userRepository.findByUsername(authentication.getName());
+//        System.out.println("---------------------------------------Tài khoản đang đăng nhập");
+//        System.out.println(userEntity.getUsername());
         return orderEntity;
     }
 
@@ -447,6 +458,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId) {
+
+
+
         System.out.println(request.size());
         request.forEach(orderExchangeDTO -> {
             if(orderExchangeDTO.getIsBoolean().equals("true")){
@@ -533,4 +547,16 @@ public class OrderServiceImpl implements OrderService {
         SumProductDTO order = this.orderRepository.countOrder();
         return order;
     }
+
+    @Override
+    public ImageDTO addImageOrder(ImageOrderRequest request) {
+        ImagesEntity imagesEntity = new ImagesEntity();
+        imagesEntity.setName(request.getName());
+        imagesEntity.setOrder(this.orderRepository.getById(request.getOrder_id()));
+        this.imageRepository.save(imagesEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        ImageDTO imageDTO = modelMapper.map(imagesEntity, ImageDTO.class);
+        return imageDTO;
+    }
+
 }

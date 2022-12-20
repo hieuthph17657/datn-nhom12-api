@@ -41,6 +41,10 @@ public class OrderEntity extends BaseEntity {
     @OneToMany(mappedBy = "order")
     List<OrderDetailEntity> orderDetails;
 
+
+    @OneToMany(mappedBy = "order")
+    private List<ImagesEntity> images;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")

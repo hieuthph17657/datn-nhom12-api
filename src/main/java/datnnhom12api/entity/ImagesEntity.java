@@ -31,11 +31,15 @@ public class ImagesEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
+
 
     @Column(name = "exchange_id")
     private Long exchange_id;
-    @Column(name = "order_id")
-    private Long order_id;
+
 
     public void setData(ImageRequest request) {
         this.name = request.getName();
