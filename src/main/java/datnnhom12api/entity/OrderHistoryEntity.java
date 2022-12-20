@@ -28,5 +28,7 @@ public class OrderHistoryEntity extends BaseEntity {
     @Column(name = "total")
     private Double total;
 
+    private String verifier;
+
     private String status;
 }
