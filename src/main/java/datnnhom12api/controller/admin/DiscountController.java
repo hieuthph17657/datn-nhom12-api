@@ -24,7 +24,7 @@ public class DiscountController {
     @Autowired
     DiscountService discountService;
 
-    @GetMapping("/api/discount")
+    @GetMapping("/api/staff/discount")
         public DiscountResponse index(@Valid DiscountPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
