@@ -38,7 +38,7 @@ public class InformationEntity extends BaseEntity {
         this.email=request.getEmail();
         this.phoneNumber=request.getPhoneNumber();
         this.address=request.getAddress();
-        this.user=request.getUser();
-        this.active = request.getActive();
+//        this.user=request.getUser();
+//        this.active = request.getActive();
     }
 }

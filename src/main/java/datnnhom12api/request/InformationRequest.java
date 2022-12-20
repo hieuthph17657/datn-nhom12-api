@@ -26,9 +26,9 @@ public class InformationRequest {
     @NotBlank(message = "địa chỉ không được để trống")
     private String address;
 
-    @NotNull(message = "user không được để trống")
-    private UserEntity user;
+//    @NotNull(message = "user không được để trống")
+//    private UserEntity user;
 
-    @NotNull(message = "trạng thái không được để trống")
-    private int active;
+//    @NotNull(message = "trạng thái không được để trống")
+//    private int active;
 }

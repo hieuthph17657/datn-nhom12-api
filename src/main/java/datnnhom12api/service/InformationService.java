@@ -3,6 +3,7 @@ package datnnhom12api.service;
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.InformationEntity;
+import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.CategoryRequest;
 import datnnhom12api.request.InformationRequest;
@@ -19,5 +20,7 @@ public interface InformationService {
     InformationEntity delete(Long id) throws CustomException;
 
     Page<InformationEntity> paginate(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
+    InformationEntity getById(Long id) throws CustomException;
 }
 
