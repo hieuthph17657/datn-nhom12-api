@@ -2,6 +2,7 @@ package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.*;
+import datnnhom12api.entity.ImagesEntity;
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
@@ -59,4 +60,6 @@ public interface OrderService {
     List<StatisticalProductDTO> statisticalByProduct();
 
     SumProductDTO countOrder();
+
+    ImageDTO addImageOrder(ImageOrderRequest request);
 }

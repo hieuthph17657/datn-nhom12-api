@@ -41,6 +41,8 @@ public class OrderDTO extends BaseDTO implements Serializable {
 
     private String phone;
 
+    private List<ImageDTO> images;
+
 //    private UserDTO user;
 
 //    private List<OrderDetailDTO> orderDetails;

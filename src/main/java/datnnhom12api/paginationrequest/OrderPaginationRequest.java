@@ -20,6 +20,8 @@ public class OrderPaginationRequest extends PaginationRequest {
 
     private String searchStatus;
 
+    private String searchPayment;
+
     private String searchUserId;
 
     private String searchName;
@@ -41,6 +43,9 @@ public class OrderPaginationRequest extends PaginationRequest {
         }
         if (searchName != null && !searchName.isEmpty()) {
             list.add(new Filter("customerName", QueryOperator.LIKE, searchName, null));
+        }
+        if (searchPayment != null && !searchPayment.isEmpty()) {
+            list.add(new Filter("payment", QueryOperator.LIKE, searchPayment, null));
         }
         return list;
     }

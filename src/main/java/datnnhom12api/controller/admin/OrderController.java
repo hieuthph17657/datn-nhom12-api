@@ -182,11 +182,11 @@ public class OrderController {
         return orderExchangeDTOS;
     }
     @PostMapping("/image")
-    public ImagesEntity addImage(@RequestBody ImagesEntity requesst) {
-        ImagesEntity image = new ImagesEntity();
-        image.setOrder_id(requesst.getOrder_id());
-        image.setName(requesst.getName());
-        return imageRepository.save(image);
+    public ImageDTO addImage(@RequestBody ImageOrderRequest request) {
+        ImageDTO image = this.orderService.addImageOrder(request);
+//        image.setOrder(this.order);
+//        image.setName(requesst.getName());
+        return image;
     }
 
 }
