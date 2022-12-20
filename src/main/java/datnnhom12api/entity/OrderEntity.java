@@ -64,6 +64,8 @@ public class OrderEntity extends BaseEntity {
             this.status = OrderStatus.DA_NHAN;
         } else if (request.getStatus() == OrderStatus.DA_HUY) {
             this.status = OrderStatus.DA_HUY;
+        }else if(request.getStatus() == OrderStatus.CHUA_THANH_TOAN) {
+            this.status = OrderStatus.CHUA_THANH_TOAN;
         }
     }
 }

@@ -1,6 +1,7 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.dto.*;
+import datnnhom12api.entity.ImagesEntity;
 import datnnhom12api.entity.OrderDetailEntity;
 import datnnhom12api.entity.OrderEntity;
 import datnnhom12api.entity.UserEntity;
@@ -10,6 +11,7 @@ import datnnhom12api.mapper.ExchangeMapper;
 import datnnhom12api.mapper.OrderMapper;
 import datnnhom12api.mapper.UserMapper;
 import datnnhom12api.paginationrequest.OrderPaginationRequest;
+import datnnhom12api.repository.ImageRepository;
 import datnnhom12api.request.*;
 import datnnhom12api.response.ExchangeResponse;
 import datnnhom12api.response.OrderResponse;
@@ -29,6 +31,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     OrderService orderService;
+    @Autowired
+    ImageRepository imageRepository;
 
     @GetMapping
     public OrderResponse index(@Valid OrderPaginationRequest request, BindingResult bindingResult)
@@ -177,8 +181,13 @@ public class OrderController {
         List<OrderExchangeDTO> orderExchangeDTOS = this.orderService.updateWhenExchange(request, orderId);
         return orderExchangeDTOS;
     }
-
-
+    @PostMapping("/image")
+    public ImagesEntity addImage(@RequestBody ImagesEntity requesst) {
+        ImagesEntity image = new ImagesEntity();
+        image.setOrder_id(requesst.getOrder_id());
+        image.setName(requesst.getName());
+        return imageRepository.save(image);
+    }
 
 }
 
