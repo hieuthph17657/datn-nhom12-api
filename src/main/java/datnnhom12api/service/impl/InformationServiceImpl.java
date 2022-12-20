@@ -2,6 +2,7 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.InformationEntity;
+import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.InformationRepository;
 import datnnhom12api.request.InformationRequest;
@@ -74,5 +75,18 @@ public class InformationServiceImpl implements InformationService {
         Specification<InformationEntity> specifications = InformationSpecifications.getInstance().getQueryResult(filters);
 
         return inforRepository.findAll(specifications, pageable);
+    }
+
+    @Override
+    public InformationEntity getById(Long id) throws CustomException {
+        Optional<InformationEntity> informationEntityOptional = inforRepository.findById(id);
+        if (id <= 0) {
+            throw new CustomException(403, "id người dùng phải lớn hơn 0");
+        }
+        if (informationEntityOptional.isEmpty()) {
+            throw new CustomException(403, "không tìm thấy id");
+        }
+        InformationEntity informationEntity = informationEntityOptional.get();
+        return informationEntity;
     }
 }

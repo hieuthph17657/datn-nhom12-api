@@ -1,11 +1,14 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.entity.DiscountEntity;
 import datnnhom12api.entity.InformationEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
+import datnnhom12api.mapper.DiscountMapper;
 import datnnhom12api.mapper.InformationMapper;
 import datnnhom12api.paginationrequest.CategoryPaginationRequest;
 import datnnhom12api.request.InformationRequest;
+import datnnhom12api.response.DiscountResponse;
 import datnnhom12api.response.InformationResponse;
 import datnnhom12api.service.CategoryService;
 import datnnhom12api.service.InformationService;
@@ -41,7 +44,7 @@ public class InformationController {
         return new InformationResponse(InformationMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/api/staff/information/{id}")
+    @PutMapping("/api/auth/information/{id}")
     public InformationResponse edit(@PathVariable("id") Long id, @Valid @RequestBody InformationRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -54,5 +57,11 @@ public class InformationController {
     public InformationResponse delete(@PathVariable("id") Long id) throws CustomException {
         infoService.delete(id);
         return new InformationResponse();
+    }
+
+    @GetMapping("/api/information/{id}")
+    public InformationResponse getId(@PathVariable("id") Long id) throws CustomException{
+        InformationEntity entity =infoService.getById(id);
+        return new InformationResponse(InformationMapper.getInstance().toDTO(entity));
     }
 }
