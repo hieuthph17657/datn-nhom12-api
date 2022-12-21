@@ -21,7 +21,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     @Query("SELECT c FROM ProductEntity c WHERE c.id = ?1")
     ProductEntity findByProductID(Long id);
 
-    @Query("SELECT new SumProductDTO(count (c.id))FROM ProductEntity c")
+    @Query("SELECT new SumProductDTO(sum(c.quantity))FROM ProductEntity c")
     SumProductDTO sumProduct();
 
     @Query("SELECT p FROM ProductEntity p, CategoryEntity c where p.imei = ?2 and p.status = ?3 and p.price >= ?4 and p.price <= ?5 and (p.name like %?1% or" +
