@@ -54,7 +54,12 @@ public class ProductController {
     @GetMapping("/allProDiscount")
     public ProductDiscountResponse getAllProDiscount(){
         List<ProductEntity> product = this.productRepository.findAll();
-        return new ProductDiscountResponse(ProductMapper.toListProDiscountDTO(product));
+        return new ProductDiscountResponse(ProductMapper.getInstance().toListProDiscountDTO(product));
+    }
+    @GetMapping("/allProWithDiscount")
+    public ProductResponse getAllProWithDiscount(){
+        List<ProductEntity> product = this.productRepository.getProductWithDiscount();
+        return new ProductResponse(ProductMapper.getInstance().toListDTO(product));
     }
 
     @GetMapping("/{id}")

@@ -54,6 +54,7 @@ public class DiscountController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
+        post.setStatus(DiscountStatus.ACTIVE);
         DiscountEntity postEntity = discountService.edit(id, post);
         return new DiscountResponse(DiscountMapper.getInstance().toDTO(postEntity));
     }

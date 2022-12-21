@@ -54,4 +54,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
 
     @Query("SELECT p FROM ProductEntity p where p.price >= ?1 and p.price <= ?2")
     Page<ProductEntity> findProductByPrice(Double searchPrice, Double endPrice, Specification<ProductEntity> specifications, Pageable pageable);
+    @Query("SELECT c FROM ProductEntity c WHERE c.discount.id IS NOT NULL")
+    List<ProductEntity> getProductWithDiscount();
 }
