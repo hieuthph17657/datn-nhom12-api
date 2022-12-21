@@ -25,12 +25,13 @@ import javax.validation.Valid;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/staff/manufactures")
+@RequestMapping("/api")
 public class ManufactureController {
     @Autowired
     private ManufactureService manufactureService;
 
-    @GetMapping
+
+    @GetMapping("/auth/manufactures")
     public ManufactureResponse index(@Valid ManufacturePaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
         if(bindingResult.hasErrors()) {
@@ -43,7 +44,7 @@ public class ManufactureController {
     }
 
 
-    @PostMapping()
+    @PostMapping("/staff/manufacture")
     public ManufactureResponse create(@Valid @RequestBody ManufactureRequest post, BindingResult bindingResult)
             throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -53,7 +54,7 @@ public class ManufactureController {
         return new ManufactureResponse(ManufactureMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/staff/manufacture/{id}")
     public ManufactureResponse edit(@PathVariable("id") Long id, @Valid @RequestBody ManufactureRequest post,
                                     BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
@@ -63,7 +64,7 @@ public class ManufactureController {
         return new ManufactureResponse(ManufactureMapper.getInstance().toDTO(postEntity));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/staff/manufacture/{id}")
     public ManufactureResponse delete(@PathVariable("id") Long id) throws CustomException {
         manufactureService.delete(id);
         return new ManufactureResponse();
