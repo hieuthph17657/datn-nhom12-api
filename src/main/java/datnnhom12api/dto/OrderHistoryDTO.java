@@ -22,5 +22,7 @@ public class OrderHistoryDTO extends BaseDTO implements Serializable {
 
     private Double total;
 
+    private String verifier;
+
     private String status;
 }
