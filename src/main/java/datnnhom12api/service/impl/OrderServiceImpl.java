@@ -17,8 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,14 +79,17 @@ public class OrderServiceImpl implements OrderService {
             orderDetailRepository.save(orderDetailEntity);
         }
         List<CartEntity> listCard = this.cartRepository.findAll();
-        this.cartRepository.deleteAll(listCard);
-        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
-            System.out.println("888888888888888888888888 va trong để cập nhập số lượng sản phẩm");
-            System.out.println(orderDetailEntity.getProductId());
-            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
-            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
-            this.productRepository.save(product);
+        if (!orderRequest.getStatus().equals(OrderStatus.CHUA_THANH_TOAN)) {
+            this.cartRepository.deleteAll(listCard);
         }
+
+//        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+//            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+//            if(orderRequest.getStatus().equals(OrderStatus.CHUA_THANH_TOAN)){
+//                product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+//                this.productRepository.save(product);
+//            }
+//        }
 
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        System.out.println(authentication.getName());
@@ -327,7 +328,7 @@ public class OrderServiceImpl implements OrderService {
 
             this.orderDetailRepository.save(orderDetailEntity);
         } else {
-            System.out.println("vào update is check");
+
             orderDetailEntity.setProduct(orderDetailEntity.getProduct());
             orderDetailEntity.setIsCheck(1);
             this.orderDetailRepository.save(orderDetailEntity);
@@ -384,9 +385,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetailEntity.setQuantity(exchangeEntity.getQuantity());
             orderDetailEntity.setProduct(this.productRepository.getById(exchangeEntity.getProductId()));
             orderDetailEntity.setTotal(this.productRepository.getById(exchangeEntity.getProductId()).getPrice());
-            System.out.println("tổng tiền thêm mới orderDetail: " + orderDetailEntity.getTotal());
             orderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
-            System.out.println("is check  create orderDetail:"+exchangeEntity.getIsCheck());
             orderDetailEntity.setIsCheck(exchangeEntity.getIsCheck());
             this.orderDetailRepository.save(orderDetailEntity);
             list.add(orderDetailEntity);
@@ -447,6 +446,13 @@ public class OrderServiceImpl implements OrderService {
             OrderEntity orderEntity = this.orderRepository.getById(orderId.getId());
             OrderHistoryEntity orderHistory = new OrderHistoryEntity();
             orderEntity.setStatus(orderId.getStatus());
+            List<OrderDetailEntity> orderDetailEntity = this.orderDetailRepository.findByOrder(orderEntity.getId());
+            orderDetailEntity.forEach(orderDetailEntity1 -> {
+                System.out.println("---------------------- Vào cập nhật lại số lượng sản phẩm");
+                ProductEntity product = this.productRepository.getById(orderDetailEntity1.getProduct().getId());
+                product.setQuantity(product.getQuantity() - orderDetailEntity1.getQuantity());
+                this.productRepository.save(product);
+            });
             this.orderRepository.save(orderEntity);
             orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
             orderHistory.setOrderId(orderEntity);
@@ -460,18 +466,29 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId) {
 
 
-
         System.out.println(request.size());
         request.forEach(orderExchangeDTO -> {
-            if(orderExchangeDTO.getIsBoolean().equals("true")){
+            if (orderExchangeDTO.getIsBoolean().equals("true")) {
                 System.out.println(orderExchangeDTO.getId());
                 Integer Id = Math.toIntExact(orderExchangeDTO.getId());
-                System.out.println("isCheck:"+Id);
-                System.out.println("productId trong isCheck:"+ orderExchangeDTO.getProductId());
+                System.out.println("isCheck:" + Id);
+                System.out.println("productId trong isCheck:" + orderExchangeDTO.getProductId());
                 //sản phẩm gửi
                 OrderDetailEntity orderDetail = this.orderDetailRepository.getById(Long.valueOf(orderExchangeDTO.getIsCheck()));
                 //sản phẩm trước đó
                 OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(Long.valueOf(orderDetail.getIsCheck()));
+
+                //trừ số lượng sản phẩm nếu đổi hàng thành công
+                ProductEntity product = this.productRepository.getById(orderExchangeDTO.getProductId());
+                product.setQuantity(product.getQuantity() - orderExchangeDTO.getQuantity());
+                this.productRepository.save(product);
+
+                if(orderExchangeDTO.getStatus().equals("1")){
+                    ProductEntity productEntity = this.productRepository.getById(orderDetailEntity.getProduct().getId());
+                    productEntity.setQuantity(product.getQuantity() + orderExchangeDTO.getQuantity());
+                    this.productRepository.save(productEntity);
+                }
+
                 if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
                     orderDetailEntity.setTotal(0);
                     orderDetailEntity.setQuantity(0);
@@ -511,15 +528,15 @@ public class OrderServiceImpl implements OrderService {
         HashMap<Integer, Double> map = new HashMap<>();
 
         list.forEach((item) -> {
-           map.put(item.getMonth(), item.getTotal());
+            map.put(item.getMonth(), item.getTotal());
         });
         list.clear();
         for (int i = 1; i <= 12; i++) {
             StatisticalMonthDTO ob = new StatisticalMonthDTO();
-            if(map.containsKey(i)){
+            if (map.containsKey(i)) {
                 ob.setMonth(i);
                 ob.setTotal(map.get(i).doubleValue());
-            }else {
+            } else {
                 ob.setMonth(i);
                 ob.setTotal(0);
             }
@@ -531,7 +548,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<StatisticalOrderDTO> statisticalByOrder(Integer month, Integer year) {
-        List<StatisticalOrderDTO> order= this.orderRepository.statisticalByOrder(month, year);
+        List<StatisticalOrderDTO> order = this.orderRepository.statisticalByOrder(month, year);
         System.out.println(order.size());
         return order;
     }

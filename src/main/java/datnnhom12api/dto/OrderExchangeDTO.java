@@ -23,7 +23,7 @@ public class OrderExchangeDTO extends BaseDTO implements Serializable {
 
     private double total;
 
-    private OrderDetailStatus status;
+    private String status;
 
     private Integer isCheck;
 

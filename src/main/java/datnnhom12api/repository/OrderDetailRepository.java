@@ -13,6 +13,10 @@ import java.util.List;
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, Long>,
         JpaSpecificationExecutor<OrderDetailEntity> {
+
+    @Query("SELECT o FROM OrderDetailEntity o WHERE o.order.id= :id ")
+    OrderDetailEntity findByOrderId(@Param("id") Long id);
+
     @Query("SELECT o FROM OrderDetailEntity o WHERE o.order.id=?1 ")
     List<OrderDetailEntity> findByOrder(Long id);
 
