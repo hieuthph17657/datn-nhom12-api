@@ -4,6 +4,7 @@ import datnnhom12api.core.Filter;
 import datnnhom12api.dto.*;
 import datnnhom12api.entity.*;
 import datnnhom12api.exceptions.CustomException;
+import datnnhom12api.jwt.user.CustomUserDetails;
 import datnnhom12api.repository.*;
 import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,9 +67,12 @@ public class OrderServiceImpl implements OrderService {
             UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
             orderEntity.setUser(userEntity);
         }
+        CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("Tài khoàn đang đăng nhập"+ authentication1.getUsername());
         orderEntity = orderRepository.save(orderEntity);
         OrderHistoryEntity orderHistory = new OrderHistoryEntity();
         orderHistory.setOrderId(orderEntity);
+        orderHistory.setVerifier(authentication1.getUsername());
         orderHistory.setTotal(orderEntity.getTotal());
         orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
         this.orderHistoryRepository.save(orderHistory);
@@ -83,19 +89,13 @@ public class OrderServiceImpl implements OrderService {
             this.cartRepository.deleteAll(listCard);
         }
 
-//        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
-//            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
-//            if(orderRequest.getStatus().equals(OrderStatus.CHUA_THANH_TOAN)){
-//                product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
-//                this.productRepository.save(product);
-//            }
-//        }
+        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+                product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+                this.productRepository.save(product);
+        }
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println(authentication.getName());
-//        UserEntity userEntity = userRepository.findByUsername(authentication.getName());
-//        System.out.println("---------------------------------------Tài khoản đang đăng nhập");
-//        System.out.println(userEntity.getUsername());
+
         return orderEntity;
     }
 
@@ -120,6 +120,14 @@ public class OrderServiceImpl implements OrderService {
             product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
             this.productRepository.save(product);
         }
+        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+        CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("Tài khoàn đang đăng nhập"+ authentication1.getUsername());
+        orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
+        orderHistory.setOrderId(orderEntity);
+        orderHistory.setTotal(orderEntity.getTotal());
+        orderHistory.setVerifier(authentication1.getUsername());
+        this.orderHistoryRepository.save(orderHistory);
         return orderEntity;
     }
 
@@ -208,6 +216,8 @@ public class OrderServiceImpl implements OrderService {
         } else {
             return orderRepository.betweenDate(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), pageable);
         }
+
+
 //        return orderRepository.findAll(specifications, pageable);
     }
 
@@ -447,16 +457,20 @@ public class OrderServiceImpl implements OrderService {
             OrderHistoryEntity orderHistory = new OrderHistoryEntity();
             orderEntity.setStatus(orderId.getStatus());
             List<OrderDetailEntity> orderDetailEntity = this.orderDetailRepository.findByOrder(orderEntity.getId());
-            orderDetailEntity.forEach(orderDetailEntity1 -> {
-                System.out.println("---------------------- Vào cập nhật lại số lượng sản phẩm");
-                ProductEntity product = this.productRepository.getById(orderDetailEntity1.getProduct().getId());
-                product.setQuantity(product.getQuantity() - orderDetailEntity1.getQuantity());
-                this.productRepository.save(product);
-            });
-            this.orderRepository.save(orderEntity);
+            if(orderId.getStatus().equals(OrderStatus.DA_HUY)){
+                orderDetailEntity.forEach(orderDetailEntity1 -> {
+                    ProductEntity product = this.productRepository.getById(orderDetailEntity1.getProduct().getId());
+                    product.setQuantity(product.getQuantity() + orderDetailEntity1.getQuantity());
+                    this.productRepository.save(product);
+                });
+                this.orderRepository.save(orderEntity);
+            }
+            CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            System.out.println("Tài khoàn đang đăng nhập"+ authentication1.getUsername());
             orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
             orderHistory.setOrderId(orderEntity);
             orderHistory.setTotal(orderEntity.getTotal());
+            orderHistory.setVerifier(authentication1.getUsername());
             this.orderHistoryRepository.save(orderHistory);
         });
         return null;
