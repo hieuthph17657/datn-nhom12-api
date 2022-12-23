@@ -150,6 +150,14 @@ public class ProductServiceImpl implements ProductService {
         }
         ProductEntity productEntity = productEntityOptional.get();
         productEntity.setData(productRequest);
+        productEntity.setRam(this.ramRepository.getById(productRequest.getRamId()));
+        productEntity.setWin(this.winRepository.getById(productRequest.getWinId()));
+        productEntity.setScreen(this.screenRepository.getById(productRequest.getScreenId()));
+        productEntity.setStorage(this.storageRepository.getById(productRequest.getStorageId()));
+        productEntity.setCard(this.cardRepository.getById(productRequest.getCardId()));
+        productEntity.setCardOnboard(this.cardRepository.getById(productRequest.getCardOnboard()));
+        productEntity.setBattery(this.batteryChargerRepository.getById(productRequest.getBatteryId()));
+        productEntity.setProcessor(this.processorRepository.getById(productRequest.getProcessorId()));
 //        if (productEntity.getId() != null) {
 //            imageRepository.deleteAllByProductId(productEntity.getId());
 //        }
@@ -174,6 +182,8 @@ public class ProductServiceImpl implements ProductService {
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufacture(manufacture);
         productEntity = productRepository.save(productEntity);
+
+
 
 
         productColorRepository.deleteAllProductColorByProductId(id);
