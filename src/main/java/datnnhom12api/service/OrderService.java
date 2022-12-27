@@ -62,4 +62,6 @@ public interface OrderService {
     SumProductDTO countOrder();
 
     ImageDTO addImageOrder(ImageOrderRequest request);
+
+    OrderEntity updateNoteRequest(Long id, UpdateNoteRequest request);
 }

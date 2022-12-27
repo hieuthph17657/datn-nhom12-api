@@ -590,4 +590,11 @@ public class OrderServiceImpl implements OrderService {
         return imageDTO;
     }
 
+    @Override
+    public OrderEntity updateNoteRequest(Long id, UpdateNoteRequest request) {
+        OrderEntity order = this.orderRepository.getById(id);
+        order.setNote(request.getNote());
+        return order;
+    }
+
 }
