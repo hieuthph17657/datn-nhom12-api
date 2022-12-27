@@ -25,6 +25,7 @@ public class ProductDTO extends BaseDTO implements Serializable {
     private Double price;
 
 //    private YearDTO year;
+    private String pn;
 
     private String imei;
 

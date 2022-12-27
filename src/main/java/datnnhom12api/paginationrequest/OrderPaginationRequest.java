@@ -30,6 +30,8 @@ public class OrderPaginationRequest extends PaginationRequest {
 
     private String searchEndDate;
 
+    private String searchPhone;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchAddress != null && !searchAddress.isEmpty()) {
@@ -46,6 +48,9 @@ public class OrderPaginationRequest extends PaginationRequest {
         }
         if (searchPayment != null && !searchPayment.isEmpty()) {
             list.add(new Filter("payment", QueryOperator.LIKE, searchPayment, null));
+        }
+        if (searchPhone != null && !searchPhone.isEmpty()) {
+            list.add(new Filter("phone", QueryOperator.EQUALS, searchPhone, null));
         }
         return list;
     }
