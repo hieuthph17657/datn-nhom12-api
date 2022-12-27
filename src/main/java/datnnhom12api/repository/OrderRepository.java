@@ -7,6 +7,7 @@ import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.OrderEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -25,8 +26,11 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
     public List<OrderEntity> findByDate(LocalDateTime createdAt);
 
 
-    @Query("SELECT c FROM OrderEntity c WHERE (c.createdAt BETWEEN ?1 AND ?2) AND c.createdAt BETWEEN ?1 AND ?2 ")
-    Page<OrderEntity> betweenDate(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+    @Query("SELECT c FROM OrderEntity c WHERE (c.createdAt BETWEEN ?1 AND ?2) AND (c.createdAt BETWEEN ?1 AND ?2)")
+    Page<OrderEntity> betweenDate(LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
+
+    @Query("SELECT c FROM OrderEntity c WHERE c.phone = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3)")
+    Page<OrderEntity> betweenDateAndPhone(String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
 
     @Query("SELECT new StatisticalMonthDTO(extract(month from c.updatedAt), sum (c.total))  FROM OrderEntity c WHERE c.status='DA_NHAN' " +

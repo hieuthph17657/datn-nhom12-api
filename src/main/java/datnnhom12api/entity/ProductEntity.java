@@ -53,6 +53,9 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "debut")
     private String debut;
 
+    @Column(name = "pn")
+    private String pn;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "created_by")

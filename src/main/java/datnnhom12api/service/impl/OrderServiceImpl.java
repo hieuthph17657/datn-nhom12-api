@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setUser(userEntity);
         }
         CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("Tài khoàn đang đăng nhập"+ authentication1.getUsername());
+        System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
         orderEntity = orderRepository.save(orderEntity);
         OrderHistoryEntity orderHistory = new OrderHistoryEntity();
         orderHistory.setOrderId(orderEntity);
@@ -91,8 +91,8 @@ public class OrderServiceImpl implements OrderService {
 
         for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
             ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
-                product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
-                this.productRepository.save(product);
+            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+            this.productRepository.save(product);
         }
 
 
@@ -122,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
         }
         OrderHistoryEntity orderHistory = new OrderHistoryEntity();
         CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("Tài khoàn đang đăng nhập"+ authentication1.getUsername());
+        System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
         orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
         orderHistory.setOrderId(orderEntity);
         orderHistory.setTotal(orderEntity.getTotal());
@@ -202,7 +202,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderEntity> paginate(String startDate, String endDate, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+    public Page<OrderEntity> paginate(String searchPhone, String startDate, String endDate, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         for (String field : sortBy.keySet()) {
             orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
@@ -211,14 +211,13 @@ public class OrderServiceImpl implements OrderService {
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<OrderEntity> specifications = OrderSpecifications.getInstance().getQueryResult(filters);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if (startDate == null || endDate == null || startDate == "" || endDate == "" || startDate.isEmpty() || endDate.isEmpty()) {
-            return orderRepository.findAll(specifications, pageable);
+        if (!searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndPhone(searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDate(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
         } else {
-            return orderRepository.betweenDate(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), pageable);
+            return orderRepository.findAll(specifications, pageable);
         }
-
-
-//        return orderRepository.findAll(specifications, pageable);
     }
 
     @Override
@@ -457,7 +456,7 @@ public class OrderServiceImpl implements OrderService {
             OrderHistoryEntity orderHistory = new OrderHistoryEntity();
             orderEntity.setStatus(orderId.getStatus());
             List<OrderDetailEntity> orderDetailEntity = this.orderDetailRepository.findByOrder(orderEntity.getId());
-            if(orderId.getStatus().equals(OrderStatus.DA_HUY)){
+            if (orderId.getStatus().equals(OrderStatus.DA_HUY)) {
                 orderDetailEntity.forEach(orderDetailEntity1 -> {
                     ProductEntity product = this.productRepository.getById(orderDetailEntity1.getProduct().getId());
                     product.setQuantity(product.getQuantity() + orderDetailEntity1.getQuantity());
@@ -466,7 +465,7 @@ public class OrderServiceImpl implements OrderService {
                 this.orderRepository.save(orderEntity);
             }
             CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            System.out.println("Tài khoàn đang đăng nhập"+ authentication1.getUsername());
+            System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
             orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
             orderHistory.setOrderId(orderEntity);
             orderHistory.setTotal(orderEntity.getTotal());
@@ -497,7 +496,7 @@ public class OrderServiceImpl implements OrderService {
                 product.setQuantity(product.getQuantity() - orderExchangeDTO.getQuantity());
                 this.productRepository.save(product);
 
-                if(orderExchangeDTO.getStatus().equals("1")){
+                if (orderExchangeDTO.getStatus().equals("1")) {
                     ProductEntity productEntity = this.productRepository.getById(orderDetailEntity.getProduct().getId());
                     productEntity.setQuantity(product.getQuantity() + orderExchangeDTO.getQuantity());
                     this.productRepository.save(productEntity);

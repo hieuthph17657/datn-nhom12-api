@@ -24,6 +24,8 @@ public class ProductPaginationRequest extends PaginationRequest {
 
     private String searchImei;
 
+    private String searchPn;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchStatus != null && !searchStatus.isEmpty()) {
@@ -31,6 +33,9 @@ public class ProductPaginationRequest extends PaginationRequest {
         }
         if (searchImei != null && !searchImei.isEmpty()) {
             list.add(new Filter("imei", QueryOperator.EQUALS, searchImei, null));
+        }
+        if (searchPn != null && !searchPn.isEmpty()) {
+            list.add(new Filter("pn", QueryOperator.EQUALS, searchPn, null));
         }
         return list;
     }
