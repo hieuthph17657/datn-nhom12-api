@@ -10,7 +10,6 @@ import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
 import datnnhom12api.utils.support.OrderDetailStatus;
-import datnnhom12api.utils.support.OrderStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetailRepository.save(orderDetailEntity);
         }
         List<CartEntity> listCard = this.cartRepository.findAll();
-        if (!orderRequest.getStatus().equals(OrderStatus.CHUA_THANH_TOAN)) {
+        if (!orderRequest.getStatus().equals("CHUA_THANH_TOAN")) {
             this.cartRepository.deleteAll(listCard);
         }
 
@@ -202,7 +200,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderEntity> paginate(String searchPhone, String startDate, String endDate, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+    public Page<OrderEntity> paginate(String searchPayment, String searchName, String searchStatus, String searchPhone, String startDate, String endDate, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         for (String field : sortBy.keySet()) {
             orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
@@ -211,12 +209,24 @@ public class OrderServiceImpl implements OrderService {
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<OrderEntity> specifications = OrderSpecifications.getInstance().getQueryResult(filters);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if (!searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
-            return orderRepository.betweenDateAndPhone(searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        if (!searchPayment.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndPhoneAndStatusAndPaymentAndName(searchPayment, searchName, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchPayment.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndPhoneAndStatusAndPayment(searchPayment, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchPayment.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndNameAndStatusAndPayment(searchPayment, searchStatus, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndPhoneAndStatusAndName(searchName, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndPhoneAndStatus(searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchPayment.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndPaymentAndStatus(searchStatus, searchPayment, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            return orderRepository.betweenDateAndNameAndStatus(searchStatus, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
         } else if (!startDate.isEmpty() && !endDate.isEmpty()) {
-            return orderRepository.betweenDate(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            return orderRepository.betweenDateAndStatus(searchStatus, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
         } else {
-            return orderRepository.findAll(specifications, pageable);
+            return orderRepository.findAllAndStatus(searchStatus, specifications, pageable);
         }
     }
 
@@ -288,7 +298,7 @@ public class OrderServiceImpl implements OrderService {
             throw new CustomException(403, "Không tìm thấy id hóa đơn muốn hủy");
         }
         OrderEntity order = orderEntityOptional.get();
-        order.setStatus(OrderStatus.DA_HUY);
+        order.setStatus("DA_HUY");
         order = orderRepository.save(order);
         return order;
     }
@@ -303,7 +313,7 @@ public class OrderServiceImpl implements OrderService {
             throw new CustomException(403, "Không tìm thấy id hóa đơn muốn hủy");
         }
         OrderEntity order = orderEntityOptional.get();
-        order.setStatus(OrderStatus.DA_NHAN);
+        order.setStatus("DA_NHAN");
         order = orderRepository.save(order);
         return order;
     }
@@ -456,7 +466,7 @@ public class OrderServiceImpl implements OrderService {
             OrderHistoryEntity orderHistory = new OrderHistoryEntity();
             orderEntity.setStatus(orderId.getStatus());
             List<OrderDetailEntity> orderDetailEntity = this.orderDetailRepository.findByOrder(orderEntity.getId());
-            if (orderId.getStatus().equals(OrderStatus.DA_HUY)) {
+            if (orderId.getStatus().equals("DA_HUY")) {
                 orderDetailEntity.forEach(orderDetailEntity1 -> {
                     ProductEntity product = this.productRepository.getById(orderDetailEntity1.getProduct().getId());
                     product.setQuantity(product.getQuantity() + orderDetailEntity1.getQuantity());

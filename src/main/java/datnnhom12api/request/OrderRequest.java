@@ -1,15 +1,9 @@
 package datnnhom12api.request;
 
-import datnnhom12api.entity.OrderDetailEntity;
-import datnnhom12api.utils.support.OrderStatus;
 import lombok.*;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Builder
@@ -32,8 +26,7 @@ public class OrderRequest {
     @NotBlank(message = "địa chỉ không được để trống")
     private String address;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private String status;
 
     private String customerName;
 
