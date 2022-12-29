@@ -14,6 +14,7 @@ import datnnhom12api.request.DiscountRequest;
 import datnnhom12api.request.ProductRequest;
 import datnnhom12api.response.DiscountResponse;
 import datnnhom12api.response.ProductDiscountResponse;
+import datnnhom12api.response.ProductFilterResponse;
 import datnnhom12api.response.ProductResponse;
 import datnnhom12api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,17 @@ public class ProductController {
         List<ProductEntity> product = this.productRepository.findAll();
         return new ProductResponse(ProductMapper.toListDTO(product));
     }
+
+    @GetMapping("/getAllProAccess")
+    public ProductFilterResponse getAllProAccess(@Valid ProductPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
+            if (bindingResult.hasErrors()) {
+                throw new CustomValidationException(bindingResult.getAllErrors());
+            }
+            Page<ProductEntity> page = productService.paginate(
+                    request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
+            return new ProductFilterResponse(ProductMapper.toPageDTOFilter(page));
+        }
 
     @GetMapping("/allProDiscount")
     public ProductDiscountResponse getAllProDiscount(){
