@@ -19,11 +19,7 @@ public class ExchangeDTO extends BaseDTO implements Serializable {
 
     private Long orderId;
 
-    private String reason;
-
     private String description;
-
-    private String isCheck;
 
     private ReturnStatus status;
 

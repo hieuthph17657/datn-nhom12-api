@@ -26,14 +26,9 @@ public class ExchangeEntity extends BaseEntity {
     @Column(name = "order_id")
     private Long orderId;
 
-    @Column(name = "reason")
-    private String reason;
-
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_check")
-    private String isCheck;
 
     @Enumerated(EnumType.STRING)
     private ReturnStatus status;
@@ -42,9 +37,8 @@ public class ExchangeEntity extends BaseEntity {
     List<ExchangeDetailEntity> returnDetailEntities;
 
     public void setData(ExchangeRequest2 request){
-        this.isCheck = request.getIsCheck();
+
         this.orderId = request.getOrderId();
-        this.reason = request.getReason();
         this.description=request.getDescription();
         this.status = request.getStatus();
     }

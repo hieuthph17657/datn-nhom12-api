@@ -22,7 +22,11 @@ public class ExchangeDetailDTO extends BaseDTO implements Serializable {
 
     private Long exchangeId;
 
+    private String reason;
+
     private int quantity;
+
+    private String isCheck;
 
     private Integer orderChange;
 
