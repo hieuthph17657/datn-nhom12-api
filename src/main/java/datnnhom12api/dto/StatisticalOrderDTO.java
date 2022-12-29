@@ -1,6 +1,5 @@
 package datnnhom12api.dto;
 
-import datnnhom12api.utils.support.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ public class StatisticalOrderDTO implements Serializable {
 
 
     @Id
-    private OrderStatus status;
+    private String status;
 
     private Long  quantity;
 

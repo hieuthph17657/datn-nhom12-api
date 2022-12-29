@@ -23,7 +23,7 @@ public interface OrderService {
 
     OrderEntity delete(Long id) throws CustomException;
 
-    Page<OrderEntity> paginate(String searchPhone, String searchStartDate, String searchEndDate, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+    Page<OrderEntity> paginate(String searchPayment, String searchName, String searchStatus, String searchPhone, String searchStartDate, String searchEndDate, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
 
     UserEntity createUser(CreateUserOnOrderRequest createUserOnOrderRequest) throws CustomException;
 
