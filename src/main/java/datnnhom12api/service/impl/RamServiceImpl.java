@@ -3,15 +3,11 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.RamDTO;
-import datnnhom12api.entity.ProcessorEntity;
 import datnnhom12api.entity.RamEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.RamRepository;
 import datnnhom12api.request.RamRequest;
-import datnnhom12api.response.ProcessorResponse;
-import datnnhom12api.response.RamResponse;
 import datnnhom12api.service.RamService;
-import datnnhom12api.specifications.ProcessorSpecification;
 import datnnhom12api.specifications.RamSpecifications;
 import datnnhom12api.utils.support.RamStatus;
 import org.modelmapper.ModelMapper;
@@ -96,5 +92,8 @@ public class RamServiceImpl implements RamService {
         return ramDTO;
     }
 
-
+    @Override
+    public List<RamEntity> findAll() {
+        return ramRepository.findAll();
+    }
 }

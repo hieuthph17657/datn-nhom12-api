@@ -1,6 +1,7 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.entity.CategoryEntity;
+import datnnhom12api.entity.ManufactureEntity;
 import datnnhom12api.entity.UserEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
@@ -25,6 +26,11 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     CategoryService cateService;
+
+    @GetMapping("/api/category/getAll")
+    public List<CategoryEntity> getAll() {
+        return cateService.findAll();
+    }
 
     @GetMapping("/api/staff/category")
     public CategoryResponse index(@Valid CategoryPaginationRequest request, BindingResult bindingResult) throws CustomValidationException {

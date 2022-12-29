@@ -23,4 +23,6 @@ public interface RamService {
     RamDTO active(Long id) throws CustomException;
 
     RamDTO inactive(Long id) throws CustomException;
+
+    List<RamEntity> findAll();
 }

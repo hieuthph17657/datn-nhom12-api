@@ -19,4 +19,6 @@ public interface ManufactureService {
     ManufactureEntity update(Long id, ManufactureRequest post) throws CustomException;
 
     void delete(Long id);
+
+    List<ManufactureEntity> findAll();
 }

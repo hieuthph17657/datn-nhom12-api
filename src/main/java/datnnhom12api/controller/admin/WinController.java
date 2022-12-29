@@ -1,5 +1,6 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.entity.ManufactureEntity;
 import datnnhom12api.entity.WinEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -23,6 +25,10 @@ public class WinController {
     @Autowired
     private WinService winService;
 
+    @GetMapping("/wins/getAll")
+    public List<WinEntity> getAll() {
+        return winService.findAll();
+    }
 
     @GetMapping("/auth/wins")
     public WinResponse index(@Valid WinPaginationRequest request, BindingResult bindingResult)

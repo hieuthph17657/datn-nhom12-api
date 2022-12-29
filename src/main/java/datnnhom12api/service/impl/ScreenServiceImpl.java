@@ -98,4 +98,9 @@ public class ScreenServiceImpl implements ScreenService {
         screenEntity = screenRepository.save(screenEntity);
         return screenEntity;
     }
+
+    @Override
+    public List<ScreenEntity> findAll() {
+        return screenRepository.findAll();
+    }
 }

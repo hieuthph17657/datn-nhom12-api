@@ -21,4 +21,6 @@ public interface WinService {
      WinEntity open(Long id) throws CustomException;
 
      WinEntity close(Long id) throws CustomException;
+
+    List<WinEntity> findAll();
 }

@@ -1,6 +1,7 @@
 package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.entity.WinEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.WinRepository;
@@ -96,5 +97,10 @@ public class WinServiceImpl implements WinService {
         winEntity.setStatus(WinStatus.INACTIVE);
         winEntity = winRepository.save(winEntity);
         return winEntity;
+    }
+
+    @Override
+    public List<WinEntity> findAll() {
+        return winRepository.findAll();
     }
 }

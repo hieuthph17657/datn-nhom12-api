@@ -2,6 +2,7 @@ package datnnhom12api.controller.admin;
 
 
 import datnnhom12api.dto.RamDTO;
+import datnnhom12api.entity.ManufactureEntity;
 import datnnhom12api.entity.ProcessorEntity;
 import datnnhom12api.entity.RamEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -21,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -29,6 +31,11 @@ public class RamController {
 
     @Autowired
     private RamService ramService;
+
+    @GetMapping("/rams/getAll")
+    public List<RamEntity> getAll() {
+        return ramService.findAll();
+    }
 
     @GetMapping("auth/rams")
     public RamResponse index(@Valid RamPaginationRequest request, BindingResult bindingResult)

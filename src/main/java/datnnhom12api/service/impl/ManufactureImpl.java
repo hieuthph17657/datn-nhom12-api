@@ -2,12 +2,9 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.ManufactureEntity;
-import datnnhom12api.entity.ProcessorEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.ManufactureRepository;
 import datnnhom12api.request.ManufactureRequest;
-import datnnhom12api.response.ManufactureResponse;
-import datnnhom12api.response.ProcessorResponse;
 import datnnhom12api.service.ManufactureService;
 import datnnhom12api.specifications.ManufactureSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,4 +74,8 @@ public class ManufactureImpl implements ManufactureService {
         manufactureRepository.delete(processorEntity);
     }
 
+    @Override
+    public List<ManufactureEntity> findAll() {
+        return manufactureRepository.findAll();
+    }
 }

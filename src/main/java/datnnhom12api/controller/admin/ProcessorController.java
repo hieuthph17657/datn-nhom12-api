@@ -3,6 +3,7 @@ package datnnhom12api.controller.admin;
 import datnnhom12api.dto.ProcessorDTO;
 import datnnhom12api.dto.RamDTO;
 import datnnhom12api.entity.CartEntity;
+import datnnhom12api.entity.ManufactureEntity;
 import datnnhom12api.entity.ProcessorEntity;
 import datnnhom12api.entity.RamEntity;
 import datnnhom12api.exceptions.CustomException;
@@ -26,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -34,6 +36,11 @@ public class ProcessorController {
 
     @Autowired
     private ProcessorService processorService;
+
+    @GetMapping("/processors/getAll")
+    public List<ProcessorEntity> getAll() {
+        return processorService.findAll();
+    }
 
     @GetMapping("auth/processors")
     public ProcessorResponse index(@Valid ProcessorPaginationRequest request, BindingResult bindingResult)

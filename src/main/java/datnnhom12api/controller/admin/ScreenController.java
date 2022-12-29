@@ -1,6 +1,7 @@
 package datnnhom12api.controller.admin;
 
 import datnnhom12api.entity.BatteryChargerEntity;
+import datnnhom12api.entity.ManufactureEntity;
 import datnnhom12api.entity.ScreenEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
@@ -20,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -28,6 +30,11 @@ public class ScreenController {
 
     @Autowired
     private ScreenService screenService;
+
+    @GetMapping("/screens/getAll")
+    public List<ScreenEntity> getAll() {
+        return screenService.findAll();
+    }
 
 
     @GetMapping("/auth/screens")
