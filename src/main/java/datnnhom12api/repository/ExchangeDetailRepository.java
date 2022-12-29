@@ -21,7 +21,7 @@ public interface ExchangeDetailRepository extends JpaRepository<ExchangeDetailEn
             "inner join OrderDetailEntity od on od.id = rd.orderDetail.id " +
             "inner join ProductEntity p on p.id = od.product.id " +
             "inner join ManufactureEntity  m on m.id = p.manufacture.id " +
-            " inner  join ExchangeEntity r on r.id = rd.exchange.id where r.isCheck ='3' and rd.status= 'DA_XAC_NHAN' " +
+            " inner  join ExchangeEntity r on r.id = rd.exchange.id where  rd.status= 'DA_XAC_NHAN' " +
             "group by p.id")
     List<InventoryDTO> getAllInventoryDTO();
 }

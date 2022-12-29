@@ -18,12 +18,7 @@ public class ExchangeRequest2 {
     @NotNull(message = "Id hoá đơn không được trống")
     private Long orderId;
 
-    @NotBlank(message = "Lý do huỷ đơn không được để trống")
-    private String reason;
-
     private String description;
-
-    private String isCheck;
 
     private ReturnStatus status;
 

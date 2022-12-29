@@ -31,6 +31,10 @@ public class ExchangeDetailEntity extends BaseEntity {
 
     private Integer orderChange;
 
+    private String isCheck;
+
+    private String reason;
+
     private int quantity;
 
     @JsonIgnore

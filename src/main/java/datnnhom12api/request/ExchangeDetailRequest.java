@@ -17,11 +17,15 @@ public class ExchangeDetailRequest {
 
     private Long orderDetailId;
 
+    private String reason;
+
     private int quantity;
 
     private  Long id;
 
     private Integer orderChange;
+
+    private String isCheck;
 
     private ReturnDetailStatus status;
 
