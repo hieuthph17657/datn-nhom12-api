@@ -2,6 +2,7 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.entity.BatteryChargerEntity;
+import datnnhom12api.entity.CategoryEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.repository.BatteryChargerRepository;
 import datnnhom12api.repository.ProductRepository;
@@ -119,5 +120,10 @@ public class BatteryChargerServiceImpl implements BatteryChargerService {
         batteryChargerEntity.setStatus(BatteryChargerStatus.INACTIVE);
         batteryChargerEntity = batteryChargerRepository.save(batteryChargerEntity);
         return batteryChargerEntity;
+    }
+
+    @Override
+    public List<BatteryChargerEntity> findAll() {
+        return batteryChargerRepository.findAll();
     }
 }

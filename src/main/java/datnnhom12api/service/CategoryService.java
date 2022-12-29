@@ -23,4 +23,6 @@ public interface CategoryService {
     CategoryEntity open(Long id) throws CustomException;
 
     CategoryEntity close(Long id) throws CustomException;
+
+    List<CategoryEntity> findAll();
 }

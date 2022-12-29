@@ -107,4 +107,9 @@ public class CategoryServiceImpl implements CategoryService {
         categoryEntity = cateRepository.save(categoryEntity);
         return categoryEntity;
     }
+
+    @Override
+    public List<CategoryEntity> findAll() {
+        return cateRepository.findAll();
+    }
 }

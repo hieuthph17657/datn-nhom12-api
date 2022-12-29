@@ -26,4 +26,6 @@ public interface ProcessorService {
     ProcessorDTO active(Long id) throws CustomException;
 
     ProcessorDTO inactive(Long id) throws CustomException;
+
+    List<ProcessorEntity> findAll();
 }

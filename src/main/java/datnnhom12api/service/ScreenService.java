@@ -21,4 +21,6 @@ public interface ScreenService {
     ScreenEntity open(Long id) throws CustomException;
 
     ScreenEntity close(Long id) throws CustomException;
+
+    List<ScreenEntity> findAll();
 }

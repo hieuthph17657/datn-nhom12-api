@@ -24,4 +24,6 @@ public interface BatteryChargerService {
     BatteryChargerEntity open(Long id) throws CustomException;
 
     BatteryChargerEntity close(Long id) throws CustomException;
+
+    List<BatteryChargerEntity> findAll();
 }

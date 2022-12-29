@@ -2,19 +2,12 @@ package datnnhom12api.controller.admin;
 
 import datnnhom12api.dto.ManufactureDTO;
 import datnnhom12api.entity.ManufactureEntity;
-import datnnhom12api.entity.ProcessorEntity;
-import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.ManufactureMapper;
-import datnnhom12api.mapper.ProcessorMapper;
-import datnnhom12api.mapper.ProductMapper;
 import datnnhom12api.paginationrequest.ManufacturePaginationRequest;
 import datnnhom12api.request.ManufactureRequest;
-import datnnhom12api.request.ProcessorRequest;
 import datnnhom12api.response.ManufactureResponse;
-import datnnhom12api.response.ProcessorResponse;
-import datnnhom12api.response.ProductResponse;
 import datnnhom12api.service.ManufactureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -29,6 +23,11 @@ import javax.validation.Valid;
 public class ManufactureController {
     @Autowired
     private ManufactureService manufactureService;
+
+    @GetMapping("/manufactures/getAll")
+    public List<ManufactureEntity> getAll() {
+        return manufactureService.findAll();
+    }
 
 
     @GetMapping("/auth/manufactures")

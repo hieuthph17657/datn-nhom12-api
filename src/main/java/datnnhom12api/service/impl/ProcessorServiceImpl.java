@@ -97,4 +97,9 @@ public class ProcessorServiceImpl implements ProcessorService {
         ProcessorDTO processorDTO = modelMapper.map(processorEntity, ProcessorDTO.class);
         return processorDTO;
     }
+
+    @Override
+    public List<ProcessorEntity> findAll() {
+        return processorRepository.findAll();
+    }
 }
