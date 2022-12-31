@@ -32,6 +32,8 @@ public class ProductDTOById extends BaseDTO implements Serializable {
 
     private Float height ;
 
+    private Integer warrantyPeriod;
+
     private Float width;
 
     private Float length;
