@@ -606,4 +606,10 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    @Override
+    public SumProductDTO numberOfProductsSold() {
+        SumProductDTO order = this.orderRepository.numberOfProductsSold();
+        return order;
+    }
+
 }

@@ -45,6 +45,8 @@ public class StatisticalController {
         return list;
     }
 
+
+    //số lượng sản phẩm bán ra
     @GetMapping("/statistical")
     public List<StatisticalProductDTO> order(){
         List<StatisticalProductDTO> list = orderService.statisticalByProduct();
@@ -75,6 +77,13 @@ public class StatisticalController {
         return inventory;
     }
 
+
+    //tổng số lượng sản phẩm bán ra
+    @GetMapping("/statistical/numberOfProductsSold")
+    public SumProductDTO numberOfProductsSold(){
+        SumProductDTO order = orderService.numberOfProductsSold();
+        return order;
+    }
 
 
 
