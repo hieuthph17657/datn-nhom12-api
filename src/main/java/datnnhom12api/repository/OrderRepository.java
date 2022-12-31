@@ -33,6 +33,15 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
     @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1")
     Page<OrderEntity> findAllAndStatus(String searchStatus, Specification<OrderEntity> specifications, Pageable pageable);
 
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2%")
+    Page<OrderEntity> searchName(String searchStatus, String searchName, Specification<OrderEntity> specifications, Pageable pageable);
+
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.phone = ?2")
+    Page<OrderEntity> searchPhone(String searchStatus, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
+
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2")
+    Page<OrderEntity> searchPayment(String searchStatus, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
+
     @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3)")
     Page<OrderEntity> betweenDateAndStatus(String searchStatus, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
