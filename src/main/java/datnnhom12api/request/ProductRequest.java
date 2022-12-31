@@ -44,6 +44,8 @@ public class ProductRequest {
 
     private List<ImageRequest> images;
 
+    private Integer warrantyPeriod;
+
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
 

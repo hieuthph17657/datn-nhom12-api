@@ -27,7 +27,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api")
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -35,7 +35,7 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
-    @GetMapping
+    @GetMapping("/products")
     public ProductResponse index(@Valid ProductPaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
         if (bindingResult.hasErrors()) {
@@ -46,13 +46,13 @@ public class ProductController {
         return new ProductResponse(ProductMapper.toPageDTO(page));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/products/all")
     public ProductResponse getAll(){
         List<ProductEntity> product = this.productRepository.findAll();
         return new ProductResponse(ProductMapper.toListDTO(product));
     }
 
-    @GetMapping("/getAllProAccess")
+    @GetMapping("/products/getAllProAccess")
     public ProductFilterResponse getAllProAccess(@Valid ProductPaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
             if (bindingResult.hasErrors()) {
@@ -63,24 +63,24 @@ public class ProductController {
             return new ProductFilterResponse(ProductMapper.toPageDTOFilter(page));
         }
 
-    @GetMapping("/allProDiscount")
+    @GetMapping("/products/allProDiscount")
     public ProductDiscountResponse getAllProDiscount(){
         List<ProductEntity> product = this.productRepository.findAll();
         return new ProductDiscountResponse(ProductMapper.getInstance().toListProDiscountDTO(product));
     }
-    @GetMapping("/allProWithDiscount")
+    @GetMapping("/products/allProWithDiscount")
     public ProductResponse getAllProWithDiscount(){
         List<ProductEntity> product = this.productRepository.getProductWithDiscount();
         return new ProductResponse(ProductMapper.getInstance().toListDTO(product));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public ProductDTOById getById(@PathVariable Long id) {
         ProductDTOById product = this.productService.findById(id);
         return product;
     }
 
-    @PostMapping()
+    @PostMapping("/staff/products")
     public ProductResponse create(
             @Valid @RequestBody ProductRequest productRequest,
             BindingResult bindingResult)
@@ -93,7 +93,7 @@ public class ProductController {
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 
-    @PutMapping("/discountProduct/{id}")
+    @PutMapping("/products/discountProduct/{id}")
     public ProductResponse discount(
             @PathVariable("id") Long id,
             @Valid @RequestBody List<Long> idProduct,
@@ -106,7 +106,7 @@ public class ProductController {
         return new ProductResponse(ProductMapper.getInstance().toListDTO(productEntity));
     }
 
-    @PutMapping("/noDiscountProduct/{id}/{idPro}")
+    @PutMapping("/products/noDiscountProduct/{id}/{idPro}")
     public  ProductResponse nodiscount(
             @PathVariable("id") Long id,
             @PathVariable("idPro") Long idPro
@@ -116,7 +116,7 @@ public class ProductController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/products/{id}")
     public ProductResponse edit(
             @PathVariable("id") Long id,
             @Valid @RequestBody ProductRequest productRequest,
@@ -128,19 +128,19 @@ public class ProductController {
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 
-    @PutMapping("/active/{id}")
+    @PutMapping("/products/active/{id}")
     public ProductResponse active(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
         ProductEntity postEntity = productService.active(id);
         return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/inactive/{id}")
+    @PutMapping("/products/inactive/{id}")
     public ProductResponse inActive(@PathVariable("id") Long id) throws CustomValidationException, CustomException {
         ProductEntity postEntity = productService.inActive(id);
         return new ProductResponse(ProductMapper.getInstance().toDTO(postEntity));
     }
 
-    @PostMapping("/copy/{productId}")
+    @PostMapping("/staff/products/copy/{productId}")
     public ProductResponse copyProduct(
             @Valid @RequestBody ProductRequest productRequest,
             BindingResult bindingResult, @PathVariable("productId") Long productId)
@@ -152,4 +152,11 @@ public class ProductController {
         ProductEntity productEntity = productService.copyProduct(productRequest, productId);
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
+
+    //lấy ra những sản phẩm cùng loại
+    @GetMapping("/auth/product/{id}/category")
+   public List<ProductDTOById> getProductByCategory(@PathVariable("id")Long id){
+        List<ProductDTOById> product = this.productService.findProductByCategory(id);
+        return  product;
+   }
 }

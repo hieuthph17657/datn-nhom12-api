@@ -1,5 +1,6 @@
 package datnnhom12api.repository;
 
+import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.dto.StatisticalProductDTO;
 import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.ProductEntity;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -56,4 +58,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     Page<ProductEntity> findProductByPrice(Double searchPrice, Double endPrice, Specification<ProductEntity> specifications, Pageable pageable);
     @Query("SELECT c FROM ProductEntity c WHERE c.discount.id IS NOT NULL")
     List<ProductEntity> getProductWithDiscount();
+
+
+    @Query("SELECT p FROM ProductEntity p inner join  ProductCategoryEntity  pc " +
+            "on pc.product.id = p.id inner join CategoryEntity  c on c.id = pc.category.id where c.id = :id")
+    List<ProductEntity> findProductByCategory(@Param("id") Long id);
 }

@@ -131,6 +131,8 @@ public class ProductEntity extends BaseEntity {
 
     private String security;
 
+    private Integer warrantyPeriod;
+
     private String description;
 
     public void setData(ProductRequest request) {
@@ -147,6 +149,7 @@ public class ProductEntity extends BaseEntity {
         this.material = request.getMaterial();
         this.security = request.getSecurity();
         this.description = request.getDescription();
+        this.warrantyPeriod = request.getWarrantyPeriod();
     }
 
     public void enrichListImage(List<ImagesEntity> imagesEntities) {

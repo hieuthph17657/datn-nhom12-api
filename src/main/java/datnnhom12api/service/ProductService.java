@@ -37,4 +37,6 @@ public interface ProductService {
     SumProductDTO sumProduct();
 
     ProductEntity copyProduct(ProductRequest productRequest, Long id);
+
+    List<ProductDTOById> findProductByCategory(Long id);
 }

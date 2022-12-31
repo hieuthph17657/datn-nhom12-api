@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Year;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("productService")
 @Transactional(rollbackFor = Throwable.class)
@@ -421,5 +422,14 @@ public class ProductServiceImpl implements ProductService {
         this.yearRepository.save(year);
 
         return productEntity;
+    }
+
+    @Override
+    public List<ProductDTOById> findProductByCategory(Long id) {
+        List<ProductEntity> list = this.productRepository.findProductByCategory(id);
+        ModelMapper modelMapper = new ModelMapper();
+        List<ProductDTOById> productDTO = list.stream().map(p-> modelMapper.map(p, ProductDTOById.class))
+                .collect(Collectors.toList());
+        return productDTO;
     }
 }
