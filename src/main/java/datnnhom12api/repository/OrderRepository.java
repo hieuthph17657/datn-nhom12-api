@@ -75,6 +75,11 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
             " inner join OrderEntity o on od.order.id = o.id where  o.status = 'DA_NHAN' group by p.id")
     List<StatisticalProductDTO> statisticalByProduct();
 
+    @Query("SELECT new SumProductDTO(sum (od.quantity)) FROM ProductEntity p inner join OrderDetailEntity" +
+            " od on od.product.id = p.id" +
+            " inner join OrderEntity o on od.order.id = o.id where  o.status = 'DA_NHAN'")
+    SumProductDTO numberOfProductsSold();
+
     @Query("SELECT new SumProductDTO(count (c.id))FROM OrderEntity c")
     SumProductDTO countOrder();
 }
