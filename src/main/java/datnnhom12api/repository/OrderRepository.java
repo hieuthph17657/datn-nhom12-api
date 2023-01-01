@@ -36,8 +36,14 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
     @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2%")
     Page<OrderEntity> searchNameAndStatus(String searchStatus, String searchName, Specification<OrderEntity> specifications, Pageable pageable);
 
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.phone = ?3")
+    Page<OrderEntity> searchNameAndPhoneAndStatus(String searchStatus, String searchName, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
+
     @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.phone = ?2")
     Page<OrderEntity> searchPhoneAndStatus(String searchStatus, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
+
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2 AND c.phone = ?3")
+    Page<OrderEntity> searchPaymentAndPhoneAndStatus(String searchStatus, String searchPayment, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
 
     @Query("SELECT c FROM OrderEntity c WHERE c.phone = ?1")
     Page<OrderEntity> searchPhone(String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
@@ -50,6 +56,9 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
 
     @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2")
     Page<OrderEntity> searchPaymentAndStatus(String searchStatus, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
+
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.payment = ?3")
+    Page<OrderEntity> searchNameAndPaymentAndStatus(String searchStatus, String searchName, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
 
     @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3)")
     Page<OrderEntity> betweenDateAndStatus(String searchStatus, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
