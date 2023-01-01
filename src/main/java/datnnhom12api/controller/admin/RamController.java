@@ -33,8 +33,8 @@ public class RamController {
     private RamService ramService;
 
     @GetMapping("/rams/getAll")
-    public List<RamEntity> getAll() {
-        return ramService.findAll();
+    public RamResponse getAll() {
+        return new RamResponse(RamMapper.getInstance().toListDTO(ramService.findAll()));
     }
 
     @GetMapping("auth/rams")

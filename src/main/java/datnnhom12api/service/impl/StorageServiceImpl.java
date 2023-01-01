@@ -75,4 +75,11 @@ public class StorageServiceImpl implements StorageService {
         storageRepository.delete(storageEntity);
         return storageEntity;
     }
+
+    @Override
+    public List<StorageEntity> findAll() {
+        return storageRepository.findAll();
+    }
+
+
 }

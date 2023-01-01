@@ -19,4 +19,6 @@ public interface CardService {
     CardEntity update(Long id, CardRequest post) throws CustomException;
 
     CardEntity delete(Long id) throws CustomException;
+
+    List<CardEntity> findAll();
 }

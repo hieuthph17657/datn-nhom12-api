@@ -22,6 +22,10 @@ import javax.validation.Valid;
 public class CardController {
     @Autowired
     private CardService cardService;
+    @GetMapping("/getAll")
+    public CardResponse getAll() {
+        return new CardResponse(CardMapper.getInstance().toListDTO(cardService.findAll()));
+    }
 
     @GetMapping
     public CardResponse index(@Valid CardPaginationrequest request, BindingResult bindingResult) throws CustomValidationException {

@@ -22,9 +22,9 @@ public class AccessoryController {
     @Autowired
     AccessoryService accessoryService;
 
-    @GetMapping("/api/auth/accessory/getAll")
-    public List<AccessoryEntity> getAll() {
-        return accessoryService.findAll();
+    @GetMapping("/api/accessory/getAll")
+    public accessoryResponse getAll() {
+        return new accessoryResponse(accessoryMapper.getInstance().toListDTO(accessoryService.findAll()));
     }
 
     @GetMapping("/api/auth/accessory")

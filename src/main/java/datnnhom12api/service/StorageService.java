@@ -1,6 +1,7 @@
 package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
+import datnnhom12api.entity.ScreenEntity;
 import datnnhom12api.entity.StorageEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.StorageRequest;
@@ -18,4 +19,6 @@ public interface StorageService {
     StorageEntity update(Long id, StorageRequest request) throws CustomException;
 
     StorageEntity delete(Long id) throws CustomException;
+
+    List<StorageEntity> findAll();
 }

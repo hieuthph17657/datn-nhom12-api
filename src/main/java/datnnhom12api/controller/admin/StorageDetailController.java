@@ -6,11 +6,13 @@ import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
 import datnnhom12api.mapper.CartMapper;
 import datnnhom12api.mapper.StorageDetailMapper;
+import datnnhom12api.mapper.StorageMapper;
 import datnnhom12api.paginationrequest.StoragePaginationRequest;
 import datnnhom12api.request.CartRequest;
 import datnnhom12api.request.StorageDetailRequest;
 import datnnhom12api.response.CartResponse;
 import datnnhom12api.response.StorageDetailResponse;
+import datnnhom12api.response.StorageResponse;
 import datnnhom12api.service.StorageDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,11 @@ public class StorageDetailController {
 
     @Autowired
     private StorageDetailService storageDetailService;
+
+    @GetMapping("/getAll")
+    public StorageDetailResponse getAll() {
+        return new StorageDetailResponse(StorageDetailMapper.getInstance().toListDTO(storageDetailService.findAll()));
+    }
 
     @GetMapping
     public StorageDetailResponse index(@Valid StoragePaginationRequest request, BindingResult bindingResult) throws CustomValidationException {

@@ -25,8 +25,8 @@ public class ManufactureController {
     private ManufactureService manufactureService;
 
     @GetMapping("/manufactures/getAll")
-    public List<ManufactureEntity> getAll() {
-        return manufactureService.findAll();
+    public ManufactureResponse getAll() {
+        return new ManufactureResponse(ManufactureMapper.getInstance().toListDTO(manufactureService.findAll()));
     }
 
 

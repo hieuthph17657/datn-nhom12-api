@@ -74,4 +74,9 @@ public class StorageDetailServiceImpl implements StorageDetailService {
         storageDetailRepository.delete(storageDetailEntity);
         return storageDetailEntity;
     }
+
+    @Override
+    public List<StorageDetailEntity> findAll() {
+        return storageDetailRepository.findAll();
+    }
 }
