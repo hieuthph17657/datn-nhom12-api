@@ -96,6 +96,15 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
     @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.phone = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4)")
     Page<OrderEntity> betweenDateAndPhoneAndName(String searchName, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.phone = ?2")
+    Page<OrderEntity> searchNameAndPhone(String searchName, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
+
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.payment = ?2")
+    Page<OrderEntity> searchNameAndPayment(String searchName, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
+
+    @Query("SELECT c FROM OrderEntity c WHERE c.phone like %?1% AND c.payment = ?2")
+    Page<OrderEntity> searchPhoneAndPayment(String searchPhone, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
+
     @Query("SELECT new StatisticalMonthDTO(extract(month from c.updatedAt), sum (c.total))  FROM OrderEntity c WHERE c.status='DA_NHAN' " +
             "AND extract(YEAR from c.updatedAt) = :year group by extract(month from c.updatedAt)")
     List<StatisticalMonthDTO> statisticalByYear(@Param("year") Integer year);

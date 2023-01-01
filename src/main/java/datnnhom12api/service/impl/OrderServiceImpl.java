@@ -243,6 +243,12 @@ public class OrderServiceImpl implements OrderService {
             return orderRepository.betweenDateAndNameAndPayment(searchPayment, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
         } else if (!searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
             return orderRepository.betweenDateAndPhoneAndName(searchName, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchName.isEmpty() && !searchPhone.isEmpty()) {
+            return orderRepository.searchNameAndPhone(searchName, searchPhone, specifications, pageable);
+        } else if (!searchName.isEmpty() && !searchPayment.isEmpty()) {
+            return orderRepository.searchNameAndPayment(searchName, searchPayment, specifications, pageable);
+        } else if (!searchPhone.isEmpty() && !searchPayment.isEmpty()) {
+            return orderRepository.searchPhoneAndPayment(searchPhone, searchPayment, specifications, pageable);
         } else if (!searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
             return orderRepository.betweenDateAndPhone(searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
         } else if (!searchPayment.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
