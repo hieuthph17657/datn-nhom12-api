@@ -28,8 +28,8 @@ public class CategoryController {
     CategoryService cateService;
 
     @GetMapping("/api/category/getAll")
-    public List<CategoryEntity> getAll() {
-        return cateService.findAll();
+    public CategoryResponse getAll() {
+        return new CategoryResponse(CategoryMapper.getInstance().toListDTO( cateService.findAll()));
     }
 
     @GetMapping("/api/staff/category")

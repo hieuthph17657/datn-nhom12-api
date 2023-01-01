@@ -25,8 +25,8 @@ public class BatteryChargerController {
     private BatteryChargerService batteryChargerService;
 
     @GetMapping("/api/batteryCharger/getAll")
-    public List<BatteryChargerEntity> getAll() {
-        return batteryChargerService.findAll();
+    public BatteryChargerResponse getAll() {
+        return new BatteryChargerResponse(BatteryChargerMapper.getInstance().toListDTO(batteryChargerService.findAll()));
     }
 
     @GetMapping("/api/auth/batteryCharger")

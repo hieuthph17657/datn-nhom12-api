@@ -74,4 +74,8 @@ public class CardServiceImpl implements CardService {
         cardRepository.delete(cardEntity);
         return cardEntity;
     }
+    @Override
+    public List<CardEntity> findAll(){
+        return cardRepository.findAll();
+    }
 }

@@ -26,8 +26,8 @@ public class WinController {
     private WinService winService;
 
     @GetMapping("/wins/getAll")
-    public List<WinEntity> getAll() {
-        return winService.findAll();
+    public WinResponse getAll() {
+        return new WinResponse(WinMapper.getInstance().toListDTO(winService.findAll()));
     }
 
     @GetMapping("/auth/wins")

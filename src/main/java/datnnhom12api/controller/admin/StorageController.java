@@ -1,8 +1,10 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.dto.StorageDTO;
 import datnnhom12api.entity.StorageEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
+import datnnhom12api.mapper.ScreenMapper;
 import datnnhom12api.mapper.StorageMapper;
 import datnnhom12api.paginationrequest.StoragePaginationRequest;
 import datnnhom12api.request.StorageRequest;
@@ -22,6 +24,11 @@ public class StorageController {
 
     @Autowired
     private StorageService storageService;
+
+    @GetMapping("/getAll")
+    public StorageResponse getAll() {
+        return new StorageResponse(StorageMapper.getInstance().toListDTO(storageService.findAll()));
+    }
 
     @GetMapping
     public StorageResponse index(@Valid StoragePaginationRequest request, BindingResult bindingResult) throws CustomValidationException {

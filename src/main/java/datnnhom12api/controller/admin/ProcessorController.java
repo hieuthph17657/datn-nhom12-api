@@ -38,8 +38,8 @@ public class ProcessorController {
     private ProcessorService processorService;
 
     @GetMapping("/processors/getAll")
-    public List<ProcessorEntity> getAll() {
-        return processorService.findAll();
+    public ProcessorResponse getAll() {
+        return new ProcessorResponse(ProcessorMapper.getInstance().toListDTO(processorService.findAll()));
     }
 
     @GetMapping("auth/processors")

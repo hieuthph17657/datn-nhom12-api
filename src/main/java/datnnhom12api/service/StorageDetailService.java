@@ -18,4 +18,6 @@ public interface StorageDetailService {
     StorageDetailEntity update(Long id, StorageDetailRequest request) throws CustomException;
 
     StorageDetailEntity delete(Long id) throws CustomException;
+
+    List<StorageDetailEntity> findAll();
 }

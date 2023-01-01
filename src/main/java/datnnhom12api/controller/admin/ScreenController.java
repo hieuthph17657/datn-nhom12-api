@@ -32,8 +32,8 @@ public class ScreenController {
     private ScreenService screenService;
 
     @GetMapping("/screens/getAll")
-    public List<ScreenEntity> getAll() {
-        return screenService.findAll();
+    public ScreenResponse getAll() {
+        return new ScreenResponse(ScreenMapper.getInstance().toListDTO(screenService.findAll()));
     }
 
 
