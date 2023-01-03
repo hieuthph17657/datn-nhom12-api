@@ -34,5 +34,7 @@ public class OrderRequest {
 
     private String note;
 
+    private double shippingFree;
+
     private List<OrderDetailRequest> orderDetails;
 }

@@ -163,8 +163,17 @@ public class OrderServiceImpl implements OrderService {
             for (OrderDetailEntity od : list) {
                 count += od.getTotal();
             }
-            orderEntity.setTotal(count);
+            orderEntity.setTotal(count + orderRequest.getShippingFree());
             this.orderRepository.save(orderEntity);
+
+            System.out.println("cập nhật lại lịch sử đơn hàng");
+            CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+            orderHistory.setStatus(orderRequest.getStatus());
+            orderHistory.setOrderId(orderEntity);
+            orderHistory.setTotal(orderEntity.getTotal());
+            orderHistory.setVerifier(authentication1.getUsername());
+            this.orderHistoryRepository.save(orderHistory);
         } else {
             List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
             list.forEach(

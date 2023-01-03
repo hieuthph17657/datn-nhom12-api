@@ -17,11 +17,9 @@ public class ExchangeDTO extends BaseDTO implements Serializable {
 
     private Long id;
 
-    private Long orderId;
+    private OrderDTO orderId;
 
     private String description;
 
     private ReturnStatus status;
-
-//    private List<ReturnDetailDTO> returnDetailEntities;
 }
