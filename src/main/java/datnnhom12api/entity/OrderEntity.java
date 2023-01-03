@@ -56,6 +56,7 @@ public class OrderEntity extends BaseEntity {
         this.customerName = request.getCustomerName().equals(" ") ? " " : request.getCustomerName();
         this.note = request.getNote();
         this.status = request.getStatus();
+        this.shippingFree = request.getShippingFree();
     }
 }
 

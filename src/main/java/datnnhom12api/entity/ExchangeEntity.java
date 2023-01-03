@@ -23,8 +23,9 @@ public class ExchangeEntity extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_id")
-    private Long orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity orderId;
 
     @Column(name = "description")
     private String description;
@@ -37,8 +38,6 @@ public class ExchangeEntity extends BaseEntity {
     List<ExchangeDetailEntity> returnDetailEntities;
 
     public void setData(ExchangeRequest2 request){
-
-        this.orderId = request.getOrderId();
         this.description=request.getDescription();
         this.status = request.getStatus();
     }

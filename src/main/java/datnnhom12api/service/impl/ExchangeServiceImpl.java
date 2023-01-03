@@ -7,10 +7,7 @@ import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ExchangeDetailEntity;
 import datnnhom12api.entity.ExchangeEntity;
 import datnnhom12api.exceptions.CustomException;
-import datnnhom12api.repository.OrderDetailRepository;
-import datnnhom12api.repository.ProductRepository;
-import datnnhom12api.repository.ExchangeDetailRepository;
-import datnnhom12api.repository.ExchangeRepository;
+import datnnhom12api.repository.*;
 import datnnhom12api.request.ExchangeDetailRequest;
 import datnnhom12api.request.ExchangeRequest2;
 import datnnhom12api.service.ReturnService;
@@ -48,10 +45,14 @@ public class ExchangeServiceImpl implements ReturnService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @Override
     public ExchangeEntity insert(ExchangeRequest2 request) throws CustomException {
         ExchangeEntity exchangeEntity = new ExchangeEntity();
         exchangeEntity.setData(request);
+        exchangeEntity.setOrderId(this.orderRepository.getById(request.getOrderId()));
         this.exchangeRepository.save(exchangeEntity);
         List<ExchangeDetailRequest> list = request.getReturnDetailEntities();
         Long id = exchangeEntity.getId();
