@@ -181,6 +181,15 @@ public class OrderController {
         List<OrderExchangeDTO> orderExchangeDTOS = this.orderService.updateWhenExchange(request, orderId);
         return orderExchangeDTOS;
     }
+
+    //cập nhật lại hoá đơn chi tiết khi đổi hàng (đã huỷ)
+    @PutMapping("staff/orders/update/exchange/{orderId}/cancel")
+    public List<OrderExchangeDTO> confirmCancelOrderWhenExchange(@RequestBody List<OrderExchangeDTO> request,
+                                                           @PathVariable("orderId")Long orderId) {
+        List<OrderExchangeDTO> orderExchangeDTOS = this.orderService.updateWhenExchangeCancel(request, orderId);
+        return orderExchangeDTOS;
+    }
+
     @PostMapping("/auth/orders/image")
     public ImageDTO addImage(@RequestBody ImageOrderRequest request) {
         ImageDTO image = this.orderService.addImageOrder(request);

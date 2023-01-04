@@ -10,6 +10,8 @@ import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
 import datnnhom12api.utils.support.OrderDetailStatus;
+import datnnhom12api.utils.support.ReturnDetailStatus;
+import datnnhom12api.utils.support.ReturnStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +56,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ImageRepository imageRepository;
+
+    @Autowired
+    private ExchangeDetailRepository exchangeDetailRepository;
+
+    @Autowired
+    private ExchangeRepository exchangeRepository;
 
     @Override
     public OrderEntity save(OrderRequest orderRequest) throws CustomException {
@@ -541,6 +549,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderExchangeDTO> updateWhenExchangeCancel(List<OrderExchangeDTO> request, Long orderId) {
+        request.forEach(orderExchangeDTO -> {
+            OrderDetailEntity orderDetail = this.orderDetailRepository.getById(Long.valueOf(orderExchangeDTO.getIsCheck()));
+            orderDetail.setIsCheck(3);
+            orderDetail.setTotal(0);
+            this.orderDetailRepository.save(orderDetail);
+            if(orderExchangeDTO.getIsBoolean().equals("false")){
+                ExchangeDetailEntity exchangeDetail = this.exchangeDetailRepository.getByOrderChange(Math.toIntExact(orderDetail.getId()));
+                exchangeDetail.setStatus(ReturnDetailStatus.KHONG_XAC_NHAN);
+                this.exchangeDetailRepository.save(exchangeDetail);
+                ExchangeEntity exchangeEntity = this.exchangeRepository.getById(exchangeDetail.getExchange().getId());
+                exchangeEntity.setStatus(ReturnStatus.DA_XU_LY);
+                this.exchangeRepository.save(exchangeEntity);
+            }
+        });
+        return null;
+    }
+
+    @Override
     public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId) {
 
 
@@ -579,7 +606,7 @@ public class OrderServiceImpl implements OrderService {
                     orderDetail.setIsCheck(1);
                     this.orderDetailRepository.save(orderDetail);
                 } else if (orderDetailEntity.getQuantity() > 0 && orderDetailEntity.getQuantity() > orderDetail.getQuantity()) {
-                    int quantity = Integer.valueOf(orderDetailEntity.getQuantity())  - Integer.valueOf(orderDetail.getQuantity()) ;
+                    int quantity = Integer.valueOf(orderDetailEntity.getQuantity()) - Integer.valueOf(orderDetail.getQuantity());
 
                     orderDetailEntity.setTotal(
                             orderDetailEntity.getProduct().getPrice() * quantity);
@@ -672,5 +699,6 @@ public class OrderServiceImpl implements OrderService {
         SumProductDTO order = this.orderRepository.numberOfProductsSold();
         return order;
     }
+
 
 }
