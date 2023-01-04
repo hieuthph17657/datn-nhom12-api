@@ -66,4 +66,6 @@ public interface OrderService {
     OrderEntity updateNoteRequest(Long id, UpdateNoteRequest request);
 
     SumProductDTO numberOfProductsSold();
+
+    List<OrderExchangeDTO> updateWhenExchangeCancel(List<OrderExchangeDTO> request, Long orderId);
 }

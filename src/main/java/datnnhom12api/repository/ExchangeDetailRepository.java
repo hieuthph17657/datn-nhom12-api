@@ -24,4 +24,8 @@ public interface ExchangeDetailRepository extends JpaRepository<ExchangeDetailEn
             " inner  join ExchangeEntity r on r.id = rd.exchange.id where  rd.status= 'DA_XAC_NHAN' and rd.isCheck='1'" +
             "group by p.id")
     List<InventoryDTO> getAllInventoryDTO();
+
+
+    @Query("select o from ExchangeDetailEntity o where o.orderChange = :id")
+    ExchangeDetailEntity getByOrderChange(Integer id);
 }
