@@ -63,4 +63,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     @Query("SELECT p FROM ProductEntity p inner join  ProductCategoryEntity  pc " +
             "on pc.product.id = p.id inner join CategoryEntity  c on c.id = pc.category.id where c.id = :id")
     List<ProductEntity> findProductByCategory(@Param("id") Long id);
+
+    @Query("SELECT c FROM ProductEntity c WHERE c.status='ACTIVE'")
+  List<ProductEntity> findProductByStatus();
 }

@@ -555,6 +555,10 @@ public class OrderServiceImpl implements OrderService {
                 OrderDetailEntity orderDetail = this.orderDetailRepository.getById(Long.valueOf(orderExchangeDTO.getIsCheck()));
                 //sản phẩm trước đó
                 OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(Long.valueOf(orderDetail.getIsCheck()));
+                System.out.println("----- sản phẩm trước đó:");
+                System.out.println(orderDetailEntity.getId());
+                System.out.println(orderDetailEntity.getProduct().getId());
+                System.out.println(orderDetailEntity.getQuantity());
 
                 //trừ số lượng sản phẩm nếu đổi hàng thành công
                 ProductEntity product = this.productRepository.getById(orderExchangeDTO.getProductId());
@@ -568,22 +572,24 @@ public class OrderServiceImpl implements OrderService {
                 }
 
                 if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
+                    System.out.println("------ số lượng sản phảm bằng nhau -------");
                     orderDetailEntity.setTotal(0);
                     orderDetailEntity.setQuantity(0);
                     this.orderDetailRepository.save(orderDetailEntity);
                     orderDetail.setIsCheck(1);
                     this.orderDetailRepository.save(orderDetail);
                 } else if (orderDetailEntity.getQuantity() > 0 && orderDetailEntity.getQuantity() > orderDetail.getQuantity()) {
-                    orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetail.getQuantity());
+                    int quantity = Integer.valueOf(orderDetailEntity.getQuantity())  - Integer.valueOf(orderDetail.getQuantity()) ;
+
                     orderDetailEntity.setTotal(
-                            orderDetailEntity.getProduct().getPrice() * (orderDetailEntity.getQuantity() - orderDetail.getQuantity()));
+                            orderDetailEntity.getProduct().getPrice() * quantity);
+                    System.out.println("Tổng tiền hoá đơn chi tiết: " + (orderDetailEntity.getProduct().getPrice() * (orderDetailEntity.getQuantity() - orderDetail.getQuantity())));
+                    orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetail.getQuantity());
                     this.orderDetailRepository.save(orderDetailEntity);
                     orderDetail.setIsCheck(1);
                     this.orderDetailRepository.save(orderDetail);
                 }
             }
-
-
         });
         OrderEntity order = this.orderRepository.getById(orderId);
         double count = 0;
