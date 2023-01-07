@@ -96,6 +96,35 @@ public class OrderServiceImpl implements OrderService {
 
         return orderEntity;
     }
+    @Override
+    public OrderEntity saveNoLogin(OrderRequest orderRequest) throws CustomException {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setData(orderRequest);
+        UserEntity userEntity = null;
+        orderEntity.setUser(userEntity);
+        orderEntity = orderRepository.save(orderEntity);
+        List<OrderDetailRequest> list = orderRequest.getOrderDetails();
+        for (OrderDetailRequest orderDetailRequest : list) {
+            OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
+            orderDetailEntity.setData(orderDetailRequest);
+            orderDetailEntity.setProduct(this.productRepository.getById(orderDetailRequest.getProductId()));
+            orderDetailEntity.setOrder(orderEntity);
+            orderDetailRepository.save(orderDetailEntity);
+        }
+        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+            System.out.println(orderDetailEntity.getProductId());
+            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+            this.productRepository.save(product);
+        }
+        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+        orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
+        orderHistory.setOrderId(orderEntity);
+        orderHistory.setTotal(orderEntity.getTotal());
+        orderHistory.setVerifier(null);
+        this.orderHistoryRepository.save(orderHistory);
+        return orderEntity;
+    }
 
     @Override
     public OrderEntity saveOfUser(OrderRequest orderRequest) throws CustomException {

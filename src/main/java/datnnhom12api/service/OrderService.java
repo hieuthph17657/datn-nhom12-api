@@ -17,6 +17,8 @@ public interface OrderService {
 
     OrderEntity save(OrderRequest order) throws CustomException;
 
+    OrderEntity saveNoLogin(OrderRequest orderRequest) throws CustomException;
+
     OrderEntity saveOfUser(OrderRequest order) throws CustomException;
 
     OrderEntity edit(Long id, OrderRequest order) throws CustomException;
