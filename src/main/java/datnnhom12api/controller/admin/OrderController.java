@@ -54,6 +54,15 @@ public class OrderController {
         OrderEntity orderEntity = orderService.save(orderRequest);
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
+    @PostMapping(("/orders"))
+    public OrderResponse createNoLogin(@Valid @RequestBody OrderRequest orderRequest,
+                                BindingResult bindingResult) throws CustomException, CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        OrderEntity orderEntity = orderService.saveNoLogin(orderRequest);
+        return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
+    }
 
     @PostMapping("auth/orders/user")
     public OrderResponse createOfUser(@Valid @RequestBody OrderRequest orderRequest,
