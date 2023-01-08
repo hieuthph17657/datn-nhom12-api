@@ -22,6 +22,8 @@ public interface ProductService {
 
     Page<ProductEntity> paginate(int page, int limit, List<Filter> filters, String searchProductKey, String searchImei, String searchStatus, String searchPrice, Map<String, String> sortBy);
 
+    Page<ProductEntity> indexProductsDiscount(int page, int limit, List<Filter> filters, Map<String, String> sortBy);
+
     ProductEntity create(ProductEntity productEntity);
 
     ProductDTOById findById(Long id);

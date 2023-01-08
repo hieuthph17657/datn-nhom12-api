@@ -46,8 +46,19 @@ public class ProductController {
         return new ProductResponse(ProductMapper.toPageDTO(page));
     }
 
+    @GetMapping("/indexProductsDiscount")
+    public ProductResponse indexProductsDiscount(@Valid ProductPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        Page<ProductEntity> page = productService.indexProductsDiscount(
+                request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        return new ProductResponse(ProductMapper.toPageDTO(page));
+    }
+
     @GetMapping("/products/all")
-    public ProductResponse getAll(){
+    public ProductResponse getAll() {
         List<ProductEntity> product = this.productRepository.findAll();
         return new ProductResponse(ProductMapper.toListDTO(product));
     }
@@ -55,21 +66,22 @@ public class ProductController {
     @GetMapping("/products/getAllProAccess")
     public ProductFilterResponse getAllProAccess(@Valid ProductPaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
-            if (bindingResult.hasErrors()) {
-                throw new CustomValidationException(bindingResult.getAllErrors());
-            }
-            Page<ProductEntity> page = productService.paginate(
-                    request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
-            return new ProductFilterResponse(ProductMapper.toPageDTOFilter(page));
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
         }
+        Page<ProductEntity> page = productService.paginate(
+                request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
+        return new ProductFilterResponse(ProductMapper.toPageDTOFilter(page));
+    }
 
     @GetMapping("/products/allProDiscount")
-    public ProductDiscountResponse getAllProDiscount(){
+    public ProductDiscountResponse getAllProDiscount() {
         List<ProductEntity> product = this.productRepository.findProductByStatus();
         return new ProductDiscountResponse(ProductMapper.getInstance().toListProDiscountDTO(product));
     }
+
     @GetMapping("/products/allProWithDiscount")
-    public ProductResponse getAllProWithDiscount(){
+    public ProductResponse getAllProWithDiscount() {
         List<ProductEntity> product = this.productRepository.getProductWithDiscount();
         return new ProductResponse(ProductMapper.getInstance().toListDTO(product));
     }
@@ -107,11 +119,11 @@ public class ProductController {
     }
 
     @PutMapping("/products/noDiscountProduct/{id}/{idPro}")
-    public  ProductResponse nodiscount(
+    public ProductResponse nodiscount(
             @PathVariable("id") Long id,
             @PathVariable("idPro") Long idPro
     ) throws CustomValidationException, CustomException {
-        ProductEntity productEntity = productService.noDiscount(id,idPro );
+        ProductEntity productEntity = productService.noDiscount(id, idPro);
         return new ProductResponse(ProductMapper.getInstance().toDTO(productEntity));
     }
 
@@ -155,8 +167,8 @@ public class ProductController {
 
     //lấy ra những sản phẩm cùng loại
     @GetMapping("/auth/product/{id}/category")
-   public List<ProductDTOById> getProductByCategory(@PathVariable("id")Long id){
+    public List<ProductDTOById> getProductByCategory(@PathVariable("id") Long id) {
         List<ProductDTOById> product = this.productService.findProductByCategory(id);
-        return  product;
-   }
+        return product;
+    }
 }

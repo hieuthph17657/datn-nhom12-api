@@ -162,7 +162,7 @@ public class ProductServiceImpl implements ProductService {
 //        if (productEntity.getId() != null) {
 //            imageRepository.deleteAllByProductId(productEntity.getId());
 //        }
-         this.productCategoryRepository.deleteAllProductCategoryByProductId(id);
+        this.productCategoryRepository.deleteAllProductCategoryByProductId(id);
         productRequest.getCategoryId().forEach(cate -> {
             ProductCategoryEntity productCategoryE = new ProductCategoryEntity();
             productCategoryE.setProduct(productRepository.getById(id));
@@ -183,8 +183,6 @@ public class ProductServiceImpl implements ProductService {
         ManufactureEntity manufacture = this.manufactureRepository.getById(productRequest.getManufactureId());
         productEntity.setManufacture(manufacture);
         productEntity = productRepository.save(productEntity);
-
-
 
 
         productColorRepository.deleteAllProductColorByProductId(id);
@@ -264,6 +262,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductEntity> indexProductsDiscount(int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
+        for (String field : sortBy.keySet()) {
+            orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
+        }
+        Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(page, limit, sort);
+        return productRepository.findProductsHasDiscount(pageable);
+    }
+
+    @Override
     public ProductEntity create(ProductEntity productEntity) {
         return productRepository.save(productEntity);
     }
@@ -320,7 +329,7 @@ public class ProductServiceImpl implements ProductService {
             if (product.getDiscount() != null && product.getId() == idPro) {
                 productEntity = productEntityOptional.get();
                 productEntity.setDiscount(null);
-                productEntity.setPrice(Math.ceil(productEntity.getPrice()/((100- discountEntity.getRatio()) / 100)));
+                productEntity.setPrice(Math.ceil(productEntity.getPrice() / ((100 - discountEntity.getRatio()) / 100)));
                 productEntity = productRepository.save(productEntity);
             }
         }
@@ -428,7 +437,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTOById> findProductByCategory(Long id) {
         List<ProductEntity> list = this.productRepository.findProductByCategory(id);
         ModelMapper modelMapper = new ModelMapper();
-        List<ProductDTOById> productDTO = list.stream().map(p-> modelMapper.map(p, ProductDTOById.class))
+        List<ProductDTOById> productDTO = list.stream().map(p -> modelMapper.map(p, ProductDTOById.class))
                 .collect(Collectors.toList());
         return productDTO;
     }
