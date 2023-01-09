@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
-    @Query("SELECT c FROM UserEntity c WHERE c.username = ?1")
+    @Query("SELECT c FROM UserEntity c WHERE c.username = ?1 and c.status = 1")
     UserEntity findByUsername(String username);
 
     @Query("select u from UserEntity u join u.roles r where r.role = 'CUSTOMER' and u.username like %?1% and u.status = ?2")
