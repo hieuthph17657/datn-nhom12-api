@@ -43,6 +43,8 @@ public interface OrderService {
 
     List<OrderEntity> findUserName(String username);
 
+    List<OrderEntity> findPhone(String phone);
+
     List<OrderEntity> findByDate(String createdAt);
 
     List<OrderDetailEntity> createOrderDetail(List<ExchangeRequest> exchangeRequest);

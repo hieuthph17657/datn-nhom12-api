@@ -477,6 +477,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findUserName(username);
     }
 
+    @Override
+    public List<OrderEntity> findPhone(String phone) {
+        return orderRepository.findPhone(phone);
+    }
+
     public List<OrderEntity> findByDate(String createdAt) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (createdAt == null || createdAt == "" || createdAt.isEmpty()) {

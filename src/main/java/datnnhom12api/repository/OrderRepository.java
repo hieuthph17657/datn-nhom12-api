@@ -22,6 +22,9 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
     @Query("SELECT o FROM OrderEntity o WHERE o.user.username=?1 ORDER BY o.id desc ")
     public List<OrderEntity> findUserName(String username);
 
+    @Query("SELECT o FROM OrderEntity o WHERE o.phone=?1 ORDER BY o.id desc ")
+    public List<OrderEntity> findPhone(String phone);
+
     @Query("SELECT o FROM OrderEntity o WHERE o.createdAt=?1 ORDER BY o.id desc")
     public List<OrderEntity> findByDate(LocalDateTime createdAt);
 
