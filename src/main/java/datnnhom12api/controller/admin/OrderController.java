@@ -154,6 +154,11 @@ public class OrderController {
         List<OrderEntity> list = orderService.findUserName(username);
         return list;
     }
+    @GetMapping("/auth/orders/listByPhone/{phone}")
+    public List<OrderEntity> getByPhone(@PathVariable("phone") String phone) throws CustomException {
+        List<OrderEntity> list = orderService.findPhone(phone);
+        return list;
+    }
 
     @GetMapping("/auth/orders/list/date/{createdAt}")
     public List<OrderEntity> findByDate(@PathVariable("createdAt") String createdAt) throws CustomException {
