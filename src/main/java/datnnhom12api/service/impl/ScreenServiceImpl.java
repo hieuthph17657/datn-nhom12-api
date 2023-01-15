@@ -79,7 +79,7 @@ public class ScreenServiceImpl implements ScreenService {
             throw new CustomException(403, "không tìm thấy id danh mục muốn sửa");
         }
         ScreenEntity screenEntity = screenEntityOptional.get();
-        screenEntity.setStatus(ScreenStatus.ACTIVE);
+        screenEntity.setStatus("ACTIVE");
         screenEntity = screenRepository.save(screenEntity);
         return screenEntity;
     }
@@ -94,7 +94,7 @@ public class ScreenServiceImpl implements ScreenService {
             throw new CustomException(403, "không tìm thấy bản ghi muốn sửa");
         }
         ScreenEntity screenEntity = screenEntityOptional.get();
-        screenEntity.setStatus(ScreenStatus.INACTIVE);
+        screenEntity.setStatus("INACTIVE");
         screenEntity = screenRepository.save(screenEntity);
         return screenEntity;
     }

@@ -51,6 +51,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     @Query("SELECT p FROM ProductEntity p, CategoryEntity c where p.price >= ?2 and p.price <= ?3 and (p.name like %?1% or c.name like %?1% or p.manufacture.name like %?1%)")
     Page<ProductEntity> findProductByKeyDontStatusAndImei(String searchProductKey, Double searchPrice, Double endPrice, Specification<ProductEntity> specifications, Pageable pageable);
 
+    @Query("SELECT p FROM ProductEntity p where p.price >= ?1 and p.price <= ?2 and p.status = ?3")
+    Page<ProductEntity> findProductByPriceAndStatus(Double searchPrice, Double endPrice, String status, Specification<ProductEntity> specifications, Pageable pageable);
+
+    @Query("SELECT p FROM ProductEntity p where p.imei = ?1 and p.status = ?2")
+    Page<ProductEntity> findProductByImeiAndStatus(String searchImei, String status, Specification<ProductEntity> specifications, Pageable pageable);
+
+    @Query("SELECT p FROM ProductEntity p, CategoryEntity c where (p.name like %?1% or c.name like %?1% or p.manufacture.name like %?1%) and p.status = ?2")
+    Page<ProductEntity> findProductByProductKeyAndStatus(String searchProductKey, String status, Specification<ProductEntity> specifications, Pageable pageable);
+
     @Query("SELECT p FROM ProductEntity p, CategoryEntity c where p.name like %?1% or c.name like %?1% or p.manufacture.name like %?1%")
     Page<ProductEntity> findProductByKeyDontPriceAndStatusAndImei(String searchProductKey, Specification<ProductEntity> specifications, Pageable pageable);
 
@@ -66,7 +75,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     List<ProductEntity> findProductByCategory(@Param("id") Long id);
 
     @Query("SELECT c FROM ProductEntity c WHERE c.status='ACTIVE'")
-    List<ProductEntity> findProductByStatus();
+    Page<ProductEntity> findProductByStatus(Specification<ProductEntity> specifications, Pageable pageable);
 
     @Query("SELECT p FROM ProductEntity p WHERE p.discount is not null")
     Page<ProductEntity> findProductsHasDiscount(Pageable pageable);

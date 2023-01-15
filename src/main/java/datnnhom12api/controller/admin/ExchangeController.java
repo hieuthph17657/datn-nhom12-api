@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ExchangeController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<ExchangeEntity> page = returnService.paginate(request.getPage(), request.getLimit(),
+        Page<ExchangeEntity> page = returnService.paginate(request.getSearchName(), request.getSearchPhone(), request.getPage(), request.getLimit(),
                 request.getFilters(), request.getOrders());
         return new ReturnResponse(ExchangeMapper.getInstance().toPageDTO(page));
     }
@@ -66,26 +67,22 @@ public class ExchangeController {
 
 
     @GetMapping("/auth/returns/{id}/detail")
-    public ReturnResponse getByIdReturnId(@PathVariable("id")Long id) throws CustomException {
+    public ReturnResponse getByIdReturnId(@PathVariable("id") Long id) throws CustomException {
         ExchangeEntity exchangeEntity = this.returnService.getById(id);
         return new ReturnResponse(ExchangeMapper.getInstance().toDTO(exchangeEntity));
     }
 
     @GetMapping("/returns/{id}")
-    public List<ExchangeDetailDTO> findReturnById (@PathVariable("id") Long id)  throws CustomException {
-        List<ExchangeDetailDTO>  returnDetailEntities = returnService.findById(id);
+    public List<ExchangeDetailDTO> findReturnById(@PathVariable("id") Long id) throws CustomException {
+        List<ExchangeDetailDTO> returnDetailEntities = returnService.findById(id);
         return returnDetailEntities;
     }
 
     @PutMapping("/{id}/updateReturnDetails")
-    public UpdateReturnDetailDTO updateByReturnDetail(@PathVariable("id")Long id,@RequestBody ExchangeDetailRequest exchangeDetailRequest){
+    public UpdateReturnDetailDTO updateByReturnDetail(@PathVariable("id") Long id, @RequestBody ExchangeDetailRequest exchangeDetailRequest) {
         UpdateReturnDetailDTO returnDetailDTO = this.returnService.updateByReturnDetail(id, exchangeDetailRequest);
-        return  returnDetailDTO;
+        return returnDetailDTO;
     }
-
-
-
-
 
 
 }

@@ -46,8 +46,7 @@ public class ProductRequest {
 
     private Integer warrantyPeriod;
 
-    @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private String status;
 
     private List<Long> categoryId;
 

@@ -19,6 +19,7 @@ public class ScreenPaginationRequest extends PaginationRequest {
     private String searchSize;
     private String searchScreenType;
     private String searchScreenTechnology;
+    private String searchStatus;
 
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
@@ -30,6 +31,9 @@ public class ScreenPaginationRequest extends PaginationRequest {
         }
         if (searchScreenTechnology != null && !searchScreenTechnology.isEmpty()) {
             list.add(new Filter("screenTechnology", QueryOperator.LIKE, searchScreenTechnology, null));
+        }
+        if (searchStatus != null && !searchStatus.isEmpty()) {
+            list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
         return list;
     }

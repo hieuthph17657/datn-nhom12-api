@@ -90,7 +90,7 @@ public class ScreenController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        post.setStatus(ScreenStatus.DRAFT);
+        post.setStatus("DRAFT");
         ScreenEntity postEntity = screenService.create(post);
         return new ScreenResponse(ScreenMapper.getInstance().toDTO(postEntity));
     }

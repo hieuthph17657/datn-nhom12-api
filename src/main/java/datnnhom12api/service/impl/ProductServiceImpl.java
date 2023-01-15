@@ -252,6 +252,12 @@ public class ProductServiceImpl implements ProductService {
             return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, ProductStatus.valueOf(searchStatus), specifications, pageable);
         } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
             return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else if (!searchPrice.isEmpty() && !searchStatus.isEmpty()) {
+            return productRepository.findProductByPriceAndStatus(Double.valueOf(searchPrice), endPrice, searchStatus, specifications, pageable);
+        }else if (!searchImei.isEmpty() && !searchStatus.isEmpty()) {
+            return productRepository.findProductByImeiAndStatus(searchImei, searchStatus, specifications, pageable);
+        }else if (!searchProductKey.isEmpty() && !searchStatus.isEmpty()) {
+            return productRepository.findProductByProductKeyAndStatus(searchProductKey, searchStatus, specifications, pageable);
         } else if ((searchProductKey != null) && (!searchProductKey.equals(""))) {
             return productRepository.findProductByKeyDontPriceAndStatusAndImei(searchProductKey, specifications, pageable);
         } else if ((searchPrice != null) && (!searchPrice.equals(""))) {
@@ -352,7 +358,7 @@ public class ProductServiceImpl implements ProductService {
             throw new CustomException(403, "không tìm thấy id sản phẩm muốn active");
         }
         ProductEntity productEntity = productEntityOptional.get();
-        productEntity.setStatus(ProductStatus.ACTIVE);
+        productEntity.setStatus("ACTIVE");
         productEntity = productRepository.save(productEntity);
         return productEntity;
     }
@@ -367,7 +373,7 @@ public class ProductServiceImpl implements ProductService {
             throw new CustomException(403, "không tìm thấy id sản phẩm muốn active");
         }
         ProductEntity productEntity = productEntityOptional.get();
-        productEntity.setStatus(ProductStatus.INACTIVE);
+        productEntity.setStatus("INACTIVE");
         productEntity = productRepository.save(productEntity);
         return productEntity;
     }
@@ -440,5 +446,18 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDTOById> productDTO = list.stream().map(p -> modelMapper.map(p, ProductDTOById.class))
                 .collect(Collectors.toList());
         return productDTO;
+    }
+
+    @Override
+    public Page<ProductEntity> findProductByStatus(int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
+        for (String field : sortBy.keySet()) {
+            orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
+        }
+        Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(page, limit, sort);
+        Specification<ProductEntity> specifications = ProductSpecifications.getInstance().getQueryResult(filters);
+
+        return productRepository.findProductByStatus(specifications, pageable);
     }
 }

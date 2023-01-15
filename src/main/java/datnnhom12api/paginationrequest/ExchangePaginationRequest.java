@@ -21,6 +21,10 @@ public class ExchangePaginationRequest extends PaginationRequest {
 
     private String check;
 
+    private String searchName;
+
+    private String searchPhone;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchStatus != null && !searchStatus.isEmpty()) {
