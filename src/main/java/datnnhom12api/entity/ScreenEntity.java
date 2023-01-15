@@ -57,8 +57,7 @@ public class ScreenEntity  extends BaseEntity {
     @Column(name = "contrast")
     private String contrast;
 
-    @Enumerated(EnumType.STRING)
-    private ScreenStatus status;
+    private String status;
 
     public void setData(ScreenRequest request) {
         this.contrast=request.getContrast();
@@ -72,8 +71,6 @@ public class ScreenEntity  extends BaseEntity {
         this.resolution = request.getResolution();
         this.screenTechnology = request.getScreenTechnology();
         this.size = request.getSize();
-        this.status = request.getStatus()
-                == ScreenStatus.DRAFT ? ScreenStatus.DRAFT
-                : ScreenStatus.ACTIVE ;
+        this.status = request.getStatus();
     }
 }

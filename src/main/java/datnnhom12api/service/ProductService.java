@@ -41,4 +41,6 @@ public interface ProductService {
     ProductEntity copyProduct(ProductRequest productRequest, Long id);
 
     List<ProductDTOById> findProductByCategory(Long id);
+
+    Page<ProductEntity> findProductByStatus(int page, int limit, List<Filter> filters, Map<String, String> sortBy);
 }

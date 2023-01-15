@@ -75,9 +75,9 @@ public class ProductController {
     }
 
     @GetMapping("/products/allProDiscount")
-    public ProductDiscountResponse getAllProDiscount() {
-        List<ProductEntity> product = this.productRepository.findProductByStatus();
-        return new ProductDiscountResponse(ProductMapper.getInstance().toListProDiscountDTO(product));
+    public ProductResponse getAllProDiscount(ProductPaginationRequest productPaginationRequest) {
+        Page<ProductEntity> product = this.productService.findProductByStatus(productPaginationRequest.getPage(), productPaginationRequest.getLimit(), productPaginationRequest.getFilters(), productPaginationRequest.getOrders());
+        return new ProductResponse(ProductMapper.getInstance().toPageDTO(product));
     }
 
     @GetMapping("/products/allProWithDiscount")

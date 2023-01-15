@@ -32,8 +32,7 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private String status;
 
     @Column(name = "imei")
     private String imei;
@@ -144,7 +143,7 @@ public class ProductEntity extends BaseEntity {
         this.length = request.getLength();
         this.height = request.getHeight();
         this.width = request.getWidth();
-        this.status = request.getStatus() == ProductStatus.DRAFT ? ProductStatus.DRAFT : ProductStatus.ACTIVE;
+        this.status = request.getStatus();
         this.imei = request.getImei();
         this.material = request.getMaterial();
         this.security = request.getSecurity();

@@ -65,7 +65,7 @@ public class ExchangeServiceImpl implements ReturnService {
             exchangeDetailEntity.setStatus(ReturnDetailStatus.YEU_CAU);
             exchangeDetailEntity.setOrderChange(item.getOrderChange());
             exchangeDetailEntity.setReason(item.getReason());
-            if(item.getIsCheck().equals("1")) {
+            if (item.getIsCheck().equals("1")) {
                 exchangeDetailEntity.setIsCheck("1");
             }
             this.exchangeDetailRepository.save(exchangeDetailEntity);
@@ -85,12 +85,12 @@ public class ExchangeServiceImpl implements ReturnService {
         ExchangeEntity exchangeEntity = returnEntityOptional.get();
         exchangeEntity.setStatus(post.getStatus());
 //        exchangeEntity.setIsCheck(post.getIsCheck());
-       List<ExchangeDetailEntity> returnDetailEntities = this.exchangeDetailRepository.findReturnByIds(exchangeEntity.getId());
-       post.getReturnDetailEntities().forEach(request -> {
-           ExchangeDetailEntity exchangeDetailEntity = this.exchangeDetailRepository.getById(request.getId());
-           exchangeDetailEntity.setStatus(request.getStatus());
-           this.exchangeDetailRepository.saveAll(returnDetailEntities);
-       });
+        List<ExchangeDetailEntity> returnDetailEntities = this.exchangeDetailRepository.findReturnByIds(exchangeEntity.getId());
+        post.getReturnDetailEntities().forEach(request -> {
+            ExchangeDetailEntity exchangeDetailEntity = this.exchangeDetailRepository.getById(request.getId());
+            exchangeDetailEntity.setStatus(request.getStatus());
+            this.exchangeDetailRepository.saveAll(returnDetailEntities);
+        });
 
 
 //       returnDetailEntities.forEach(returnDetailEntity -> {
@@ -102,7 +102,7 @@ public class ExchangeServiceImpl implements ReturnService {
     }
 
     @Override
-    public Page<ExchangeEntity> paginate(int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+    public Page<ExchangeEntity> paginate(String searchName, String searchPhone, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         for (String field : sortBy.keySet()) {
             orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
@@ -110,7 +110,15 @@ public class ExchangeServiceImpl implements ReturnService {
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<ExchangeEntity> specifications = ReturnSpecifications.getInstance().getQueryResult(filters);
-        return exchangeRepository.findAll(specifications, pageable);
+        if (!searchName.isEmpty() && !searchPhone.isEmpty()) {
+            return exchangeRepository.findByNameAndPhone(searchName, searchPhone, specifications, pageable);
+        } else if (!searchName.isEmpty()) {
+            return exchangeRepository.findByName(searchName, specifications, pageable);
+        } else if (!searchPhone.isEmpty()) {
+            return exchangeRepository.findByPhone(searchPhone, specifications, pageable);
+        } else {
+            return exchangeRepository.findAll(specifications, pageable);
+        }
     }
 
     @Override
@@ -135,7 +143,7 @@ public class ExchangeServiceImpl implements ReturnService {
         ExchangeDetailEntity exchangeDetailEntity = this.exchangeDetailRepository.getById(id);
         exchangeDetailEntity.setStatus(request.getStatus());
         this.exchangeDetailRepository.save(exchangeDetailEntity);
-        UpdateReturnDetailDTO returnDetailDTO = modelMapper.map(exchangeDetailEntity,UpdateReturnDetailDTO.class);
+        UpdateReturnDetailDTO returnDetailDTO = modelMapper.map(exchangeDetailEntity, UpdateReturnDetailDTO.class);
         return returnDetailDTO;
     }
 
