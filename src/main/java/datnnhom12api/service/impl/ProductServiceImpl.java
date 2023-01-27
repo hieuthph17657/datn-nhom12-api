@@ -252,6 +252,8 @@ public class ProductServiceImpl implements ProductService {
             return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, searchStatus, specifications, pageable);
         } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
             return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else if (!searchPrice.isEmpty() && !searchImei.isEmpty()) {
+            return productRepository.findProductByPriceAndImei(Double.valueOf(searchPrice), endPrice, searchImei, specifications, pageable);
         } else if (!searchPrice.isEmpty() && !searchStatus.isEmpty()) {
             return productRepository.findProductByPriceAndStatus(Double.valueOf(searchPrice), endPrice, searchStatus, specifications, pageable);
         }else if (!searchImei.isEmpty() && !searchStatus.isEmpty()) {
