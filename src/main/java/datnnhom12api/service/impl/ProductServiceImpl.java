@@ -239,17 +239,17 @@ public class ProductServiceImpl implements ProductService {
             endPrice = Double.valueOf(100000000);
         }
         if ((searchProductKey != null && searchImei != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyAll(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), endPrice, specifications, pageable);
+            return productRepository.findProductByKeyAll(searchProductKey, searchImei, searchStatus, Double.valueOf(searchPrice), endPrice, specifications, pageable);
         } else if ((searchProductKey != null && searchImei != null && searchStatus != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals(""))) {
-            return productRepository.findProductByKeyDontPrice(searchProductKey, searchImei, ProductStatus.valueOf(searchStatus), specifications, pageable);
+            return productRepository.findProductByKeyDontPrice(searchProductKey, searchImei, searchStatus, specifications, pageable);
         } else if ((searchProductKey != null && searchImei != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchPrice.equals(""))) {
             return productRepository.findProductByKeyDontStatus(searchProductKey, searchImei, Double.valueOf(searchPrice), endPrice, specifications, pageable);
         } else if ((searchProductKey != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyDontImei(searchProductKey, ProductStatus.valueOf(searchStatus), Double.valueOf(searchPrice), endPrice, specifications, pageable);
+            return productRepository.findProductByKeyDontImei(searchProductKey, searchStatus, Double.valueOf(searchPrice), endPrice, specifications, pageable);
         } else if ((searchProductKey != null && searchImei != null) && (!searchProductKey.equals("") && !searchImei.equals(""))) {
             return productRepository.findProductByKeyDontPriceAndStatus(searchProductKey, searchImei, specifications, pageable);
         } else if ((searchProductKey != null && searchStatus != null) && (!searchProductKey.equals("") && !searchStatus.equals(""))) {
-            return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, ProductStatus.valueOf(searchStatus), specifications, pageable);
+            return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, searchStatus, specifications, pageable);
         } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
             return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), endPrice, specifications, pageable);
         } else if (!searchPrice.isEmpty() && !searchStatus.isEmpty()) {
