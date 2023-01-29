@@ -34,7 +34,7 @@ public class ExchangeController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<ExchangeEntity> page = returnService.paginate(request.getSearchName(), request.getSearchPhone(), request.getPage(), request.getLimit(),
+        Page<ExchangeEntity> page = returnService.paginate(request.getSearchStatus(), request.getSearchName(), request.getSearchPhone(), request.getPage(), request.getLimit(),
                 request.getFilters(), request.getOrders());
         return new ReturnResponse(ExchangeMapper.getInstance().toPageDTO(page));
     }

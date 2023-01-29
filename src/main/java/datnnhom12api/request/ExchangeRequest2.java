@@ -20,7 +20,7 @@ public class ExchangeRequest2 {
 
     private String description;
 
-    private ReturnStatus status;
+    private String status;
 
     private List<ExchangeDetailRequest> returnDetailEntities;
 

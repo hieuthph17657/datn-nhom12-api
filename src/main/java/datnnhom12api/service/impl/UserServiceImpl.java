@@ -132,6 +132,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<UserEntity> loadUsers(int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
+        for (String field : sortBy.keySet()) {
+            orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
+        }
+        Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(page, limit, sort);
+
+        Specification<UserEntity> specifications = UserSpecifications.getInstance().getQueryResult(filters);
+
+        return userRepository.findAll(specifications, pageable);
+    }
+
+    @Override
     public UserEntity open(Long id) throws CustomException {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
         if (id <= 0) {

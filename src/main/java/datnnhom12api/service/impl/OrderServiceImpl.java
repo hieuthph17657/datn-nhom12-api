@@ -594,7 +594,7 @@ public class OrderServiceImpl implements OrderService {
                 exchangeDetail.setStatus(ReturnDetailStatus.KHONG_XAC_NHAN);
                 this.exchangeDetailRepository.save(exchangeDetail);
                 ExchangeEntity exchangeEntity = this.exchangeRepository.getById(exchangeDetail.getExchange().getId());
-                exchangeEntity.setStatus(ReturnStatus.DA_XU_LY);
+                exchangeEntity.setStatus("DA_XU_LY");
                 this.exchangeRepository.save(exchangeEntity);
             }
         });

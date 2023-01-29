@@ -24,6 +24,8 @@ public interface UserService {
 
     Page<UserEntity> paginate(String searchUserName, Integer searchStatus, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
 
+    Page<UserEntity> loadUsers(int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
     UserEntity open(Long id) throws CustomException;
 
     UserEntity close(Long id) throws CustomException;

@@ -102,7 +102,7 @@ public class ExchangeServiceImpl implements ReturnService {
     }
 
     @Override
-    public Page<ExchangeEntity> paginate(String searchName, String searchPhone, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+    public Page<ExchangeEntity> paginate(String searchStatus, String searchName, String searchPhone, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         for (String field : sortBy.keySet()) {
             orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
@@ -110,8 +110,16 @@ public class ExchangeServiceImpl implements ReturnService {
         Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
         Pageable pageable = PageRequest.of(page, limit, sort);
         Specification<ExchangeEntity> specifications = ReturnSpecifications.getInstance().getQueryResult(filters);
-        if (!searchName.isEmpty() && !searchPhone.isEmpty()) {
+        if (!searchStatus.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty()) {
+            return exchangeRepository.findByStatusAndNameAndPhone(searchStatus, searchName, searchPhone, specifications, pageable);
+        } else if (!searchStatus.isEmpty() && !searchName.isEmpty()) {
+            return exchangeRepository.findByStatusAndName(searchStatus, searchName, specifications, pageable);
+        } else if (!searchStatus.isEmpty() && !searchPhone.isEmpty()) {
+            return exchangeRepository.findByStatusAndPhone(searchStatus, searchPhone, specifications, pageable);
+        } else if (!searchName.isEmpty() && !searchPhone.isEmpty()) {
             return exchangeRepository.findByNameAndPhone(searchName, searchPhone, specifications, pageable);
+        } else if (!searchStatus.isEmpty()) {
+            return exchangeRepository.findByStatus(searchStatus, specifications, pageable);
         } else if (!searchName.isEmpty()) {
             return exchangeRepository.findByName(searchName, specifications, pageable);
         } else if (!searchPhone.isEmpty()) {

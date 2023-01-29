@@ -19,7 +19,7 @@ public interface ReturnService {
 
     ExchangeEntity update(Long id, ExchangeRequest2 post) throws CustomException;
 
-    Page<ExchangeEntity> paginate(String searchName, String searchPhone, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+    Page<ExchangeEntity> paginate(String searchStatus, String searchName, String searchPhone, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
 
     void delete(Long id);
 
