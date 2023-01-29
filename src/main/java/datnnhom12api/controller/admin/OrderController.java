@@ -95,6 +95,15 @@ public class OrderController {
         OrderEntity orderEntity = orderService.edit(id, orderRequest);
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
+    @PutMapping("/orders/{id}")
+    public OrderResponse editNoAuth(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest,
+                              BindingResult bindingResult) throws CustomValidationException, CustomException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        OrderEntity orderEntity = orderService.edit(id, orderRequest);
+        return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
+    }
 
     @PutMapping("/auth/orders/{id}/orderDetails")
     public OrderDetailDTO editOrderDetail(@PathVariable("id") Long id, @RequestBody OrderDetailRequest orderDetailRequest) {
@@ -206,6 +215,11 @@ public class OrderController {
 
     @PostMapping("/auth/orders/image")
     public ImageDTO addImage(@RequestBody ImageOrderRequest request) {
+        ImageDTO image = this.orderService.addImageOrder(request);
+        return image;
+    }
+    @PostMapping("/orders/image")
+    public ImageDTO addImageNoAuth(@RequestBody ImageOrderRequest request) {
         ImageDTO image = this.orderService.addImageOrder(request);
         return image;
     }
