@@ -2,7 +2,6 @@ package datnnhom12api.entity;
 
 import datnnhom12api.core.BaseEntity;
 import datnnhom12api.request.ExchangeRequest2;
-import datnnhom12api.utils.support.ReturnStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,14 +30,13 @@ public class ExchangeEntity extends BaseEntity {
     private String description;
 
 
-    @Enumerated(EnumType.STRING)
-    private ReturnStatus status;
+    private String status;
 
     @OneToMany(mappedBy = "exchange")
     List<ExchangeDetailEntity> returnDetailEntities;
 
-    public void setData(ExchangeRequest2 request){
-        this.description=request.getDescription();
+    public void setData(ExchangeRequest2 request) {
+        this.description = request.getDescription();
         this.status = request.getStatus();
     }
 }

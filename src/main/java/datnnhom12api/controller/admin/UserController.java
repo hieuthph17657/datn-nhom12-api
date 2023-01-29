@@ -23,6 +23,16 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @GetMapping("/loadUsers")
+    public UserResponse loadUsers(@Valid UserPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        Page<UserEntity> page = userService.loadUsers(request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        return new UserResponse(UserMapper.toPageDTO(page));
+    }
+
     @GetMapping
     public UserResponse index(@Valid UserPaginationRequest request, BindingResult bindingResult)
             throws CustomValidationException {
