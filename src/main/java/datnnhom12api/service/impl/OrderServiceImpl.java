@@ -528,7 +528,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("quantity: " + exchangeEntity.getQuantity());
             OrderEntity orderEntity = this.orderRepository.getById(exchangeRequest.stream().findFirst().get().getOrderId());
             Optional<OrderDetailEntity> optional = orderEntity.getOrderDetails().stream().filter(o -> o.getProduct().getId()
-                    == exchangeEntity.getProductId()).findFirst();
+                    == exchangeEntity.getProductId() && o.getStatus() != OrderDetailStatus.DA_HUY).findFirst();
             if (optional.isPresent()) {
                 OrderDetailEntity oldOrderDetailEntity = optional.get();
                 Integer oldQuantity = exchangeEntity.getQuantity() + oldOrderDetailEntity.getQuantity();
@@ -552,6 +552,16 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.setTotal(exchangeRequest.stream().findFirst().get().getTotalOrder() + exchangeRequest.stream().findFirst().get().getShipping());
         orderEntity.setShippingFree(exchangeRequest.stream().findFirst().get().getShipping());
         this.orderRepository.save(orderEntity);
+
+
+        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+        CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
+        orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
+        orderHistory.setOrderId(orderEntity);
+        orderHistory.setTotal(Double.valueOf(exchangeRequest.stream().findFirst().get().getTotalOrder() + exchangeRequest.stream().findFirst().get().getShipping()));
+        orderHistory.setVerifier(authentication1.getUsername());
+        this.orderHistoryRepository.save(orderHistory);
         return list;
     }
 
@@ -628,6 +638,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderConfirmDTO findByIdOrderId(OrderConfirmDTO request) {
+        OrderEntity orderEntity = this.orderRepository.getById(request.getId());
+        orderEntity.setShippingFree(0);
+        orderEntity.setTotal(0);
+        orderEntity.setStatus(String.valueOf(OrderDetailStatus.DA_HUY));
+        this.orderRepository.save(orderEntity);
+        orderEntity.getOrderDetails().forEach(orderDetailEntity -> {
+            orderDetailEntity.setQuantity(0);
+            orderDetailEntity.setTotal(0);
+            this.orderDetailRepository.save(orderDetailEntity);
+        });
+        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+        CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
+        orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
+        orderHistory.setOrderId(orderEntity);
+        orderHistory.setTotal(orderEntity.getTotal());
+        orderHistory.setVerifier(authentication1.getUsername());
+        this.orderHistoryRepository.save(orderHistory);
+        return null;
+    }
+
+    @Override
     public List<OrderExchangeDTO> updateWhenExchangeCancel(List<OrderExchangeDTO> request, Long orderId) {
         request.forEach(orderExchangeDTO -> {
             OrderDetailEntity orderDetail = this.orderDetailRepository.getById(Long.valueOf(orderExchangeDTO.getIsCheck()));
@@ -652,6 +685,27 @@ public class OrderServiceImpl implements OrderService {
         od.setTotal(0);
         od.setStatus(OrderDetailStatus.DA_HUY);
         this.orderDetailRepository.save(od);
+        double count = 0;
+        OrderEntity order = this.orderRepository.getById(od.getOrder().getId());
+        List<OrderDetailEntity> list = this.orderDetailRepository.findByOrderAndIscheck(od.getOrder().getId());
+        for (OrderDetailEntity od1 : list) {
+            count += od1.getTotal();
+        }
+        System.out.println(count);
+        if (count < 0) {
+            order.setTotal(0);
+        } else {
+            order.setTotal(count);
+        }
+
+        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+        CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
+        orderHistory.setStatus(String.valueOf(order.getStatus()));
+        orderHistory.setOrderId(order);
+        orderHistory.setTotal(order.getTotal());
+        orderHistory.setVerifier(authentication1.getUsername());
+        this.orderHistoryRepository.save(orderHistory);
         return null;
     }
 
