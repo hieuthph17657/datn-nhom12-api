@@ -163,6 +163,7 @@ public class ExchangeServiceImpl implements ReturnService {
     @Override
     public List<InventoryDTO> getAllInventory() {
         List<InventoryDTO> list = this.exchangeDetailRepository.getAllInventoryDTO();
+        System.out.println(list.size());
         return list;
     }
 }

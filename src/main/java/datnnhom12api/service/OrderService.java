@@ -49,6 +49,8 @@ public interface OrderService {
 
     List<OrderDetailEntity> createOrderDetail(List<ExchangeRequest> exchangeRequest);
 
+    List<OrderDetailEntity> createOrderDetail2(List<ExchangeRequest3> exchangeRequest);
+
     OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest);
 
     UpdateOrderDetailDTO updateWithReturn(Long orderId, Long orderDetailId, UpdateOrderDetailRequest orderDetailRequest);
@@ -72,4 +74,6 @@ public interface OrderService {
     SumProductDTO numberOfProductsSold();
 
     List<OrderExchangeDTO> updateWhenExchangeCancel(List<OrderExchangeDTO> request, Long orderId);
+
+    OrderDetailDTO updateInCancel(Long id, OrderDetailRequest odRequest);
 }
