@@ -220,6 +220,12 @@ public class OrderController {
         return orderId;
     }
 
+    @PostMapping("auth/orders/confirm")
+    public OrderConfirmDTO confirmOrder (@RequestBody  OrderConfirmDTO requests){
+        OrderConfirmDTO orderId = this.orderService.findByIdOrderId(requests);
+        return orderId;
+    }
+
     //cập nhật lại hoá đơn chi tiết khi đổi hàng
     @PutMapping("staff/orders/update/exchange/{orderId}")
    public List<OrderExchangeDTO> confirmOrderWhenExchange(@RequestBody List<OrderExchangeDTO> request,
