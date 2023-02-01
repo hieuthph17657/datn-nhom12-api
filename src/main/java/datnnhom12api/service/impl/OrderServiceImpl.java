@@ -11,7 +11,6 @@ import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
 import datnnhom12api.utils.support.OrderDetailStatus;
 import datnnhom12api.utils.support.ReturnDetailStatus;
-import datnnhom12api.utils.support.ReturnStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -104,6 +103,7 @@ public class OrderServiceImpl implements OrderService {
 
         return orderEntity;
     }
+
     @Override
     public OrderEntity saveNoLogin(OrderRequest orderRequest) throws CustomException {
         OrderEntity orderEntity = new OrderEntity();
@@ -180,20 +180,27 @@ public class OrderServiceImpl implements OrderService {
         orderEntity = orderRepository.save(orderEntity);
         String status = String.valueOf(orderEntity.getStatus());
         Long orderId = orderEntity.getId();
+        System.out.println(orderRequest.getOrderDetails().toArray().length);
         if (orderRequest.getOrderDetails().get(0).getProductId() != null) {
             orderRequest.getOrderDetails().forEach(orderDetailRequest -> {
+
+                Long productId = orderDetailRequest.getProductId();
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
                 orderDetailEntity = this.orderDetailRepository.
-                        getOrderDetailEntityByOrderIsAndAndProduct(orderId, orderDetailRequest.getProductId());
+                        getOrderDetailEntityByOrderIsAndAndProduct(orderId, productId);
                 System.out.println(orderDetailEntity.getProduct() + " " + orderDetailEntity.getQuantity() + orderDetailEntity.getTotal());
-                orderDetailEntity.setId(orderDetailEntity.getId());
-                orderDetailEntity.setStatus(OrderDetailStatus.valueOf(status));
-                orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice() * orderDetailRequest.getQuantity());
-                orderDetailEntity.setProduct(orderDetailEntity.getProduct());
-                orderDetailEntity.setIsCheck(orderDetailRequest.getIsCheck());
-                orderDetailEntity.setQuantity(orderDetailRequest.getQuantity());
-                orderDetailEntity.setOrder(orderDetailEntity.getOrder());
-                this.orderDetailRepository.save(orderDetailEntity);
+                if (orderDetailEntity != null) {
+                    orderDetailEntity.setId(orderDetailEntity.getId());
+                    orderDetailEntity.setStatus(OrderDetailStatus.valueOf(status));
+                    orderDetailEntity.setTotal(orderDetailEntity.getProduct().getPrice() * orderDetailRequest.getQuantity());
+
+                    orderDetailEntity.setProduct(orderDetailEntity.getProduct());
+                    orderDetailEntity.setIsCheck(orderDetailRequest.getIsCheck());
+                    orderDetailEntity.setQuantity(orderDetailRequest.getQuantity());
+                    orderDetailEntity.setOrder(orderDetailEntity.getOrder());
+                    this.orderDetailRepository.save(orderDetailEntity);
+                }
+
             });
             double count = 0;
             List<OrderDetailEntity> list = this.orderDetailRepository.getOrderDetailEntityById(orderId);
@@ -511,6 +518,44 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDetailEntity> createOrderDetail2(List<ExchangeRequest3> exchangeRequest) {
+
+        System.out.println(exchangeRequest.stream().findFirst().get().getOrderId());
+        List<OrderDetailEntity> list = new ArrayList<>();
+        Set<Long> itemId = new HashSet<>();
+
+        exchangeRequest.forEach(exchangeEntity -> {
+            System.out.println("quantity: " + exchangeEntity.getQuantity());
+            OrderEntity orderEntity = this.orderRepository.getById(exchangeRequest.stream().findFirst().get().getOrderId());
+            Optional<OrderDetailEntity> optional = orderEntity.getOrderDetails().stream().filter(o -> o.getProduct().getId()
+                    == exchangeEntity.getProductId()).findFirst();
+            if (optional.isPresent()) {
+                OrderDetailEntity oldOrderDetailEntity = optional.get();
+                Integer oldQuantity = exchangeEntity.getQuantity() + oldOrderDetailEntity.getQuantity();
+                oldOrderDetailEntity.setQuantity(exchangeEntity.getQuantity() + oldOrderDetailEntity.getQuantity());
+                System.out.println("Tổng tiền: " + Integer.valueOf((int) (oldOrderDetailEntity.getProduct().getPrice() *
+                        oldQuantity)));
+                oldOrderDetailEntity.setTotal(Integer.valueOf((int) (oldOrderDetailEntity.getProduct().getPrice() *
+                        oldQuantity)));
+            } else {
+                OrderDetailEntity newOrderDetailEntity = new OrderDetailEntity();
+                newOrderDetailEntity.setOrder(orderEntity);
+                newOrderDetailEntity.setQuantity(exchangeEntity.getQuantity());
+                newOrderDetailEntity.setProduct(this.productRepository.getById(exchangeEntity.getProductId()));
+                newOrderDetailEntity.setTotal(this.productRepository.getById(exchangeEntity.getProductId()).getPrice());
+                newOrderDetailEntity.setStatus(OrderDetailStatus.CHO_XAC_NHAN);
+                this.orderDetailRepository.save(newOrderDetailEntity);
+            }
+        });
+        OrderEntity orderEntity = this.orderRepository.getById(exchangeRequest.stream().findFirst().get().getOrderId());
+        List<OrderDetailEntity> listOrder = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
+        orderEntity.setTotal(exchangeRequest.stream().findFirst().get().getTotalOrder() + exchangeRequest.stream().findFirst().get().getShipping());
+        orderEntity.setShippingFree(exchangeRequest.stream().findFirst().get().getShipping());
+        this.orderRepository.save(orderEntity);
+        return list;
+    }
+
+    @Override
     public OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest) {
         OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(id);
         orderDetailEntity.setIsCheck(1);
@@ -589,7 +634,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setIsCheck(3);
             orderDetail.setTotal(0);
             this.orderDetailRepository.save(orderDetail);
-            if(orderExchangeDTO.getIsBoolean().equals("false")){
+            if (orderExchangeDTO.getIsBoolean().equals("false")) {
                 ExchangeDetailEntity exchangeDetail = this.exchangeDetailRepository.getByOrderChange(Math.toIntExact(orderDetail.getId()));
                 exchangeDetail.setStatus(ReturnDetailStatus.KHONG_XAC_NHAN);
                 this.exchangeDetailRepository.save(exchangeDetail);
@@ -598,6 +643,15 @@ public class OrderServiceImpl implements OrderService {
                 this.exchangeRepository.save(exchangeEntity);
             }
         });
+        return null;
+    }
+
+    @Override
+    public OrderDetailDTO updateInCancel(Long id, OrderDetailRequest odRequest) {
+        OrderDetailEntity od = this.orderDetailRepository.getById(id);
+        od.setTotal(0);
+        od.setStatus(OrderDetailStatus.DA_HUY);
+        this.orderDetailRepository.save(od);
         return null;
     }
 

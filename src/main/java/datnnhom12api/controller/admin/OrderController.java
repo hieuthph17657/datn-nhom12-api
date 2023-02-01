@@ -86,6 +86,18 @@ public class OrderController {
         return new ExchangeResponse(ExchangeMapper.toListDTO(orderDetailEntities));
     }
 
+
+    ///tạo order detail orderConfirm
+    @PostMapping("auth/orders/exchanges/confirm")
+    public ExchangeResponse createOrderDetailConfirm(@Valid @RequestBody List<ExchangeRequest3> exchangeRequest,
+                                              BindingResult bindingResult) throws CustomException, CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        List<OrderDetailEntity> orderDetailEntities = orderService.createOrderDetail2(exchangeRequest);
+        return new ExchangeResponse(ExchangeMapper.toListDTO(orderDetailEntities));
+    }
+
     @PutMapping("/auth/orders/{id}")
     public OrderResponse edit(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest,
                               BindingResult bindingResult) throws CustomValidationException, CustomException {
@@ -95,6 +107,17 @@ public class OrderController {
         OrderEntity orderEntity = orderService.edit(id, orderRequest);
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
+
+    @PutMapping("/auth/orders/{id}/update")
+    public OrderDetailDTO update(@PathVariable("id") Long id, @Valid @RequestBody OrderDetailRequest odRequest,
+                              BindingResult bindingResult) throws CustomValidationException, CustomException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        OrderDetailDTO od = orderService.updateInCancel(id, odRequest);
+        return od;
+    }
+
     @PutMapping("/orders/{id}")
     public OrderResponse editNoAuth(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest,
                               BindingResult bindingResult) throws CustomValidationException, CustomException {
