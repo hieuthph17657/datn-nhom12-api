@@ -51,7 +51,7 @@ public class LoginController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            UserEntity userEntity = userRepository.findByUsername(authentication.getName());
+            UserEntity userEntity = userRepository.findByUsernameHasValidate(authentication.getName());
             String jwt = tokenProvider.createToken(authentication);
             AuthDTO authDTO = new AuthDTO();
             authDTO.setId(userEntity.getId());
