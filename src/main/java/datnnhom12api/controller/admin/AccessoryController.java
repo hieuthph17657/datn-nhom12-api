@@ -36,7 +36,7 @@ public class AccessoryController {
         return new accessoryResponse(accessoryMapper.toPageDTO(page));
     }
 
-    @PostMapping("/api/admin/accessory")
+    @PostMapping("/api/staff/accessory")
     public accessoryResponse create(@Valid @RequestBody AccessoryRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -45,7 +45,7 @@ public class AccessoryController {
         return new accessoryResponse(accessoryMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/api/admin/accessory/{id}")
+    @PutMapping("/api/staff/accessory/{id}")
     public accessoryResponse edit(@PathVariable("id") Long id, @Valid @RequestBody AccessoryRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
