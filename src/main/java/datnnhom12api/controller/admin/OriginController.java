@@ -31,7 +31,7 @@ public class OriginController {
         return new OriginResponse(OriginMapper.toPageDTO(page));
     }
 
-    @PostMapping("/api/admin/origin")
+    @PostMapping("/api/staff/origin")
     public OriginResponse create(@Valid @RequestBody OriginRequest post, BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -40,7 +40,7 @@ public class OriginController {
         return new OriginResponse(OriginMapper.getInstance().toDTO(postEntity));
     }
 
-    @PutMapping("/api/admin/origin/{id}")
+    @PutMapping("/api/staff/origin/{id}")
     public OriginResponse edit(@PathVariable("id") Long id, @Valid @RequestBody OriginRequest post, BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
@@ -49,19 +49,19 @@ public class OriginController {
         return new OriginResponse(OriginMapper.getInstance().toDTO(postEntity));
     }
 
-    @DeleteMapping("/api/admin/origin/{id}")
+    @DeleteMapping("/api/staff/origin/{id}")
     public OriginResponse delete(@PathVariable("id") Long id) throws CustomException {
         originService.delete(id);
         return new OriginResponse();
     }
 
-    @PutMapping(("/api/admin/origin/{id}/active"))
+    @PutMapping(("/api/staff/origin/{id}/active"))
     public OriginDTO active (@PathVariable("id") Long id) throws CustomException {
         OriginDTO originDTO = this.originService.active(id);
         return originDTO;
     }
 
-    @PutMapping(("/api/admin/origin/{id}/inactive"))
+    @PutMapping(("/api/staff/origin/{id}/inactive"))
     public OriginDTO inactive (@PathVariable("id") Long id) throws CustomException {
         OriginDTO originDTO = this.originService.inactive(id);
         return originDTO;

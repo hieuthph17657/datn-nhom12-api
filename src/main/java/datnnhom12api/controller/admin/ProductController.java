@@ -1,21 +1,15 @@
 package datnnhom12api.controller.admin;
 
-import datnnhom12api.dto.ProductDTO;
 import datnnhom12api.dto.ProductDTOById;
-import datnnhom12api.entity.DiscountEntity;
+import datnnhom12api.dto.ProductExcelDTO;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
-import datnnhom12api.mapper.DiscountMapper;
 import datnnhom12api.mapper.ProductMapper;
 import datnnhom12api.paginationrequest.ProductPaginationRequest;
 import datnnhom12api.repository.ProductRepository;
-import datnnhom12api.request.DiscountRequest;
 import datnnhom12api.request.ProductRequest;
-import datnnhom12api.response.DiscountResponse;
-import datnnhom12api.response.ProductDiscountResponse;
-import datnnhom12api.response.ProductFilterResponse;
-import datnnhom12api.response.ProductResponse;
+import datnnhom12api.response.*;
 import datnnhom12api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -61,6 +56,17 @@ public class ProductController {
     public ProductResponse getAll() {
         List<ProductEntity> product = this.productRepository.findAll();
         return new ProductResponse(ProductMapper.toListDTO(product));
+    }
+    @GetMapping("/products/exportExcel")
+    public List<ProductExcelDTO> exportExcel() {
+        List<ProductEntity> product = this.productRepository.findAll();
+        List<ProductExcelDTO> pro=new ArrayList<>();
+        int i;
+        for(i=0;i<product.size();i++){
+            ProductExcelDTO proExcel=new ProductExcelDTO(product.get(i));
+            pro.add(proExcel);
+        }
+        return pro;
     }
 
     @GetMapping("/products/getAllProAccess")
