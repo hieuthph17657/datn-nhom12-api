@@ -331,11 +331,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public UserEntity createUser(CreateUserOnOrderRequest createUserOnOrderRequest) throws CustomException {
-        List<UserEntity> userEntityList = userRepository.findAll();
-        for (UserEntity userEntity : userEntityList) {
-            if (createUserOnOrderRequest.getUsername().equals(userEntity.getUsername())) {
-                throw new CustomException(403, "Tài khoản đã tồn tại!");
-            }
+        Optional<UserEntity> userEntityOptional = userRepository.validateUserName(createUserOnOrderRequest.getUsername());
+        if (userEntityOptional.isPresent()) {
+            throw new CustomException(403, "Tài khoản đã tồn tại!");
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(createUserOnOrderRequest.getUsername());
