@@ -10,10 +10,18 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
     @Query("SELECT c FROM UserEntity c WHERE c.username = ?1 and c.status = 1")
     UserEntity findByUsername(String username);
+
+    @Query("SELECT c FROM UserEntity c WHERE LOWER(c.username) = ?1 and c.status = 1")
+    UserEntity findByUsernameHasValidate(String username);
+
+    @Query("SELECT c FROM UserEntity c WHERE LOWER(c.username) = ?1")
+    Optional<UserEntity> validateUserName(String username);
 
     @Query("select u from UserEntity u join u.roles r where r.role = 'CUSTOMER' and u.username like %?1% and u.status = ?2")
     Page<UserEntity> findByUserNameStatus(String searchUserName, Integer searchStatus, Pageable pageable);
