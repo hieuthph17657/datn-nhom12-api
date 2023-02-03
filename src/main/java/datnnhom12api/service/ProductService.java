@@ -2,6 +2,7 @@ package datnnhom12api.service;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDTO2;
 import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.ProductEntity;
@@ -43,4 +44,6 @@ public interface ProductService {
     List<ProductDTOById> findProductByCategory(Long id);
 
     Page<ProductEntity> findProductByStatus(int page, int limit, List<Filter> filters, Map<String, String> sortBy);
+
+    List<ProductDTO> findAll();
 }
