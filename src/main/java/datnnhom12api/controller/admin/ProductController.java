@@ -1,5 +1,7 @@
 package datnnhom12api.controller.admin;
 
+import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDTO2;
 import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.dto.ProductExcelDTO;
 import datnnhom12api.entity.ProductEntity;
@@ -39,6 +41,18 @@ public class ProductController {
         Page<ProductEntity> page = productService.paginate(
                 request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
         return new ProductResponse(ProductMapper.toPageDTO(page));
+    }
+
+
+    @GetMapping("/products/getAll")
+    public ProductResponse2 getALl(@Valid ProductPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        Page<ProductEntity> page = productService.paginate(
+                request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
+        return new ProductResponse2(ProductMapper.toPageDTO2(page));
     }
 
     @GetMapping("/indexProductsDiscount")
@@ -87,9 +101,9 @@ public class ProductController {
     }
 
     @GetMapping("/products/allProWithDiscount")
-    public ProductResponse getAllProWithDiscount() {
+    public ProductResponse2 getAllProWithDiscount() {
         List<ProductEntity> product = this.productRepository.getProductWithDiscount();
-        return new ProductResponse(ProductMapper.getInstance().toListDTO(product));
+        return new ProductResponse2(ProductMapper.getInstance().toListDTO2(product));
     }
 
     @GetMapping("/products/{id}")

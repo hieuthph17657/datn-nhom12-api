@@ -10,6 +10,7 @@ import datnnhom12api.request.*;
 import datnnhom12api.service.OrderService;
 import datnnhom12api.specifications.OrderSpecifications;
 import datnnhom12api.utils.support.OrderDetailStatus;
+import datnnhom12api.utils.support.OrderStatus;
 import datnnhom12api.utils.support.ReturnDetailStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -611,10 +612,23 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderConfirmDTO> findByIdOrderId(List<OrderConfirmDTO> id) {
+
         id.forEach(orderId -> {
             OrderEntity orderEntity = this.orderRepository.getById(orderId.getId());
+            System.out.println("Phương thức thang toán" + orderEntity.getPayment());
+            System.out.println("Trạng thái đơn hàng: "+ orderId.getStatus());
             OrderHistoryEntity orderHistory = new OrderHistoryEntity();
             orderEntity.setStatus(orderId.getStatus());
+            if(orderId.getStatus().equals("DA_HUY") && orderEntity.getPayment().equals("NGAN_HANG")){
+                System.out.println("----------------- vào TH1");
+                orderEntity.setMoney(0);
+            }else if(orderId.getStatus().equals("DA_HUY") && orderEntity.getPayment().equals("DAT_COC")){
+                orderEntity.setMoney(orderEntity.getMoney());
+                System.out.println("----------------- vào TH2");
+            }else {
+                orderEntity.setMoney(orderEntity.getTotal()/10);
+                System.out.println("----------------- vào TH3");
+            }
             List<OrderDetailEntity> orderDetailEntity = this.orderDetailRepository.findByOrder(orderEntity.getId());
             if (orderId.getStatus().equals("DA_HUY")) {
                 orderDetailEntity.forEach(orderDetailEntity1 -> {
@@ -739,7 +753,7 @@ public class OrderServiceImpl implements OrderService {
                 }
 
                 if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
-                    System.out.println("------ số lượng sản phảm bằng nhau -------");
+
                     orderDetailEntity.setTotal(0);
                     orderDetailEntity.setQuantity(0);
                     this.orderDetailRepository.save(orderDetailEntity);
@@ -750,7 +764,6 @@ public class OrderServiceImpl implements OrderService {
 
                     orderDetailEntity.setTotal(
                             orderDetailEntity.getProduct().getPrice() * quantity);
-                    System.out.println("Tổng tiền hoá đơn chi tiết: " + (orderDetailEntity.getProduct().getPrice() * (orderDetailEntity.getQuantity() - orderDetail.getQuantity())));
                     orderDetailEntity.setQuantity(orderDetailEntity.getQuantity() - orderDetail.getQuantity());
                     this.orderDetailRepository.save(orderDetailEntity);
                     orderDetail.setIsCheck(1);
@@ -818,12 +831,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ImageDTO addImageOrder(ImageOrderRequest request) {
+
         ImagesEntity imagesEntity = new ImagesEntity();
         imagesEntity.setName(request.getName());
         imagesEntity.setOrder(this.orderRepository.getById(request.getOrder_id()));
         this.imageRepository.save(imagesEntity);
         ModelMapper modelMapper = new ModelMapper();
         ImageDTO imageDTO = modelMapper.map(imagesEntity, ImageDTO.class);
+        OrderEntity order = this.orderRepository.getById(request.getOrder_id());
+        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+        CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
+        orderHistory.setStatus(String.valueOf(OrderStatus.CHO_XAC_NHAN));
+        orderHistory.setOrderId(order);
+        orderHistory.setTotal(order.getTotal());
+        orderHistory.setVerifier(authentication1.getUsername());
+        this.orderHistoryRepository.save(orderHistory);
         return imageDTO;
     }
 

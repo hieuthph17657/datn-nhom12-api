@@ -16,4 +16,5 @@ public class OrderConfirmDTO extends BaseDTO implements Serializable {
 
     private Long id;
     private String status;
+
 }

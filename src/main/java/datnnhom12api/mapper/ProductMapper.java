@@ -1,6 +1,7 @@
 package datnnhom12api.mapper;
 
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDTO2;
 import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.dto.ProductDiscountDTO;
 import datnnhom12api.entity.ProductEntity;
@@ -30,6 +31,11 @@ public class ProductMapper {
         return modelMapper.map(product, ProductDTO.class);
     }
 
+    public static ProductDTO2 toDTO2(ProductEntity product) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(product, ProductDTO2.class);
+    }
+
     public static ProductEntity toEntity(ProductMapper productDTO) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(productDTO, ProductEntity.class);
@@ -40,6 +46,15 @@ public class ProductMapper {
             @Override
             public ProductDTO apply(ProductEntity entity) {
                 return ProductMapper.toDTO(entity);
+            }
+        });
+    }
+
+    public static Page<ProductDTO2> toPageDTO2(Page<ProductEntity> page) {
+        return page.map(new Function<>() {
+            @Override
+            public ProductDTO2 apply(ProductEntity entity) {
+                return ProductMapper.toDTO2(entity);
             }
         });
     }
@@ -64,6 +79,15 @@ public class ProductMapper {
         }
         return list;
     }
+
+    public static List<ProductDTO2> toListDTO2(List<ProductEntity> entityList) {
+        List<ProductDTO2> list = new ArrayList<>();
+        for (ProductEntity e : entityList) {
+            list.add(ProductMapper.toDTO2(e));
+        }
+        return list;
+    }
+
     public static ProductDiscountDTO toProDiscountDTO(ProductEntity product) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(product, ProductDiscountDTO.class);

@@ -3,6 +3,7 @@ package datnnhom12api.service.impl;
 
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.ProductDTO;
+import datnnhom12api.dto.ProductDTO2;
 import datnnhom12api.dto.ProductDTOById;
 import datnnhom12api.dto.SumProductDTO;
 import datnnhom12api.entity.*;
@@ -461,5 +462,15 @@ public class ProductServiceImpl implements ProductService {
         Specification<ProductEntity> specifications = ProductSpecifications.getInstance().getQueryResult(filters);
 
         return productRepository.findProductByStatus(specifications, pageable);
+    }
+
+    @Override
+    public List<ProductDTO> findAll() {
+        List <ProductEntity> list = this.productRepository.findAll();
+        ModelMapper modelMapper = new ModelMapper();
+        List<ProductDTO> productDTO = list.stream().map(p -> modelMapper.map(p, ProductDTO.class))
+                .collect(Collectors.toList());
+        return productDTO;
+
     }
 }
