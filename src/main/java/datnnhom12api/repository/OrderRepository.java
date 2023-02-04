@@ -30,8 +30,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
 
 
 
-    @Query("SELECT c FROM OrderEntity c WHERE")
-    Page<OrderEntity> findAll(Specification<OrderEntity> specifications, Pageable pageable);
 
     @Query("SELECT c FROM OrderEntity c WHERE (c.createdAt BETWEEN ?1 AND ?2) AND (c.createdAt BETWEEN ?1 AND ?2)")
     Page<OrderEntity> betweenDate(LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
