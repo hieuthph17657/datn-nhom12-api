@@ -145,6 +145,7 @@ public class ProductEntity extends BaseEntity {
         this.width = request.getWidth();
         this.status = request.getStatus();
         this.imei = request.getImei();
+        this.pn = request.getImei();
         this.material = request.getMaterial();
         this.security = request.getSecurity();
         this.description = request.getDescription();

@@ -227,7 +227,7 @@ public class ProductServiceImpl implements ProductService {
         Specification<ProductEntity> specifications = ProductSpecifications.getInstance().getQueryResult(filters);
         Double endPrice = Double.valueOf(0);
         if (searchPrice != null && !searchPrice.equals("") && Integer.parseInt(searchPrice) < 10000000) {
-            searchPrice = 1 + "";
+            searchPrice = 0 + "";
             endPrice = Double.valueOf(9999999);
         } else if (searchPrice != null && !searchPrice.equals("") && Integer.parseInt(searchPrice) >= 10000000 && Integer.parseInt(searchPrice) < 15000000) {
             searchPrice = 10000000 + "";
