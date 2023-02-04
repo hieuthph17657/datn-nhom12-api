@@ -40,7 +40,18 @@ public class OrderController {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
-        Page<OrderEntity> page = orderService.paginate(request.getSearchPayment(), request.getSearchName(), request.getSearchStatus(), request.getSearchPhone(), request.getSearchStartDate(),request.getSearchEndDate(),
+        Page<OrderEntity> page = orderService.paginate(request.getSearchPayment(), request.getSearchName(), request.getSearchStatus(), request.getSearchPhone(), request.getSearchStartDate(), request.getSearchEndDate(),
+                request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        return new OrderResponse(OrderMapper.toPageDTO(page));
+    }
+
+    @GetMapping("/staff/ordersFilterPrice")
+    public OrderResponse ordersFilterPrice(@Valid OrderPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        Page<OrderEntity> page = orderService.ordersFilterPrice(request.getSearchMoney(), request.getSearchPayment(), request.getSearchName(), request.getSearchStatus(), request.getSearchPhone(), request.getSearchStartDate(), request.getSearchEndDate(),
                 request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
         return new OrderResponse(OrderMapper.toPageDTO(page));
     }
@@ -54,9 +65,10 @@ public class OrderController {
         OrderEntity orderEntity = orderService.save(orderRequest);
         return new OrderResponse(OrderMapper.getInstance().toDTO(orderEntity));
     }
+
     @PostMapping(("/orders"))
     public OrderResponse createNoLogin(@Valid @RequestBody OrderRequest orderRequest,
-                                BindingResult bindingResult) throws CustomException, CustomValidationException {
+                                       BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -66,7 +78,7 @@ public class OrderController {
 
     @PostMapping("auth/orders/user")
     public OrderResponse createOfUser(@Valid @RequestBody OrderRequest orderRequest,
-                                BindingResult bindingResult) throws CustomException, CustomValidationException {
+                                      BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -90,7 +102,7 @@ public class OrderController {
     ///tạo order detail orderConfirm
     @PostMapping("auth/orders/exchanges/confirm")
     public ExchangeResponse createOrderDetailConfirm(@Valid @RequestBody List<ExchangeRequest3> exchangeRequest,
-                                              BindingResult bindingResult) throws CustomException, CustomValidationException {
+                                                     BindingResult bindingResult) throws CustomException, CustomValidationException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -110,7 +122,7 @@ public class OrderController {
 
     @PutMapping("/auth/orders/{id}/update")
     public OrderDetailDTO update(@PathVariable("id") Long id, @Valid @RequestBody OrderDetailRequest odRequest,
-                              BindingResult bindingResult) throws CustomValidationException, CustomException {
+                                 BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -120,7 +132,7 @@ public class OrderController {
 
     @PutMapping("/orders/{id}")
     public OrderResponse editNoAuth(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest,
-                              BindingResult bindingResult) throws CustomValidationException, CustomException {
+                                    BindingResult bindingResult) throws CustomValidationException, CustomException {
         if (bindingResult.hasErrors()) {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
@@ -186,6 +198,7 @@ public class OrderController {
         List<OrderEntity> list = orderService.findUserName(username);
         return list;
     }
+
     @GetMapping("/auth/orders/listByPhone/{phone}")
     public List<OrderEntity> getByPhone(@PathVariable("phone") String phone) throws CustomException {
         List<OrderEntity> list = orderService.findPhone(phone);
@@ -197,39 +210,41 @@ public class OrderController {
         List<OrderEntity> list = orderService.findByDate(createdAt);
         return list;
     }
+
     //update order detail khi gui yeu cầu trả hàng, set isCheck=2
     @PutMapping("auth/orders/{id}/updateOrderDetail")
     public OrderDetailDTO updateOrderDetail(@PathVariable("id") Long id, @RequestBody OrderDetailRequest orderDetailRequest) {
         OrderDetailDTO orderDetailDTO = orderService.updateOrderDetail(id, orderDetailRequest);
         return orderDetailDTO;
     }
+
     //update hoá đơn khi đã được phê duyệt trả hàng
     @PutMapping("staff/orders/{orderId}/update/{orderDetailId}")
     public UpdateOrderDetailDTO updateTotalOrder(@PathVariable("orderId") Long orderId,
                                                  @PathVariable("orderDetailId") Long orderDetailId,
-                                                  @RequestBody UpdateOrderDetailRequest orderDetailRequest) {
-        UpdateOrderDetailDTO od = this.orderService.updateWithReturn(orderId,orderDetailId, orderDetailRequest);
+                                                 @RequestBody UpdateOrderDetailRequest orderDetailRequest) {
+        UpdateOrderDetailDTO od = this.orderService.updateWithReturn(orderId, orderDetailId, orderDetailRequest);
         return od;
     }
 
     //confirm order
 
     @PostMapping("staff/orders/confirm")
-    public List<OrderConfirmDTO> confirmOrder (@RequestBody  List<OrderConfirmDTO> requests){
+    public List<OrderConfirmDTO> confirmOrder(@RequestBody List<OrderConfirmDTO> requests) {
         List<OrderConfirmDTO> orderId = this.orderService.findByIdOrderId(requests);
         return orderId;
     }
 
     @PostMapping("auth/orders/confirm")
-    public OrderConfirmDTO confirmOrder (@RequestBody  OrderConfirmDTO requests){
+    public OrderConfirmDTO confirmOrder(@RequestBody OrderConfirmDTO requests) {
         OrderConfirmDTO orderId = this.orderService.findByIdOrderId(requests);
         return orderId;
     }
 
     //cập nhật lại hoá đơn chi tiết khi đổi hàng
     @PutMapping("staff/orders/update/exchange/{orderId}")
-   public List<OrderExchangeDTO> confirmOrderWhenExchange(@RequestBody List<OrderExchangeDTO> request,
-                                                          @PathVariable("orderId")Long orderId) {
+    public List<OrderExchangeDTO> confirmOrderWhenExchange(@RequestBody List<OrderExchangeDTO> request,
+                                                           @PathVariable("orderId") Long orderId) {
         List<OrderExchangeDTO> orderExchangeDTOS = this.orderService.updateWhenExchange(request, orderId);
         return orderExchangeDTOS;
     }
@@ -237,7 +252,7 @@ public class OrderController {
     //cập nhật lại hoá đơn chi tiết khi đổi hàng (đã huỷ)
     @PutMapping("auth/orders/update/exchange/{orderId}/cancel")
     public List<OrderExchangeDTO> confirmCancelOrderWhenExchange(@RequestBody List<OrderExchangeDTO> request,
-                                                           @PathVariable("orderId")Long orderId) {
+                                                                 @PathVariable("orderId") Long orderId) {
         List<OrderExchangeDTO> orderExchangeDTOS = this.orderService.updateWhenExchangeCancel(request, orderId);
         return orderExchangeDTOS;
     }
@@ -247,6 +262,7 @@ public class OrderController {
         ImageDTO image = this.orderService.addImageOrder(request);
         return image;
     }
+
     @PostMapping("/orders/image")
     public ImageDTO addImageNoAuth(@RequestBody ImageOrderRequest request) {
         ImageDTO image = this.orderService.addImageOrder(request);
@@ -254,8 +270,8 @@ public class OrderController {
     }
 
     @PutMapping("/auth/orders/update/{id}/note")
-    public OrderResponse updateNote(@PathVariable("id")Long id, @RequestBody UpdateNoteRequest request){
-        OrderEntity order = this.orderService.updateNoteRequest(id,request);
+    public OrderResponse updateNote(@PathVariable("id") Long id, @RequestBody UpdateNoteRequest request) {
+        OrderEntity order = this.orderService.updateNoteRequest(id, request);
         return new OrderResponse(OrderMapper.getInstance().toDTO(order));
     }
 

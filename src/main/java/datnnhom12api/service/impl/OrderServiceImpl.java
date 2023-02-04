@@ -330,6 +330,151 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<OrderEntity> ordersFilterPrice(String searchMoney, String searchPayment, String searchName, String searchStatus, String searchPhone, String startDate, String endDate, int page, int limit, List<Filter> filters, Map<String, String> sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
+        for (String field : sortBy.keySet()) {
+            orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
+        }
+        Sort sort = orders.size() > 0 ? Sort.by(orders) : Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(page, limit, sort);
+        Specification<OrderEntity> specifications = OrderSpecifications.getInstance().getQueryResult(filters);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        if (searchMoney.equals("0")) {
+            if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatusAndPaymentAndName(searchPayment, searchName, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatusAndPayment(searchPayment, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndNameAndStatusAndPayment(searchPayment, searchStatus, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatusAndName(searchName, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatus(searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPaymentAndStatus(searchStatus, searchPayment, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndNameAndStatus(searchStatus, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndStatus(searchStatus, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchNameAndPhoneAndStatus(searchStatus, searchName, searchPhone, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchNameAndPaymentAndStatus(searchStatus, searchName, searchPayment, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchPaymentAndPhoneAndStatus(searchStatus, searchPayment, searchPhone, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty()) {
+                return orderRepository.searchNameAndStatus(searchStatus, searchName, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchPaymentAndStatus(searchStatus, searchPayment, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchPhoneAndStatus(searchStatus, searchPhone, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !startDate.isEmpty()) {
+                return orderRepository.betweenDateAndStatus(searchStatus, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty()) {
+                return orderRepository.findAllAndStatus(searchStatus, specifications, pageable);
+            } else if (searchPayment.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndPaymentAndName(searchPayment, searchName, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchPayment.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndPayment(searchPayment, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchPayment.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndNameAndPayment(searchPayment, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndName(searchName, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchNameAndPhone(searchName, searchPhone, specifications, pageable);
+            } else if (!searchName.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchNameAndPayment(searchName, searchPayment, specifications, pageable);
+            } else if (!searchPhone.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchPhoneAndPayment(searchPhone, searchPayment, specifications, pageable);
+            } else if (!searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhone(searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchPayment.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPayment(searchPayment, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndName(searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDate(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty()) {
+                return orderRepository.searchName(searchName, specifications, pageable);
+            } else if (!searchPayment.isEmpty()) {
+                return orderRepository.searchPayment(searchPayment, specifications, pageable);
+            } else if (!searchPhone.isEmpty()) {
+                return orderRepository.searchPhone(searchPhone, specifications, pageable);
+            } else if (!startDate.isEmpty()) {
+                return orderRepository.betweenDate(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else {
+                return orderRepository.findAll(specifications, pageable);
+            }
+        } else {
+            if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatusAndPaymentAndNameMoney(searchPayment, searchName, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatusAndPaymentMoney(searchPayment, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndNameAndStatusAndPaymentMoney(searchPayment, searchStatus, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatusAndNameMoney(searchName, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndStatusMoney(searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPaymentAndStatusMoney(searchStatus, searchPayment, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndNameAndStatusMoney(searchStatus, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndStatusMoney(searchStatus, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchNameAndPhoneAndStatusMoney(searchStatus, searchName, searchPhone, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchNameAndPaymentAndStatusMoney(searchStatus, searchName, searchPayment, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchPaymentAndPhoneAndStatusMoney(searchStatus, searchPayment, searchPhone, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchName.isEmpty()) {
+                return orderRepository.searchNameAndStatusMoney(searchStatus, searchName, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchPaymentAndStatusMoney(searchStatus, searchPayment, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchPhoneAndStatusMoney(searchStatus, searchPhone, specifications, pageable);
+            } else if (!searchStatus.isEmpty() && !startDate.isEmpty()) {
+                return orderRepository.betweenDateAndStatusMoney(searchStatus, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchStatus.isEmpty()) {
+                return orderRepository.findAllAndStatusMoney(searchStatus, specifications, pageable);
+            } else if (searchPayment.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndPaymentAndNameMoney(searchPayment, searchName, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchPayment.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndPaymentMoney(searchPayment, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchPayment.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndNameAndPaymentMoney(searchPayment, searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneAndNameMoney(searchName, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty() && !searchPhone.isEmpty()) {
+                return orderRepository.searchNameAndPhoneMoney(searchName, searchPhone, specifications, pageable);
+            } else if (!searchName.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchNameAndPaymentMoney(searchName, searchPayment, specifications, pageable);
+            } else if (!searchPhone.isEmpty() && !searchPayment.isEmpty()) {
+                return orderRepository.searchPhoneAndPaymentMoney(searchPhone, searchPayment, specifications, pageable);
+            } else if (!searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPhoneMoney(searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchPayment.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndPaymentMoney(searchPayment, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateAndNameMoney(searchName, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!startDate.isEmpty() && !endDate.isEmpty()) {
+                return orderRepository.betweenDateMoney(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else if (!searchName.isEmpty()) {
+                return orderRepository.searchNameMoney(searchName, specifications, pageable);
+            } else if (!searchPayment.isEmpty()) {
+                return orderRepository.searchPaymentMoney(searchPayment, specifications, pageable);
+            } else if (!searchPhone.isEmpty()) {
+                return orderRepository.searchPhoneMoney(searchPhone, specifications, pageable);
+            } else if (!startDate.isEmpty()) {
+                return orderRepository.betweenDateMoney(LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+            } else {
+                return orderRepository.findAllMoney(specifications, pageable);
+            }
+        }
+    }
+
+    @Override
     public UserEntity createUser(CreateUserOnOrderRequest createUserOnOrderRequest) throws CustomException {
         Optional<UserEntity> userEntityOptional = userRepository.validateUserName(createUserOnOrderRequest.getUsername());
         if (userEntityOptional.isPresent()) {

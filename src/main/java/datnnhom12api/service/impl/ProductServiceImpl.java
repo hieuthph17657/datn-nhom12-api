@@ -216,7 +216,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductEntity> paginate(int page, int limit, List<Filter> filters, String searchProductKey, String searchImei, String searchStatus, String searchPrice, Map<String, String> sortBy) {
+    public Page<ProductEntity> paginate(int page, int limit, List<Filter> filters, String searchProductKey, String searchPn, String searchStatus, String searchPrice, Map<String, String> sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         for (String field : sortBy.keySet()) {
             orders.add(new Sort.Order(Sort.Direction.fromString(sortBy.get(field)), field));
@@ -238,26 +238,26 @@ public class ProductServiceImpl implements ProductService {
             searchPrice = 20000001 + "";
             endPrice = Double.valueOf(100000000);
         }
-        if ((searchProductKey != null && searchImei != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyAll(searchProductKey, searchImei, searchStatus, Double.valueOf(searchPrice), endPrice, specifications, pageable);
-        } else if ((searchProductKey != null && searchImei != null && searchStatus != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchStatus.equals(""))) {
-            return productRepository.findProductByKeyDontPrice(searchProductKey, searchImei, searchStatus, specifications, pageable);
-        } else if ((searchProductKey != null && searchImei != null && searchPrice != null) && (!searchProductKey.equals("") && !searchImei.equals("") && !searchPrice.equals(""))) {
-            return productRepository.findProductByKeyDontStatus(searchProductKey, searchImei, Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        if ((searchProductKey != null && searchPn != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPn.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
+            return productRepository.findProductByKeyAll(searchProductKey, searchPn, searchStatus, Double.valueOf(searchPrice), endPrice, specifications, pageable);
+        } else if ((searchProductKey != null && searchPn != null && searchStatus != null) && (!searchProductKey.equals("") && !searchPn.equals("") && !searchStatus.equals(""))) {
+            return productRepository.findProductByKeyDontPrice(searchProductKey, searchPn, searchStatus, specifications, pageable);
+        } else if ((searchProductKey != null && searchPn != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPn.equals("") && !searchPrice.equals(""))) {
+            return productRepository.findProductByKeyDontStatus(searchProductKey, searchPn, Double.valueOf(searchPrice), endPrice, specifications, pageable);
         } else if ((searchProductKey != null && searchStatus != null && searchPrice != null) && (!searchProductKey.equals("") && !searchStatus.equals("") && !searchPrice.equals(""))) {
             return productRepository.findProductByKeyDontImei(searchProductKey, searchStatus, Double.valueOf(searchPrice), endPrice, specifications, pageable);
-        } else if ((searchProductKey != null && searchImei != null) && (!searchProductKey.equals("") && !searchImei.equals(""))) {
-            return productRepository.findProductByKeyDontPriceAndStatus(searchProductKey, searchImei, specifications, pageable);
+        } else if ((searchProductKey != null && searchPn != null) && (!searchProductKey.equals("") && !searchPn.equals(""))) {
+            return productRepository.findProductByKeyDontPriceAndStatus(searchProductKey, searchPn, specifications, pageable);
         } else if ((searchProductKey != null && searchStatus != null) && (!searchProductKey.equals("") && !searchStatus.equals(""))) {
             return productRepository.findProductByKeyDontPriceAndImei(searchProductKey, searchStatus, specifications, pageable);
         } else if ((searchProductKey != null && searchPrice != null) && (!searchProductKey.equals("") && !searchPrice.equals(""))) {
             return productRepository.findProductByKeyDontStatusAndImei(searchProductKey, Double.valueOf(searchPrice), endPrice, specifications, pageable);
-        } else if (!searchPrice.isEmpty() && !searchImei.isEmpty()) {
-            return productRepository.findProductByPriceAndImei(Double.valueOf(searchPrice), endPrice, searchImei, specifications, pageable);
+        } else if (!searchPrice.isEmpty() && !searchPn.isEmpty()) {
+            return productRepository.findProductByPriceAndImei(Double.valueOf(searchPrice), endPrice, searchPn, specifications, pageable);
         } else if (!searchPrice.isEmpty() && !searchStatus.isEmpty()) {
             return productRepository.findProductByPriceAndStatus(Double.valueOf(searchPrice), endPrice, searchStatus, specifications, pageable);
-        }else if (!searchImei.isEmpty() && !searchStatus.isEmpty()) {
-            return productRepository.findProductByImeiAndStatus(searchImei, searchStatus, specifications, pageable);
+        }else if (!searchPn.isEmpty() && !searchStatus.isEmpty()) {
+            return productRepository.findProductByImeiAndStatus(searchPn, searchStatus, specifications, pageable);
         }else if (!searchProductKey.isEmpty() && !searchStatus.isEmpty()) {
             return productRepository.findProductByProductKeyAndStatus(searchProductKey, searchStatus, specifications, pageable);
         } else if ((searchProductKey != null) && (!searchProductKey.equals(""))) {
