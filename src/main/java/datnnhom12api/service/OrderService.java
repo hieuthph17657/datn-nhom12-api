@@ -27,6 +27,8 @@ public interface OrderService {
 
     Page<OrderEntity> paginate(String searchPayment, String searchName, String searchStatus, String searchPhone, String searchStartDate, String searchEndDate, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
 
+    Page<OrderEntity> ordersFilterPrice(String searchMoney, String searchPayment, String searchName, String searchStatus, String searchPhone, String searchStartDate, String searchEndDate, int page, int limit, List<Filter> whereParams, Map<String, String> sortBy);
+
     UserEntity createUser(CreateUserOnOrderRequest createUserOnOrderRequest) throws CustomException;
 
     List<OrderDetailDTO> findByOrder(Long id);
@@ -34,6 +36,7 @@ public interface OrderService {
     OrderByIdDTO findById(Long id);
 
     OrderEntity cancelled(Long id) throws CustomException;
+
     OrderEntity received(Long id) throws CustomException;
 
     OrderDetailDTO update(Long id, OrderDetailRequest orderDetailRequest);

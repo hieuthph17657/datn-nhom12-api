@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,8 @@ public class OrderPaginationRequest extends PaginationRequest {
 
     private String searchPhone;
 
+    private String searchMoney;
+
     public List<Filter> getFilters() {
         List<Filter> list = new ArrayList<>();
         if (searchAddress != null && !searchAddress.isEmpty()) {
@@ -40,14 +44,11 @@ public class OrderPaginationRequest extends PaginationRequest {
         if (searchStatus != null && !searchStatus.isEmpty()) {
             list.add(new Filter("status", QueryOperator.EQUALS, searchStatus, null));
         }
-        if (searchUserId != null && !searchUserId.isEmpty()) {
-            list.add(new Filter("user.id", QueryOperator.LIKE, searchUserId, null));
-        }
         if (searchName != null && !searchName.isEmpty()) {
             list.add(new Filter("customerName", QueryOperator.LIKE, searchName, null));
         }
         if (searchPayment != null && !searchPayment.isEmpty()) {
-            list.add(new Filter("payment", QueryOperator.LIKE, searchPayment, null));
+            list.add(new Filter("payment", QueryOperator.EQUALS, searchPayment, null));
         }
         if (searchPhone != null && !searchPhone.isEmpty()) {
             list.add(new Filter("phone", QueryOperator.EQUALS, searchPhone, null));

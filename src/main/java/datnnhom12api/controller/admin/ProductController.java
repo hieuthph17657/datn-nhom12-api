@@ -39,7 +39,7 @@ public class ProductController {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         Page<ProductEntity> page = productService.paginate(
-                request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
+                request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchPn(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
         return new ProductResponse(ProductMapper.toPageDTO(page));
     }
 
@@ -90,7 +90,7 @@ public class ProductController {
             throw new CustomValidationException(bindingResult.getAllErrors());
         }
         Page<ProductEntity> page = productService.paginate(
-                request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchImei(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
+                request.getPage(), request.getLimit(), request.getFilters(), request.getSearchProductKey(), request.getSearchPn(), request.getSearchStatus(), request.getSearchPrice(), request.getOrders());
         return new ProductFilterResponse(ProductMapper.toPageDTOFilter(page));
     }
 
