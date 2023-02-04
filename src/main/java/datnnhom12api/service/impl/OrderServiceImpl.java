@@ -95,10 +95,13 @@ public class OrderServiceImpl implements OrderService {
             this.cartRepository.deleteAll(listCard);
         }
 
-        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
-            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
-            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
-            this.productRepository.save(product);
+        if (orderRequest.getMoney() > 0 && !orderRequest.getPayment().equals("DAT_COC")) {
+            System.out.println("----------------- VÀO TRONG TRỪ SỐ LƯỢNG SẢN PHẨM");
+            for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+                ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+                product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+                this.productRepository.save(product);
+            }
         }
 
 
@@ -139,6 +142,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderEntity saveOfUser(OrderRequest orderRequest) throws CustomException {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setData(orderRequest);
+        orderEntity.setStatus(String.valueOf(OrderStatus.CHO_XAC_NHAN));
         UserEntity userEntity = userRepository.getById(orderRequest.getUserId());
         orderEntity.setUser(userEntity);
         orderEntity = orderRepository.save(orderEntity);
@@ -150,12 +154,12 @@ public class OrderServiceImpl implements OrderService {
             orderDetailEntity.setOrder(orderEntity);
             orderDetailRepository.save(orderDetailEntity);
         }
-        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
-            System.out.println(orderDetailEntity.getProductId());
-            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
-            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
-            this.productRepository.save(product);
-        }
+//        for (OrderDetailRequest orderDetailEntity : orderRequest.getOrderDetails()) {
+//            System.out.println(orderDetailEntity.getProductId());
+//            ProductEntity product = this.productRepository.getById(orderDetailEntity.getProductId());
+//            product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+//            this.productRepository.save(product);
+//        }
         OrderHistoryEntity orderHistory = new OrderHistoryEntity();
         CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
@@ -615,29 +619,48 @@ public class OrderServiceImpl implements OrderService {
 
         id.forEach(orderId -> {
             OrderEntity orderEntity = this.orderRepository.getById(orderId.getId());
-            System.out.println("Phương thức thang toán" + orderEntity.getPayment());
-            System.out.println("Trạng thái đơn hàng: "+ orderId.getStatus());
-            OrderHistoryEntity orderHistory = new OrderHistoryEntity();
-            orderEntity.setStatus(orderId.getStatus());
-            if(orderId.getStatus().equals("DA_HUY") && orderEntity.getPayment().equals("NGAN_HANG")){
-                System.out.println("----------------- vào TH1");
-                orderEntity.setMoney(0);
-            }else if(orderId.getStatus().equals("DA_HUY") && orderEntity.getPayment().equals("DAT_COC")){
-                orderEntity.setMoney(orderEntity.getMoney());
-                System.out.println("----------------- vào TH2");
-            }else {
-                orderEntity.setMoney(orderEntity.getTotal()/10);
-                System.out.println("----------------- vào TH3");
+            List<OrderDetailEntity> orderDetail = this.orderDetailRepository.findByOrder(orderEntity.getId());
+            if (!orderId.getStatus().equals("DA_HUY") && orderEntity.getMoney() == 0) {
+                orderEntity.setMoney(orderEntity.getTotal());
             }
-            List<OrderDetailEntity> orderDetailEntity = this.orderDetailRepository.findByOrder(orderEntity.getId());
-            if (orderId.getStatus().equals("DA_HUY")) {
-                orderDetailEntity.forEach(orderDetailEntity1 -> {
+            if (orderId.getStatus().equals("DA_HUY") && !orderEntity.getStatus().equals("CHO_XAC_NHAN")) {
+                System.out.println("vào công lại số lượng");
+                orderDetail.forEach(orderDetailEntity1 -> {
                     ProductEntity product = this.productRepository.getById(orderDetailEntity1.getProduct().getId());
                     product.setQuantity(product.getQuantity() + orderDetailEntity1.getQuantity());
                     this.productRepository.save(product);
                 });
                 this.orderRepository.save(orderEntity);
             }
+            if (orderId.getStatus().equals("CHO_LAY_HANG")) {
+                for (OrderDetailEntity orderDetailEntity : orderDetail) {
+                    ProductEntity product = this.productRepository.getById(orderDetailEntity.getProduct().getId());
+                    product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
+                    this.productRepository.save(product);
+                }
+            }
+            System.out.println("Phương thức thang toán" + orderEntity.getPayment());
+            System.out.println("Trạng thái đơn hàng: " + orderId.getStatus());
+            OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+            orderEntity.setStatus(orderId.getStatus());
+            if (orderId.getStatus().equals("DA_HUY") && orderEntity.getPayment().equals("NGAN_HANG")) {
+                System.out.println("----------------- vào TH1");
+                orderEntity.setMoney(0);
+            } else if (orderId.getStatus().equals("DA_HUY") && orderEntity.getPayment().equals("DAT_COC")) {
+                orderEntity.setMoney(orderEntity.getMoney());
+                System.out.println("----------------- vào TH2");
+            } else if (orderId.getStatus().equals("DA_HUY")
+                    && orderEntity.getTotal() == orderEntity.getMoney()
+            ) {
+                orderEntity.setMoney(orderEntity.getTotal() / 10);
+                System.out.println("----------------- vào TH3");
+            }
+
+            if(!orderEntity.getStatus().equals("CHO_XAC_NHAN")){
+                System.out.println("Đơn hàng khác chờ xác nhận");
+                System.out.println(orderEntity.getStatus());
+            }
+
             CustomUserDetails authentication1 = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
             orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
