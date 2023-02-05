@@ -56,6 +56,17 @@ public class OrderController {
         return new OrderResponse(OrderMapper.toPageDTO(page));
     }
 
+    @GetMapping("/staff/orderFinishMoney")
+    public OrderResponse orderFinishMoney(@Valid OrderPaginationRequest request, BindingResult bindingResult)
+            throws CustomValidationException {
+        if (bindingResult.hasErrors()) {
+            throw new CustomValidationException(bindingResult.getAllErrors());
+        }
+        Page<OrderEntity> page = orderService.orderFinishMoney(request.getSearchPayment(), request.getSearchName(), request.getSearchStatus(), request.getSearchPhone(), request.getSearchStartDate(), request.getSearchEndDate(),
+                request.getPage(), request.getLimit(), request.getFilters(), request.getOrders());
+        return new OrderResponse(OrderMapper.toPageDTO(page));
+    }
+
     @PostMapping(("/auth/orders"))
     public OrderResponse create(@Valid @RequestBody OrderRequest orderRequest,
                                 BindingResult bindingResult) throws CustomException, CustomValidationException {
