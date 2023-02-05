@@ -752,6 +752,7 @@ public class OrderServiceImpl implements OrderService {
         exchangeRequest.forEach(exchangeEntity -> {
             System.out.println("quantity: " + exchangeEntity.getQuantity());
             OrderEntity orderEntity = this.orderRepository.getById(exchangeRequest.stream().findFirst().get().getOrderId());
+            System.out.println("Total order; "+ exchangeRequest.stream().findFirst().get().getTotalOrder());
             Optional<OrderDetailEntity> optional = orderEntity.getOrderDetails().stream().filter(o -> o.getProduct().getId()
                     == exchangeEntity.getProductId() && o.getStatus() != OrderDetailStatus.DA_HUY).findFirst();
             if (optional.isPresent()) {
@@ -774,8 +775,27 @@ public class OrderServiceImpl implements OrderService {
         });
         OrderEntity orderEntity = this.orderRepository.getById(exchangeRequest.stream().findFirst().get().getOrderId());
         List<OrderDetailEntity> listOrder = this.orderDetailRepository.getOrderDetailEntityById(orderEntity.getId());
-        orderEntity.setTotal(exchangeRequest.stream().findFirst().get().getTotalOrder() + exchangeRequest.stream().findFirst().get().getShipping());
-        orderEntity.setShippingFree(exchangeRequest.stream().findFirst().get().getShipping());
+        double count = 0;
+
+        for (OrderDetailEntity od : listOrder) {
+            count += od.getTotal();
+        }
+        System.out.println(count);
+        if (count < 0) {
+            orderEntity.setTotal(0);
+        } else {
+            if(exchangeRequest.stream().findFirst().get().getShipping() == null){
+                orderEntity.setTotal(count);
+            }else {
+                orderEntity.setTotal(count + exchangeRequest.stream().findFirst().get().getShipping()) ;
+            }
+
+        }
+//        orderEntity.setTotal(exchangeRequest.stream().findFirst().get().getTotalOrder() + exchangeRequest.stream().findFirst().get().getShipping());
+        if(exchangeRequest.stream().findFirst().get().getShipping() != null) {
+            orderEntity.setShippingFree(exchangeRequest.stream().findFirst().get().getShipping());
+        }
+
         this.orderRepository.save(orderEntity);
 
 
@@ -784,7 +804,7 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("Tài khoàn đang đăng nhập" + authentication1.getUsername());
         orderHistory.setStatus(String.valueOf(orderEntity.getStatus()));
         orderHistory.setOrderId(orderEntity);
-        orderHistory.setTotal(Double.valueOf(exchangeRequest.stream().findFirst().get().getTotalOrder() + exchangeRequest.stream().findFirst().get().getShipping()));
+        orderHistory.setTotal(orderEntity.getTotal());
         orderHistory.setVerifier(authentication1.getUsername());
         this.orderHistoryRepository.save(orderHistory);
         return list;
@@ -793,7 +813,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest) {
         OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(id);
-        orderDetailEntity.setIsCheck(1);
+        Integer quantity = orderDetailEntity.getQuantity() - orderDetailRequest.getQuantity();
+        System.out.println("số lượng sau khi cập nhật lại" + quantity);
+        orderDetailEntity.setIsCheck(-quantity);
         this.orderDetailRepository.save(orderDetailEntity);
         ModelMapper modelMapper = new ModelMapper();
         OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
@@ -922,6 +944,7 @@ public class OrderServiceImpl implements OrderService {
         request.forEach(orderExchangeDTO -> {
             OrderDetailEntity orderDetail = this.orderDetailRepository.getById(Long.valueOf(orderExchangeDTO.getIsCheck()));
             orderDetail.setIsCheck(3);
+
             orderDetail.setTotal(0);
             this.orderDetailRepository.save(orderDetail);
             if (orderExchangeDTO.getIsBoolean().equals("false")) {
@@ -986,25 +1009,43 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println(orderDetailEntity.getProduct().getId());
                 System.out.println(orderDetailEntity.getQuantity());
 
+                ExchangeDetailEntity exchangeDetail = this.exchangeDetailRepository.
+                        getByOrderChange(Math.toIntExact(orderDetail.getId()));
+
+                if(exchangeDetail.getIsCheck() == null){
+                    // cộng lại sản phẩm nếu đổi hàng thành công
+                    ProductEntity product2 = this.productRepository.getById(orderDetailEntity.getProduct().getId());
+                    System.out.println("---- Cộng số lượng sản phẩm nếu đổi hàng thành công");
+                    product2.setQuantity(product2.getQuantity() + orderExchangeDTO.getQuantity());
+                    this.productRepository.save(product2);
+                }
+
                 //trừ số lượng sản phẩm nếu đổi hàng thành công
                 ProductEntity product = this.productRepository.getById(orderExchangeDTO.getProductId());
+                System.out.println("---- Trù số lượng sản phẩm nếu đổi hàng thành công");
                 product.setQuantity(product.getQuantity() - orderExchangeDTO.getQuantity());
                 this.productRepository.save(product);
 
+
+
+
                 if (orderExchangeDTO.getStatus().equals("1")) {
+                    System.out.println("------------ vào if đầu tiên");
                     ProductEntity productEntity = this.productRepository.getById(orderDetailEntity.getProduct().getId());
                     productEntity.setQuantity(product.getQuantity() + orderExchangeDTO.getQuantity());
                     this.productRepository.save(productEntity);
                 }
 
                 if (orderDetail.getQuantity() == orderDetailEntity.getQuantity()) {
-
+                    System.out.println("------ vào if thứ 2");
                     orderDetailEntity.setTotal(0);
                     orderDetailEntity.setQuantity(0);
                     this.orderDetailRepository.save(orderDetailEntity);
                     orderDetail.setIsCheck(1);
                     this.orderDetailRepository.save(orderDetail);
+
                 } else if (orderDetailEntity.getQuantity() > 0 && orderDetailEntity.getQuantity() > orderDetail.getQuantity()) {
+                    System.out.println("--------- vào if cuối cùng");
                     int quantity = Integer.valueOf(orderDetailEntity.getQuantity()) - Integer.valueOf(orderDetail.getQuantity());
 
                     orderDetailEntity.setTotal(
@@ -1027,6 +1068,7 @@ public class OrderServiceImpl implements OrderService {
             order.setTotal(0);
         } else {
             order.setTotal(count);
+            order.setMoney(count);
         }
         return null;
     }
