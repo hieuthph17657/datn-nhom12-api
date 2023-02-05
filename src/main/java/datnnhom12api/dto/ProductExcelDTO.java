@@ -46,7 +46,7 @@ public class ProductExcelDTO{
     //private ManufactureDTO manufacture;
     private String nameManufacture;
     //
-    private List<ImagesEntity> images;
+    private String images;
 
     //color
     //private List<ProductColorDTO> productColors;
@@ -169,7 +169,7 @@ public class ProductExcelDTO{
         if(entity.getImages()==null||entity.getImages().isEmpty()){
             this.images = null;
         }else{
-            this.images = entity.getImages().get(0).getProduct().getImages();
+            this.images = entity.getImages().get(0).getName();
 
         }
         //this.productColors = productColors;
