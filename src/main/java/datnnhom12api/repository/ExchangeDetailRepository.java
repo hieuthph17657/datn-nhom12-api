@@ -28,4 +28,6 @@ public interface ExchangeDetailRepository extends JpaRepository<ExchangeDetailEn
 
     @Query("select o from ExchangeDetailEntity o where o.orderChange = :id")
     ExchangeDetailEntity getByOrderChange(Integer id);
+
+
 }
