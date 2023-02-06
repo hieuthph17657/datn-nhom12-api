@@ -400,7 +400,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
     @Query("SELECT c FROM OrderEntity c WHERE c.phone like %?1% AND c.payment = ?2 AND c.money > 0")
     Page<OrderEntity> searchPhoneAndPaymentMoney(String searchPhone, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT new StatisticalMonthDTO(extract(month from c.updatedAt), sum (c.total))  FROM OrderEntity c WHERE c.status='DA_NHAN' " +
+    @Query("SELECT new StatisticalMonthDTO(extract(month from c.updatedAt), sum (c.money))  FROM OrderEntity c WHERE (c.status='DA_NHAN' or c.status = 'DA_HUY') " +
             "AND extract(YEAR from c.updatedAt) = :year group by extract(month from c.updatedAt)")
     List<StatisticalMonthDTO> statisticalByYear(@Param("year") Integer year);
 

@@ -900,8 +900,9 @@ public class OrderServiceImpl implements OrderService {
                 });
                 this.orderRepository.save(orderEntity);
             }
-            if (orderId.getStatus().equals("CHO_LAY_HANG")) {
+            if (orderId.getStatus().equals("CHO_LAY_HANG") || orderId.getStatus().equals("DA_NHAN")) {
                 for (OrderDetailEntity orderDetailEntity : orderDetail) {
+                    System.out.println("------- vào trừ số lượng sản phẩm ----------");
                     ProductEntity product = this.productRepository.getById(orderDetailEntity.getProduct().getId());
                     product.setQuantity(product.getQuantity() - orderDetailEntity.getQuantity());
                     this.productRepository.save(product);
