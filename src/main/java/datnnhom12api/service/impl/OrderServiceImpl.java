@@ -269,6 +269,8 @@ public class OrderServiceImpl implements OrderService {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
             return orderRepository.betweenDateAndPhoneAndStatusAndPaymentAndName(searchPayment, searchName, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
+        } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchName.isEmpty() && !searchPhone.isEmpty()) {
+            return orderRepository.findByPhoneAndStatusAndPaymentAndName(searchPayment, searchName, searchStatus, searchPhone, specifications, pageable);
         } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchPhone.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
             return orderRepository.betweenDateAndPhoneAndStatusAndPayment(searchPayment, searchStatus, searchPhone, LocalDateTime.parse(startDate, dateTimeFormatter), LocalDateTime.parse(endDate, dateTimeFormatter), specifications, pageable);
         } else if (!searchStatus.isEmpty() && !searchPayment.isEmpty() && !searchName.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
@@ -752,7 +754,7 @@ public class OrderServiceImpl implements OrderService {
         exchangeRequest.forEach(exchangeEntity -> {
             System.out.println("quantity: " + exchangeEntity.getQuantity());
             OrderEntity orderEntity = this.orderRepository.getById(exchangeRequest.stream().findFirst().get().getOrderId());
-            System.out.println("Total order; "+ exchangeRequest.stream().findFirst().get().getTotalOrder());
+            System.out.println("Total order; " + exchangeRequest.stream().findFirst().get().getTotalOrder());
             Optional<OrderDetailEntity> optional = orderEntity.getOrderDetails().stream().filter(o -> o.getProduct().getId()
                     == exchangeEntity.getProductId() && o.getStatus() != OrderDetailStatus.DA_HUY).findFirst();
             if (optional.isPresent()) {
@@ -784,15 +786,15 @@ public class OrderServiceImpl implements OrderService {
         if (count < 0) {
             orderEntity.setTotal(0);
         } else {
-            if(exchangeRequest.stream().findFirst().get().getShipping() == null){
+            if (exchangeRequest.stream().findFirst().get().getShipping() == null) {
                 orderEntity.setTotal(count);
-            }else {
-                orderEntity.setTotal(count + exchangeRequest.stream().findFirst().get().getShipping()) ;
+            } else {
+                orderEntity.setTotal(count + exchangeRequest.stream().findFirst().get().getShipping());
             }
 
         }
 //        orderEntity.setTotal(exchangeRequest.stream().findFirst().get().getTotalOrder() + exchangeRequest.stream().findFirst().get().getShipping());
-        if(exchangeRequest.stream().findFirst().get().getShipping() != null) {
+        if (exchangeRequest.stream().findFirst().get().getShipping() != null) {
             orderEntity.setShippingFree(exchangeRequest.stream().findFirst().get().getShipping());
         }
 
@@ -900,7 +902,7 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println("----------------- vào TH3");
             }
 
-            if(!orderEntity.getStatus().equals("CHO_XAC_NHAN")){
+            if (!orderEntity.getStatus().equals("CHO_XAC_NHAN")) {
                 System.out.println("Đơn hàng khác chờ xác nhận");
                 System.out.println(orderEntity.getStatus());
             }
@@ -1012,7 +1014,7 @@ public class OrderServiceImpl implements OrderService {
                 ExchangeDetailEntity exchangeDetail = this.exchangeDetailRepository.
                         getByOrderChange(Math.toIntExact(orderDetail.getId()));
 
-                if(exchangeDetail.getIsCheck() == null){
+                if (exchangeDetail.getIsCheck() == null) {
                     // cộng lại sản phẩm nếu đổi hàng thành công
                     ProductEntity product2 = this.productRepository.getById(orderDetailEntity.getProduct().getId());
                     System.out.println("---- Cộng số lượng sản phẩm nếu đổi hàng thành công");
@@ -1025,8 +1027,6 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println("---- Trù số lượng sản phẩm nếu đổi hàng thành công");
                 product.setQuantity(product.getQuantity() - orderExchangeDTO.getQuantity());
                 this.productRepository.save(product);
-
-
 
 
                 if (orderExchangeDTO.getStatus().equals("1")) {
