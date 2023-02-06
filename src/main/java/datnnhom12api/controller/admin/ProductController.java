@@ -1,9 +1,6 @@
 package datnnhom12api.controller.admin;
 
-import datnnhom12api.dto.ProductDTO;
-import datnnhom12api.dto.ProductDTO2;
-import datnnhom12api.dto.ProductDTOById;
-import datnnhom12api.dto.ProductExcelDTO;
+import datnnhom12api.dto.*;
 import datnnhom12api.entity.ProductEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
@@ -79,6 +76,17 @@ public class ProductController {
         for(i=0;i<product.size();i++){
             ProductExcelDTO proExcel=new ProductExcelDTO(product.get(i));
             pro.add(proExcel);
+        }
+        return pro;
+    }
+    @GetMapping("/products/checkQuantity")
+    public List<ProductQuantityDTO> checkQuantity() {
+        List<ProductEntity> product = this.productRepository.findAll();
+        List<ProductQuantityDTO> pro=new ArrayList<>();
+        int i;
+        for(i=0;i<product.size();i++){
+            ProductQuantityDTO proQ=new ProductQuantityDTO(product.get(i));
+            pro.add(proQ);
         }
         return pro;
     }
