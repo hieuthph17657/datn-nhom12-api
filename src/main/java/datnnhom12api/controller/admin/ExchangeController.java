@@ -3,6 +3,7 @@ package datnnhom12api.controller.admin;
 
 import datnnhom12api.dto.ExchangeDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
+import datnnhom12api.entity.ExchangeDetailEntity;
 import datnnhom12api.entity.ExchangeEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.exceptions.CustomValidationException;
@@ -70,6 +71,12 @@ public class ExchangeController {
     public ReturnResponse getByIdReturnId(@PathVariable("id") Long id) throws CustomException {
         ExchangeEntity exchangeEntity = this.returnService.getById(id);
         return new ReturnResponse(ExchangeMapper.getInstance().toDTO(exchangeEntity));
+    }
+
+    @GetMapping("/auth/returns/{id}/detail/exchange")
+    public ExchangeDetailDTO getByIdOrdeExchange(@PathVariable("id") Long id) throws CustomException {
+        ExchangeDetailDTO exchangeEntity = this.returnService.getByOrderChange(id);
+        return exchangeEntity;
     }
 
     @GetMapping("/returns/{id}")

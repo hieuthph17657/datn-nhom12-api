@@ -3,6 +3,7 @@ package datnnhom12api.service.impl;
 import datnnhom12api.core.Filter;
 import datnnhom12api.dto.InventoryDTO;
 import datnnhom12api.dto.ExchangeDetailDTO;
+import datnnhom12api.dto.OrderDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
 import datnnhom12api.entity.ExchangeDetailEntity;
 import datnnhom12api.entity.ExchangeEntity;
@@ -165,5 +166,13 @@ public class ExchangeServiceImpl implements ReturnService {
         List<InventoryDTO> list = this.exchangeDetailRepository.getAllInventoryDTO();
         System.out.println(list.size());
         return list;
+    }
+
+    @Override
+    public ExchangeDetailDTO getByOrderChange(Long id) {
+        ExchangeDetailEntity exchangeDetailEntity = this.exchangeDetailRepository.getByOrderChange(Math.toIntExact(id));
+        ModelMapper modelMapper = new ModelMapper();
+        ExchangeDetailDTO exchangeDetail = modelMapper.map(exchangeDetailEntity, ExchangeDetailDTO.class);
+        return exchangeDetail;
     }
 }
