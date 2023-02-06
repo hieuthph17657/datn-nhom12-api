@@ -813,9 +813,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDetailDTO updateOrderDetail(Long id, OrderDetailRequest orderDetailRequest) {
         OrderDetailEntity orderDetailEntity = this.orderDetailRepository.getById(id);
-        Integer quantity = orderDetailEntity.getQuantity() - orderDetailRequest.getQuantity();
-        System.out.println("số lượng sau khi cập nhật lại" + quantity);
-        orderDetailEntity.setIsCheck(-quantity);
+        OrderEntity order = this.orderRepository.getById(orderDetailEntity.getOrder().getId());
+        System.out.println("order id :" + order.getId());
+        System.out.println("isCheck: "+ orderDetailEntity.getIsCheck());
+        System.out.println("order detail id :" + orderDetailEntity.getId());
+        List<OrderDetailEntity> list = this.orderDetailRepository.findByOrderAndIscheck2(order.getId(), Math.toIntExact(orderDetailEntity.getId()));
+        System.out.println("list: "+ list.size());
+        list.forEach(orderDetailEntity1 -> {
+            System.out.println("item: " + orderDetailEntity1.getId());
+        });
+        if(orderDetailEntity.getQuantity() == list.size()) {
+            System.out.println("--------- vào if");
+            orderDetailEntity.setIsCheck(0);
+        }else if(orderDetailEntity.getQuantity() > list.size()) {
+            System.out.println("------ vào else");
+            Integer quantity =  orderDetailEntity.getQuantity() - list.size();
+            orderDetailEntity.setIsCheck(-quantity);
+        }
+//        System.out.println("Số lượng sản phẩm truyền vào: "+ orderDetailRequest.getQuantity());
+//        Integer quantity = orderDetailEntity.getQuantity() - orderDetailRequest.getQuantity();
+//        System.out.println("số lượng sau khi cập nhật lại" + quantity);
+//        if(quantity > 0 ) {
+//            orderDetailEntity.setIsCheck(-quantity);
+//        }else  {
+//            orderDetailEntity.setIsCheck(0);
+//        }
         this.orderDetailRepository.save(orderDetailEntity);
         ModelMapper modelMapper = new ModelMapper();
         OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetailEntity, OrderDetailDTO.class);
