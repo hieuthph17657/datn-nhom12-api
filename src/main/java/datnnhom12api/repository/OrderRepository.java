@@ -88,6 +88,9 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
     @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND c.status = ?3 AND c.phone = ?4 AND (c.createdAt BETWEEN ?5 AND ?6) AND (c.createdAt BETWEEN ?5 AND ?6)")
     Page<OrderEntity> betweenDateAndPhoneAndStatusAndPaymentAndName(String searchPayment, String searchName, String searchStatus, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND c.status = ?3 AND c.phone = ?4")
+    Page<OrderEntity> findByPhoneAndStatusAndPaymentAndName(String searchPayment, String searchName, String searchStatus, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
+
     @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND c.phone = ?3 AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5)")
     Page<OrderEntity> betweenDateAndPhoneAndPaymentAndName(String searchPayment, String searchName, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
@@ -213,94 +216,94 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
 
 
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.money = c.total AND c.money > 0")
     Page<OrderEntity> findAllFinishMoney(Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE (c.createdAt BETWEEN ?1 AND ?2) AND (c.createdAt BETWEEN ?1 AND ?2) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE (c.createdAt BETWEEN ?1 AND ?2) AND (c.createdAt BETWEEN ?1 AND ?2) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateFinishMoney(LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> findAllAndStatusFinishMoney(String searchStatus, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchNameAndStatusFinishMoney(String searchStatus, String searchName, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.phone = ?3 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.phone = ?3 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchNameAndPhoneAndStatusFinishMoney(String searchStatus, String searchName, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.phone = ?2 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.phone = ?2 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchPhoneAndStatusFinishMoney(String searchStatus, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2 AND c.phone = ?3 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2 AND c.phone = ?3 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchPaymentAndPhoneAndStatusFinishMoney(String searchStatus, String searchPayment, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.phone = ?1 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.phone = ?1 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchPhoneFinishMoney(String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchNameFinishMoney(String searchName, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchPaymentFinishMoney(String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchPaymentAndStatusFinishMoney(String searchStatus, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.payment = ?3 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND c.payment = ?3 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchNameAndPaymentAndStatusFinishMoney(String searchStatus, String searchName, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndStatusFinishMoney(String searchStatus, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.phone = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.phone = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneFinishMoney(String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.phone = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.phone = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneAndStatusFinishMoney(String searchStatus, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.payment = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPaymentAndStatusFinishMoney(String searchStatus, String searchPayment, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPaymentFinishMoney(String searchPayment, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.status = ?1 AND c.customerName like %?2% AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndNameAndStatusFinishMoney(String searchStatus, String searchName, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND (c.createdAt BETWEEN ?2 AND ?3) AND (c.createdAt BETWEEN ?2 AND ?3) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndNameFinishMoney(String searchName, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND c.status = ?3 AND c.phone = ?4 AND (c.createdAt BETWEEN ?5 AND ?6) AND (c.createdAt BETWEEN ?5 AND ?6) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND c.status = ?3 AND c.phone = ?4 AND (c.createdAt BETWEEN ?5 AND ?6) AND (c.createdAt BETWEEN ?5 AND ?6) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneAndStatusAndPaymentAndNameFinishMoney(String searchPayment, String searchName, String searchStatus, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND c.phone = ?3 AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND c.phone = ?3 AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneAndPaymentAndNameFinishMoney(String searchPayment, String searchName, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.status = ?2 AND c.phone = ?3 AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.status = ?2 AND c.phone = ?3 AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneAndStatusAndPaymentFinishMoney(String searchPayment, String searchStatus, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.phone = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.phone = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneAndPaymentFinishMoney(String searchPayment, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.status = ?2 AND c.customerName like %?3% AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.status = ?2 AND c.customerName like %?3% AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndNameAndStatusAndPaymentFinishMoney(String searchPayment, String searchStatus, String searchName, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.payment = ?1 AND c.customerName like %?2% AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndNameAndPaymentFinishMoney(String searchPayment, String searchName, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.status = ?2 AND c.phone = ?3 AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.status = ?2 AND c.phone = ?3 AND (c.createdAt BETWEEN ?4 AND ?5) AND (c.createdAt BETWEEN ?4 AND ?5) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneAndStatusAndNameFinishMoney(String searchName, String searchStatus, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.phone = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.phone = ?2 AND (c.createdAt BETWEEN ?3 AND ?4) AND (c.createdAt BETWEEN ?3 AND ?4) AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> betweenDateAndPhoneAndNameFinishMoney(String searchName, String searchPhone, LocalDateTime startDate, LocalDateTime endDate, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.phone = ?2 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.phone = ?2 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchNameAndPhoneFinishMoney(String searchName, String searchPhone, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.payment = ?2 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.customerName like %?1% AND c.payment = ?2 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchNameAndPaymentFinishMoney(String searchName, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
 
-    @Query("SELECT c FROM OrderEntity c WHERE c.phone like %?1% AND c.payment = ?2 AND c.money = c.total")
+    @Query("SELECT c FROM OrderEntity c WHERE c.phone like %?1% AND c.payment = ?2 AND c.money = c.total AND c.money > 0")
     Page<OrderEntity> searchPhoneAndPaymentFinishMoney(String searchPhone, String searchPayment, Specification<OrderEntity> specifications, Pageable pageable);
 
 
