@@ -4,6 +4,7 @@ import datnnhom12api.core.Filter;
 import datnnhom12api.dto.InventoryDTO;
 import datnnhom12api.dto.ExchangeDetailDTO;
 import datnnhom12api.dto.UpdateReturnDetailDTO;
+import datnnhom12api.entity.ExchangeDetailEntity;
 import datnnhom12api.entity.ExchangeEntity;
 import datnnhom12api.exceptions.CustomException;
 import datnnhom12api.request.ExchangeDetailRequest;
@@ -30,4 +31,6 @@ public interface ReturnService {
     ExchangeEntity getById(Long id);
 
     List<InventoryDTO> getAllInventory();
+
+    ExchangeDetailDTO getByOrderChange(Long id);
 }
