@@ -915,12 +915,13 @@ public class OrderServiceImpl implements OrderService {
             } else if (orderId.getStatus().equals("DA_HUY") && orderEntity.getPayment().equals("DAT_COC")) {
                 orderEntity.setMoney(orderEntity.getMoney());
                 System.out.println("----------------- vào TH2");
-            } else if (orderId.getStatus().equals("DA_HUY")
-                    && orderEntity.getTotal() == orderEntity.getMoney()
-            ) {
-                orderEntity.setMoney(orderEntity.getTotal() / 10);
-                System.out.println("----------------- vào TH3");
             }
+//            else if (orderId.getStatus().equals("DA_HUY")
+//                    && orderEntity.getTotal() == orderEntity.getMoney()
+//            ) {
+//                orderEntity.setMoney(orderEntity.getTotal() / 10);
+//                System.out.println("----------------- vào TH3");
+//            }
 
             if(!orderEntity.getStatus().equals("CHO_XAC_NHAN")){
                 System.out.println("Đơn hàng khác chờ xác nhận");
@@ -1008,6 +1009,16 @@ public class OrderServiceImpl implements OrderService {
         orderHistory.setTotal(order.getTotal());
         orderHistory.setVerifier(authentication1.getUsername());
         this.orderHistoryRepository.save(orderHistory);
+        return null;
+    }
+
+    @Override
+    public List<OrderConfirmDTO> findByIdOrderId2(List<OrderConfirmDTO> requests) {
+        requests.forEach(orderConfirmDTO -> {
+            OrderEntity order = this.orderRepository.getById(orderConfirmDTO.getId());
+            order.setMoney(order.getTotal() / 10);
+            this.orderRepository.save(order);
+        });
         return null;
     }
 
