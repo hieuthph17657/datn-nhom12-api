@@ -49,7 +49,7 @@ public class ProductDTO2 extends BaseDTO implements Serializable {
 
     private CardDTO cardOnboard;
 
-
+    private DiscountDTO discount;
 
 
 
