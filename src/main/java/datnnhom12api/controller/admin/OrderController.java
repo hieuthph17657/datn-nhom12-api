@@ -246,6 +246,12 @@ public class OrderController {
         return orderId;
     }
 
+    @PostMapping("auth/orders/confirm/2")
+    public List<OrderConfirmDTO> confirmOrderAuth(@RequestBody List<OrderConfirmDTO> requests) {
+        List<OrderConfirmDTO> orderId = this.orderService.findByIdOrderId3(requests);
+        return orderId;
+    }
+
     @PostMapping("staff/orders/refund")
     public List<OrderConfirmDTO> refund(@RequestBody List<OrderConfirmDTO> requests) {
         List<OrderConfirmDTO> orderId = this.orderService.findByIdOrderId2(requests);

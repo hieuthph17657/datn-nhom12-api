@@ -1024,6 +1024,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderConfirmDTO> findByIdOrderId3(List<OrderConfirmDTO> requests) {
+        requests.forEach(orderConfirmDTO -> {
+            OrderEntity orderEntity = this.orderRepository.getById(orderConfirmDTO.getId());
+            orderEntity.setMoney(orderEntity.getTotal());
+            orderEntity.setStatus(orderConfirmDTO.getStatus());
+            this.orderRepository.save(orderEntity);
+        });
+        return null;
+    }
+
+    @Override
     public List<OrderExchangeDTO> updateWhenExchange(List<OrderExchangeDTO> request, Long orderId) {
 
 

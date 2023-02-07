@@ -85,4 +85,6 @@ public interface OrderService {
     OrderDetailDTO updateInCancel(Long id, OrderDetailRequest odRequest);
 
     List<OrderConfirmDTO> findByIdOrderId2(List<OrderConfirmDTO> requests);
+
+    List<OrderConfirmDTO> findByIdOrderId3(List<OrderConfirmDTO> requests);
 }
